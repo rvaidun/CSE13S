@@ -17,9 +17,13 @@ static inline u_int8_t right(uint8_t pos, uint8_t players) {
 // If game is not finished return -1
 // If game is finished return position of winner
 static inline int8_t finished(uint32_t arr[], uint8_t size) {
-    uint8_t winner = -1;
+    int8_t winner = -1;
     uint8_t non_zeros = 0;
-    for (uint32_t i = 0; i < size; i++) {
+    // printf("{");
+    // for (int loop = 0; loop < size; loop++)
+    //     printf("%u ", arr[loop]);
+    // printf("}\n");
+    for (uint8_t i = 0; i < size; i++) {
         if (arr[i] > 0) {
             non_zeros++;
             winner = i;
@@ -66,7 +70,7 @@ int main(void) {
                         u_int8_t left_player = left(i, num_players);
                         money[i] -= 1;
                         money[left_player] += 1;
-                        printf("gives $1 to %s ", philosophers[left_player]);
+                        printf("gives $1 to %s", philosophers[left_player]);
                         break;
                     }
 
@@ -74,23 +78,27 @@ int main(void) {
                         u_int8_t right_player = right(i, num_players);
                         money[i] -= 1;
                         money[right_player] += 1;
-                        printf("gives $1 to %s ", philosophers[right_player]);
+                        printf("gives $1 to %s", philosophers[right_player]);
                         break;
                     }
 
                     case CENTER: {
                         money[i] -= 1;
                         pot += 1;
-                        printf("puts $1 in the pot ");
+                        printf("puts $1 in the pot");
                         break;
                     }
-                    default: printf("gets a pass "); break;
+
+                    default: printf("gets a pass"); break;
                     }
+                    if (j != total_rolls - 1)
+                        printf(" ");
                 }
                 printf("\n");
-                winner = finished(money, num_players);
             }
         }
+        winner = finished(money, num_players);
+        // printf("%d", winner);
     }
     printf("%s wins the $%d pot ", philosophers[winner], pot);
     printf("with $%d left in the bank!\n", money[winner]);
