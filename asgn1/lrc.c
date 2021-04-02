@@ -5,10 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Code from assignment PDF
 static inline u_int8_t left(uint8_t pos, uint8_t players) {
     return ((pos + players - 1) % players);
 }
 
+// Code from assignment PDF
 static inline u_int8_t right(uint8_t pos, uint8_t players) {
     return ((pos + 1) % players);
 }
@@ -19,10 +21,6 @@ static inline u_int8_t right(uint8_t pos, uint8_t players) {
 static inline int8_t finished(uint32_t arr[], uint8_t size) {
     int8_t winner = -1;
     uint8_t non_zeros = 0;
-    // printf("{");
-    // for (int loop = 0; loop < size; loop++)
-    //     printf("%u ", arr[loop]);
-    // printf("}\n");
     for (uint8_t i = 0; i < size; i++) {
         if (arr[i] > 0) {
             non_zeros++;
@@ -39,9 +37,10 @@ int main(void) {
     typedef enum faciem { PASS, LEFT, RIGHT, CENTER } faces;
     faces die[] = { LEFT, RIGHT, CENTER, PASS, PASS, PASS };
     uint32_t num_players, seed;
-    printf("Random Seed: ");
+    printf("Random seed: ");
     if ((scanf("%u", &seed) < 1 || seed <= 0)) {
-        printf("Seed must be a postive number\n");
+        printf("Seed must be a postive number %u\n", seed);
+
         return 0;
     }
     printf("How many players? ");
@@ -57,9 +56,10 @@ int main(void) {
     }
     uint32_t pot = 0;
     // If there is a winner variable will be set to position of winner. Negative means game is in play
-    int8_t winner = finished(money, num_players);
-    while (winner < 0) {
-        for (uint32_t i = 0; i < num_players; i++) {
+    int8_t winner = -1;
+    while (winner == -1) {
+        for (uint32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1;
+             i++) {
             if (money[i] > 0) {
                 printf("%s rolls... ", philosophers[i]);
                 uint8_t total_rolls = (money[i] > 3) ? 3 : money[i];
@@ -97,8 +97,6 @@ int main(void) {
                 printf("\n");
             }
         }
-        winner = finished(money, num_players);
-        // printf("%d", winner);
     }
     printf("%s wins the $%d pot ", philosophers[winner], pot);
     printf("with $%d left in the bank!\n", money[winner]);
