@@ -58,9 +58,9 @@ int main(void) {
         for (uint32_t i = 0; i < num_players; i++) {
             if (money[i] > 0) {
                 printf("%s rolls... ", philosophers[i]);
-                printf("Money in account %d ", money[i]);
-                for (uint32_t j = 0; j <= money[i]; j++) {
-                    faces roll = die[random() % 5];
+                uint8_t total_rolls = (money[i] > 3) ? 3 : money[i];
+                for (uint32_t j = 0; j < total_rolls; j++) {
+                    faces roll = die[random() % 6];
                     switch (roll) {
                     case LEFT: {
                         u_int8_t left_player = left(i, num_players);
