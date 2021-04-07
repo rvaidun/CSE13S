@@ -16,11 +16,15 @@ static inline u_int8_t right(uint8_t pos, uint8_t players) {
 }
 
 // Function used to say if a game is finished or not
-// If game is not finished return -1
+// If game is not finished program will return -1
 // If game is finished return position of winner
+// Arr parameter is array the amount of money players have
+// size parameter is the size of the array
 static inline int8_t finished(uint32_t arr[], uint8_t size) {
     int8_t winner = -1;
     uint8_t non_zeros = 0;
+    // Loop through array, if there is more than 1 value that is not 0 return -1
+    // If there is a value that is > 0 set winner to the position
     for (uint8_t i = 0; i < size; i++) {
         if (arr[i] > 0) {
             non_zeros++;
@@ -50,12 +54,15 @@ int main(void) {
     }
 
     srandom(seed); // Set seed to the seed the user entered
+
+    // Money is array to say how much money each player has. Size of array is total number of players
     uint32_t money[num_players];
     for (uint32_t i = 0; i < num_players; i++) {
         money[i] = 3; // Initilize bank account of all players to 3
     }
+
     uint32_t pot = 0;
-    // If there is a winner variable will be set to position of winner. Negative means game is in play
+    // If there is a winner variable will be set to position of winner. Negative value means game is in play
     int8_t winner = -1;
     while (winner == -1) {
         for (uint32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1;
@@ -89,10 +96,15 @@ int main(void) {
                         break;
                     }
 
-                    default: printf("gets a pass"); break;
+                    default: {
+                        printf("gets a pass");
+                        break;
                     }
-                    if (j != total_rolls - 1)
+                    }
+
+                    if (j != total_rolls - 1) {
                         printf(" ");
+                    }
                 }
                 printf("\n");
             }
