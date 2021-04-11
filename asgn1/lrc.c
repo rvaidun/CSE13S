@@ -76,8 +76,7 @@ int main(void) {
     // If winner is -1 this signifies game is still in play
     int8_t winner = -1;
     while (winner == -1) {
-        for (int32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1;
-             i++) {
+        for (int32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1; i++) {
 
             if (money[i] > 0) { // Player can only roll if they have money
                 printf("%s rolls... ", philosophers[i]);
