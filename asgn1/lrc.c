@@ -50,15 +50,15 @@ int main(void) {
 
     // Code inspired by vampires.c
     // Check if seed and number of player inputs are valid
-    uint32_t num_players, seed;
+    int32_t num_players, seed;
     printf("Random seed: ");
-    if ((scanf("%u", &seed) < 1 || seed <= 0)) {
-        printf("Seed must be a postive number %u\n", seed);
+    if ((scanf("%d", &seed) < 1 || seed <= 0)) {
+        printf("Pseudorandom seed must be non-negative (%d).\n", seed);
         return 0;
     }
     printf("How many players? ");
     if ((scanf("%u", &num_players) < 1 || num_players < 1 || num_players > 14)) {
-        printf("Number of players must be from 1-14\n");
+        printf("Number of players must be from 1 to 14.\n");
         return 0;
     }
 
@@ -66,7 +66,7 @@ int main(void) {
 
     // Money is array to say how much money each player has. The Size of the array is total number of players
     uint32_t money[num_players];
-    for (uint32_t i = 0; i < num_players; i++) {
+    for (int32_t i = 0; i < num_players; i++) {
         money[i] = 3; // Initilize bank account of all players to 3
     }
 
@@ -76,7 +76,7 @@ int main(void) {
     // If winner is -1 this signifies game is still in play
     int8_t winner = -1;
     while (winner == -1) {
-        for (uint32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1;
+        for (int32_t i = 0; i < num_players && (winner = finished(money, num_players)) == -1;
              i++) {
 
             if (money[i] > 0) { // Player can only roll if they have money
