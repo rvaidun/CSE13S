@@ -32,11 +32,11 @@ static inline int8_t finished(uint32_t arr[], uint8_t size) {
     // Loop through array, if there is more than 1 value that is not 0 return -1
     // If there is a value that is > 0 set winner to the position
     for (uint8_t i = 0; i < size; i++) {
-        if (arr[i] > 0) {
+        if (arr[i] > 0
+            && winner == -1) { // If winner hasnt been set and there is a player with money
             non_zeros++;
             winner = i;
-        }
-        if (non_zeros > 1) {
+        } else {
             return -1;
         }
     }
