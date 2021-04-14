@@ -1,12 +1,11 @@
-#include "mathlib.h"
-
+#include <assert.h>
 #include <math.h>
-
+#include <stdio.h>
 #define EPSILON 1E-10
 #define M_PI    3.14159265358979323846264338327950288
 
 // Returns absolute value of a double
-double abs(double x) {
+double Abs(double x) {
     return (x > 0) ? x : -x;
 }
 
@@ -32,16 +31,12 @@ double Exp(double x) {
     return sum;
 }
 
-// Solve arcsin with newtons method
-double arcSin(double x) {
-    double oldguess;
-    double guess = 1;
-    double answer = sin(guess) - x;
-    while (abs(answer) > EPSILON) {
-        oldguess = guess;
-        guess = oldguess - (sin(guess) - x / cos(guess));
-        answer = sin(guess - x);
-    }
+// Solve arcsin of x with newtons method
+double arcSin(double a) {
+    double answer = a;
+    do {
+        answer = answer - ((sin(answer) - a) / cos(answer));
+    } while (Abs(sin(answer) - a) > EPSILON);
     return answer;
 }
 
@@ -52,17 +47,13 @@ double arcCos(double x) {
 
 // Solves arctan using implementation of arcSin
 double arcTan(double x) {
-    return arcsin(x / (sqrt(x * x) + 1));
+    return arcSin(x / (sqrt(x * x) + 1));
 }
 
-double Log(double x) {
-    double oldguess;
-    double guess = 1;
-    double answer = Exp(guess) - x;
-    while (abs(x) > EPSILON) {
-        oldguess = guess;
-        guess = oldguess - (Exp(guess) - x) / Exp(guess);
-        answer = Exp(guess) - x;
-    }
+double Log(double a) {
+    double answer = a;
+    do {
+        answer = answer - ((Exp(answer) - a) / Exp(answer));
+    } while (Abs(Exp(answer) - a) > EPSILON);
     return answer;
 }
