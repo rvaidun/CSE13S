@@ -57,9 +57,17 @@ double arcCos(double x) {
     return (PI / 2) - arcSin(x);
 }
 
+double oldarcSin(double a) {
+    double answer = a;
+    do {
+        answer = answer - ((sin(answer) - a) / cos(answer));
+    } while (Abs(sin(answer) - a) > EPSILON);
+    return answer;
+}
+
 // Solves arctan using implementation of arcSin
 double arcTan(double x) {
-    return arcSin(x / (sqrt(x * x) + 1));
+    return arcSin(x / (sqrt((x * x) + 1)));
 }
 
 double Log(double a) {

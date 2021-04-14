@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
             printf("  x            arcTan           Library        Difference\n");
             printf("  -            ------           -------        ----------\n");
             for (double x = 1; x < 10; x += 0.1) {
-                double implemented = arcCos(x);
-                double library = acos(x);
+                double implemented = arcTan(x);
+                double library = atan(x);
                 printf(" %7.4lf % 16.8lf % 16.8lf % 16.10lf\n", x, implemented, library,
                     implemented - library);
             }
