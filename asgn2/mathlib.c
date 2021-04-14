@@ -32,12 +32,24 @@ double Exp(double x) {
 }
 
 // Solve arcsin of x with newtons method
-double arcSin(double a) {
+double arcSin(double x) {
+    double a;
+    if (Abs(x) > 0.9) {
+        a = Sqrt(1 - (x * x));
+    } else {
+        a = x;
+    }
+
     double answer = a;
-    do {
+    while (Abs(sin(answer) - a) > EPSILON) {
         answer = answer - ((sin(answer) - a) / cos(answer));
-    } while (Abs(sin(answer) - a) > EPSILON);
-    return answer;
+    }
+    // return answer;
+    if (Abs(x) > 0.9) {
+        return (x < 0) ? -((PI / 2) - answer) : (PI / 2) - answer;
+    } else {
+        return answer;
+    }
 }
 
 // Solves arccos using implementation of arcSin
