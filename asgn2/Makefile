@@ -12,6 +12,6 @@ mathlib.o: mathlib.c
 clean:
 	rm -f mathlib-test mathlib-test.o mathlib.o
 format:
-  clang-format -i -style=file *.[ch]
+	clang-format -i -style=file *.[ch]
 scan-build: clean
 	scan-build make

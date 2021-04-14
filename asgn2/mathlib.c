@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #define EPSILON 1E-10
-#define M_PI    3.14159265358979323846264338327950288
+#define PI      3.14159265358979323846264338327950288
 
 // Returns absolute value of a double
 double Abs(double x) {
@@ -42,7 +42,7 @@ double arcSin(double a) {
 
 // Solves arccos using implementation of arcSin
 double arcCos(double x) {
-    return (M_PI / 2) - arcSin(x);
+    return (PI / 2) - arcSin(x);
 }
 
 // Solves arctan using implementation of arcSin
