@@ -32,8 +32,12 @@ double Exp(double x) {
 }
 
 // Solve arcsin of x with newtons method
+// Refer to Design PDF for formula
 double arcSin(double x) {
     double a;
+    // As x gets closer to 1 accuracy is rapidly lost
+    // To fix this issue we can use trig identities and calculat arcsin in terms of arccos
+    // Refer to Design PDF for more details
     if (Abs(x) > 0.9) {
         a = Sqrt(1 - (x * x));
     } else {
@@ -41,11 +45,11 @@ double arcSin(double x) {
     }
 
     double answer = a;
-    while (Abs(sin(answer) - a) > EPSILON) {
-        answer = answer - ((sin(answer) - a) / cos(answer));
+    while (Abs(sin(answer) - a) > EPSILON) { // Stop when the difference is smaller then epsilon
+        answer = answer - ((sin(answer) - a) / cos(answer)); // New answer
     }
-    // return answer;
     if (Abs(x) > 0.9) {
+        // Because we are using arccos method subtract from pi/2
         return (x < 0) ? -((PI / 2) - answer) : (PI / 2) - answer;
     } else {
         return answer;
@@ -53,27 +57,23 @@ double arcSin(double x) {
 }
 
 // Solves arccos using implementation of arcSin
+// Refer to deign PDF for formula
 double arcCos(double x) {
     return (PI / 2) - arcSin(x);
 }
 
-double oldarcSin(double a) {
-    double answer = a;
-    do {
-        answer = answer - ((sin(answer) - a) / cos(answer));
-    } while (Abs(sin(answer) - a) > EPSILON);
-    return answer;
-}
-
 // Solves arctan using implementation of arcSin
+// Refer to Design PDF for formula
 double arcTan(double x) {
     return arcSin(x / (sqrt((x * x) + 1)));
 }
 
+// Solve Log using Newtons Method
+// Refer to Design PDF for formula
 double Log(double a) {
     double answer = a;
-    do {
+    while (Abs(Exp(answer) - a) > EPSILON) {
         answer = answer - ((Exp(answer) - a) / Exp(answer));
-    } while (Abs(Exp(answer) - a) > EPSILON);
+    }
     return answer;
 }
