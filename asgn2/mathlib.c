@@ -2,7 +2,6 @@
 #include <math.h>
 #include <stdio.h>
 #define EPSILON 1E-10
-#define PI      3.14159265358979323846264338327950288
 
 // Returns absolute value of a double
 double Abs(double x) {
@@ -50,7 +49,7 @@ double arcSin(double x) {
     }
     if (Abs(x) > 0.9) {
         // Because we are using arccos method subtract from pi/2
-        return (x < 0) ? -((PI / 2) - answer) : (PI / 2) - answer;
+        return (x < 0) ? -((M_PI / 2) - answer) : (M_PI / 2) - answer;
     } else {
         return answer;
     }
@@ -59,7 +58,7 @@ double arcSin(double x) {
 // Solves arccos using implementation of arcSin
 // Refer to deign PDF for formula
 double arcCos(double x) {
-    return (PI / 2) - arcSin(x);
+    return (M_PI / 2) - arcSin(x);
 }
 
 // Solves arctan using implementation of arcSin
