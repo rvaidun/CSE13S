@@ -37,10 +37,11 @@ double arcSin(double x) {
     // To fix this issue we can use trig identities and calculate arcsin in terms of arccos
     // Refer to Design PDF and WRITEUP PDF for more details
     if (Abs(x) > 0.9) {
+        // When x is negative we have to return - arcCos
         return (x > 0.9) ? arcCos(Sqrt(1 - (x * x))) : -arcCos(Sqrt(1 - (x * x)));
     }
 
-    double answer = x;
+    double answer = x; // Initial guess is x
     while (Abs(sin(answer) - x) > EPSILON) { // Stop when the difference is smaller then epsilon
         answer = answer - ((sin(answer) - x) / cos(answer)); // New answer
     }
