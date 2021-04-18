@@ -1,5 +1,7 @@
 #include "mathlib.h"
 
+// Rahul Vaidun
+// April 2021
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h> // For getopt().
@@ -22,7 +24,8 @@ void showDifference(
 }
 int main(int argc, char **argv) {
     // Command Line argument code influenced by Lab Document
-    if (argc == 1) {
+
+    if (argc == 1) { // If there is only one argument print program usage and return
         printf("Program usage: ./mathlib-test -[asctl]\n-a   Runs all tests (arcsin, arccos, "
                "arctan, log)\n-s   Runs arcsin tests\n-c   Runs arccos tests\n-t   Runs arctan "
                "tests\n-l   Runs log tests\n");
@@ -41,7 +44,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    optind = 1; // reset index of getopt to 1 so we can use it again
+    optind = 1; // reset index of getopt to 1 so we can use it again on argv
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 's': // arcSin

@@ -1,3 +1,5 @@
+// Rahul Vaidun
+// April 2021
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -37,7 +39,7 @@ double arcSin(double x) {
     // To fix this issue we can use trig identities and calculate arcsin in terms of arccos
     // Refer to Design PDF and WRITEUP PDF for more details
     if (Abs(x) > 0.9) {
-        // When x is negative we have to return - arcCos
+        // When x is negative we have to return -arcCos
         return (x > 0.9) ? arcCos(Sqrt(1 - (x * x))) : -arcCos(Sqrt(1 - (x * x)));
     }
 
@@ -48,13 +50,13 @@ double arcSin(double x) {
     return answer;
 }
 
-// Solves arccos using implementation of arcSin
+// Solves arccos using implementation of arcSin using trig identities
 // Refer to deign PDF for formula
 double arcCos(double x) {
     return (M_PI / 2) - arcSin(x);
 }
 
-// Solves arctan using implementation of arcSin
+// Solves arctan using implementation of arcSin using trig identities
 // Refer to Design PDF for formula
 double arcTan(double x) {
     return arcSin(x / (sqrt((x * x) + 1)));
