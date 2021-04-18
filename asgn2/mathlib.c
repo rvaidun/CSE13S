@@ -5,6 +5,7 @@
 #include <stdio.h>
 #define EPSILON 1E-10
 #include "mathlib.h"
+
 // Returns absolute value of a double
 double Abs(double x) {
     return (x > 0) ? x : -x;
