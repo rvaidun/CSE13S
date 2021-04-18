@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #define EPSILON 1E-10
-
+#include "mathlib.h"
 // Returns absolute value of a double
 double Abs(double x) {
     return (x > 0) ? x : -x;
@@ -33,26 +33,18 @@ double Exp(double x) {
 // Solve arcsin of x with newtons method
 // Refer to Design PDF for formula
 double arcSin(double x) {
-    double a, answer;
     // As x gets closer to 1 accuracy is rapidly lost
     // To fix this issue we can use trig identities and calculate arcsin in terms of arccos
-    // Refer to Design PDF for more details
+    // Refer to Design PDF and WRITEUP PDF for more details
     if (Abs(x) > 0.9) {
-        a = Sqrt(1 - (x * x));
-    } else {
-        a = x;
+        return (x > 0.9) ? arcCos(Sqrt(1 - (x * x))) : -arcCos(Sqrt(1 - (x * x)));
     }
 
-    answer = a; // Initial guess is a
-    while (Abs(sin(answer) - a) > EPSILON) { // Stop when the difference is smaller then epsilon
-        answer = answer - ((sin(answer) - a) / cos(answer)); // New answer
+    double answer = x;
+    while (Abs(sin(answer) - x) > EPSILON) { // Stop when the difference is smaller then epsilon
+        answer = answer - ((sin(answer) - x) / cos(answer)); // New answer
     }
-    if (Abs(x) > 0.9) {
-        // Because we are using arccos method subtract from pi/2
-        return (x < 0) ? -((M_PI / 2) - answer) : (M_PI / 2) - answer;
-    } else {
-        return answer;
-    }
+    return answer;
 }
 
 // Solves arccos using implementation of arcSin
