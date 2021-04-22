@@ -37,7 +37,7 @@ void stack_delete(Stack **s) {
 // Prints a stack
 void stack_print(Stack *s) {
     printf("{");
-    for (int i = 0; i < s->capacity; i++) {
+    for (uint32_t i = 0; i < s->capacity; i++) {
         printf("%lld", s->items[i]);
         printf(i != s->capacity - 1 ? ", " : "");
     }
@@ -74,27 +74,21 @@ bool stack_pop(Stack *s, int64_t *x) {
     if (stack_empty(s)) {
         return false;
     }
+    s->top--;
     *x = s->items[s->top];
     s->items[s->top] = 0;
-    s->top--;
+
     return true;
 }
 
-int main(void) {
-    int64_t temp;
-    bool x;
-    Stack *s = stack_create(3);
-    stack_print(s);
-    x = stack_pop(s, &temp);
-    printf("success -> %d\ntemp -> %lld", x, temp);
-    x = stack_push(s, 5);
-    stack_print(s);
-    printf("success -> %d\n", x);
-    stack_push(s, 4);
-    stack_print(s);
-    stack_push(s, 4);
-    stack_print(s);
-    x = stack_push(s, 4);
-    stack_print(s);
-    printf("success -> %d\n", x);
-}
+// int main(void) {
+//     int64_t hi, lo;
+//     bool x;
+//     Stack *s = stack_create(2);
+//     stack_push(s, 0);
+//     stack_push(s, 4);
+//     printf("%lld, %lld\n", s->items[0], s->items[1]);
+//     stack_pop(s, &hi);
+//     stack_pop(s, &lo);
+//     printf("hi - %lld, lo - %lld", hi, lo);
+// }
