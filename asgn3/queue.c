@@ -1,7 +1,7 @@
 #include "queue.h"
 
+#include <stdio.h>
 #include <stdlib.h>
-
 struct Queue {
     u_int32_t head;
     u_int32_t tail;
@@ -39,12 +39,12 @@ void queue_delete(Queue **q) {
 
 // Returns true if queue is empty and false otherwise
 bool queue_empty(Queue *q) {
-    return q->head == q->tail;
+    return q->size == 0;
 }
 
 // Returns true if the queue is full and false otherwise
 bool queue_full(Queue *q) {
-    return q->tail == q->capacity;
+    return q->size == q->capacity;
 }
 
 // Returns the number of items in the queue
@@ -59,6 +59,8 @@ bool enqueue(Queue *q, int64_t x) {
     }
     q->items[q->tail] = x;
     q->tail++;
+    q->size++;
+    return true;
 }
 
 // Dequeues an item from the queue
@@ -68,14 +70,16 @@ bool dequeue(Queue *q, int64_t *x) {
     }
     *x = q->items[q->head];
     q->head++;
+    q->size--;
+    return true;
 }
 
 // Prints the queue
 void queue_print(Queue *q) {
     printf("{");
-    for (uint32_t i = 0; i < q->capacity; i++) {
+    for (uint32_t i = q->head; i < q->capacity + q->head; i++) {
         printf("%lld", q->items[i]);
-        printf(i != q->capacity - 1 ? ", " : "");
+        printf(i != q->capacity + q->head - 1 ? ", " : "");
     }
     printf("}\n");
 }
