@@ -34,11 +34,6 @@ void stack_delete(Stack **s) {
     return;
 }
 
-// bool stack_empty(Stack *s) {
-//     for
-//         int stac return true;
-// }
-
 // Prints a stack
 void stack_print(Stack *s) {
     printf("{");
@@ -48,9 +43,20 @@ void stack_print(Stack *s) {
     }
     printf("}\n");
 }
+
+// Stack empty
+bool stack_empty(Stack *s) {
+    for (int i = 0; i < s->capacity; i++) {
+        if (s->items[i] != 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main(void) {
     Stack *s = stack_create(3);
     stack_print(s);
-    // bool empty = stack_empty(s);
-    // printf("%d\n", empty);
+    bool empty = stack_empty(s);
+    printf("%d\n", empty);
 }
