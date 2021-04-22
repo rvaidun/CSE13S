@@ -58,7 +58,7 @@ bool enqueue(Queue *q, int64_t x) {
         return false;
     }
     q->items[q->tail] = x;
-    q->tail++;
+    q->tail = (q->tail + 1) % q->capacity;
     q->size++;
     return true;
 }
@@ -69,7 +69,7 @@ bool dequeue(Queue *q, int64_t *x) {
         return false;
     }
     *x = q->items[q->head];
-    q->head++;
+    q->head = (q->head + 1) % q->capacity;
     q->size--;
     return true;
 }

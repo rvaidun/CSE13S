@@ -15,7 +15,7 @@ stack.o: stack.c
 queue.o: queue.c
 	$(CC) $(CFLAGS) -c queue.c
 clean:
-	rm -f quicksort quick.o stack.o
+	rm -f quicksort quick.o stack.o queue.o
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean

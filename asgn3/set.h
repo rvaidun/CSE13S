@@ -1,3 +1,5 @@
+// Implemetation of set
+// Code posted by Eugene on Piazza
 #ifndef __SET_H__
 #define __SET_H__
 
