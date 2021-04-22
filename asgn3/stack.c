@@ -44,14 +44,14 @@ void stack_print(Stack *s) {
     printf("}\n");
 }
 
-// Stack empty
+// Stack empty returns true if the stack is empty. Returns false if it is not empty
 bool stack_empty(Stack *s) {
-    for (int i = 0; i < s->capacity; i++) {
-        if (s->items[i] != 0) {
-            return true;
-        }
-    }
-    return false;
+    return s->top == 0;
+}
+
+// If all NOT ZERO return true
+bool stack_full(Stack *s) {
+    return s->top == s->capacity;
 }
 
 int main(void) {
