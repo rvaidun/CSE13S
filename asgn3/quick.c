@@ -75,11 +75,11 @@ void quick_sort_queue(uint32_t *arr, uint32_t n) {
         }
     }
 }
-int main(void) {
-    uint32_t test[5] = { 5, 4, 3, 2, 1 };
-    quick_sort_queue(test, 5);
-    for (int i = 0; i < 5; i++) {
-        printf("%d, ", test[i]);
-    }
-    printf("\n");
-}
+// int main(void) {
+//     uint32_t test[5] = { 5, 4, 3, 2, 1 };
+//     quick_sort_queue(test, 5);
+//     for (int i = 0; i < 5; i++) {
+//         printf("%d, ", test[i]);
+//     }
+//     printf("\n");
+// }

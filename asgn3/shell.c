@@ -16,10 +16,10 @@ void shell_sort(uint32_t *arr, uint32_t n) {
     }
 }
 
-int main(void) {
-    uint32_t test[5] = { 5, 4, 3, 2, 1 };
-    shell_sort(test, 5);
-    for (int i = 0; i < 5; i++) {
-        printf("%d, ", test[i]);
-    }
-}
+// int main(void) {
+//     uint32_t test[5] = { 5, 4, 3, 2, 1 };
+//     shell_sort(test, 5);
+//     for (int i = 0; i < 5; i++) {
+//         printf("%d, ", test[i]);
+//     }
+// }

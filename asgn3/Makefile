@@ -1,21 +1,18 @@
 CC=clang
 CFLAGS=-Wall -Wextra -Werror -Wpedantic
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o)
 
-all: quicksort
+all: sorting
 
-quicksort: quick.o stack.o queue.o
-	$(CC) -o quicksort quick.o stack.o queue.o
+sorting: $(OBJS)
+	clang -o $@ $^
 
-quick.o: quick.c
-	$(CC) $(CFLAGS) -c quick.c
+%.o: %.c
+	clang $(CFLAGS) -c $<
 
-stack.o: stack.c
-	$(CC) $(CFLAGS) -c stack.c
-
-queue.o: queue.c
-	$(CC) $(CFLAGS) -c queue.c
 clean:
-	rm -f quicksort quick.o stack.o queue.o
+	rm -f $(OBJS) sorting
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean
