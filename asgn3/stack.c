@@ -44,14 +44,29 @@ void stack_print(Stack *s) {
     printf("}\n");
 }
 
-// Stack empty returns true if the stack is empty. Returns false if it is not empty
+// Returns true if stack is empty
 bool stack_empty(Stack *s) {
     return s->top == 0;
 }
 
-// If all NOT ZERO return true
+// Returns true if stack is full
 bool stack_full(Stack *s) {
     return s->top == s->capacity;
+}
+
+// Returns the number of items in the stack
+uint32_t stack_size(Stack *s) {
+    return s->top;
+}
+
+// Adds an item to the stack
+bool stack_push(Stack *s, int64_t x) {
+    if (stack_full(s)) {
+        return false;
+    }
+    s->items[s->top] = x;
+    s->top++;
+    return true;
 }
 
 int main(void) {
