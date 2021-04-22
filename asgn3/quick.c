@@ -6,21 +6,27 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+
+extern uint32_t moves, compares;
+
 int64_t partition(uint32_t *arr, int64_t lo, int64_t hi) {
     int64_t pivot, i, j, temp;
     pivot = arr[lo + ((hi - lo) / 2)];
     i = lo - 1;
     j = hi + 1;
     while (i < j) {
-        i += 1;
-        while (arr[i] < pivot) {
-            i += 1;
-        }
-        j -= 1;
-        while (arr[j] > pivot) {
+        do {
+            i++;
+            compares++;
+        } while (arr[i] < pivot);
+
+        do {
             j -= 1;
-        }
+            compares++;
+        } while (arr[j] > pivot);
+
         if (i < j) {
+            moves += 3;
             temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
@@ -31,6 +37,8 @@ int64_t partition(uint32_t *arr, int64_t lo, int64_t hi) {
 
 // Quicksort with stack
 void quick_sort_stack(uint32_t *arr, uint32_t n) {
+    moves = 0;
+    compares = 0;
     int64_t p, lo, hi;
     lo = 0;
     hi = n - 1;
@@ -63,7 +71,6 @@ void quick_sort_queue(uint32_t *arr, uint32_t n) {
     while (!queue_empty(q)) {
         assert(dequeue(q, &lo));
         assert(dequeue(q, &hi));
-        queue_print(q);
         p = partition(arr, lo, hi);
         if (lo < p) {
             assert(enqueue(q, lo));

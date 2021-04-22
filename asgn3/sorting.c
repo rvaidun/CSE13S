@@ -16,15 +16,15 @@
 uint32_t moves, compares;
 
 int main(int argc, char **argv) {
-    int opt = 0;
-    uint32_t size = 100, print_elements = 100, seed = 13371453;
+    int opt = 0, print_elements = 100, seed = 13371453;
+    uint32_t size = 100;
     uint32_t random_arr[size], sorted_arr[size];
     char *first_invalid;
 
     enum sorts { BUBBLE, SHELL, QUICK_STACK, QUICK_QUEUE, DONE };
     void (*func_ptr[4])(uint32_t * arr, u_int32_t n)
         = { bubble_sort, shell_sort, quick_sort_stack, quick_sort_queue };
-    char *sorts_strings
+    char *sorts_strings[]
         = { "Bubble Sort", "Shell Sort", "Quick Sort (Stack)", "Quick Sort (Queue)" };
     Set s = set_empty();
 
@@ -46,7 +46,6 @@ int main(int argc, char **argv) {
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
             }
-            srandom(seed);
             break;
         case 'n':
             // Set optarg to size
@@ -65,6 +64,7 @@ int main(int argc, char **argv) {
         default: break;
         }
     }
+    srandom(seed); // Set the seed
     // Creates random array
     for (uint32_t i = 0; i < size; i++) {
         random_arr[i] = random();
@@ -77,8 +77,18 @@ int main(int argc, char **argv) {
                 sorted_arr[i] = random_arr[i];
             }
             func_ptr[i](sorted_arr, size);
+            printf("%s\n", sorts_strings[i]);
+            printf("%d elements, %d moves, %d compares\n", size, moves, compares);
+            for (uint32_t i = 0; i < size; i++) {
+                if (i % 5 == 0 && i != 0) {
+                    printf("\n");
+                }
+                printf("%13" PRIu32, sorted_arr[i]);
 
-            printf("moves = %d compares = %d", moves, compares);
+                if (i == size - 1) {
+                    printf("\n");
+                }
+            }
         }
     }
 }
