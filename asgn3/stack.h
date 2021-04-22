@@ -12,6 +12,8 @@ void stack_delete(Stack **s);
 
 bool stack_empty(Stack *s);
 
+bool stack_full(Stack *s);
+
 uint32_t stack_size(Stack *s);
 
 bool stack_push(Stack *s, int64_t x);
