@@ -1,5 +1,7 @@
 #include "queue.h"
 
+#include "quick.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 struct Queue {
@@ -60,6 +62,9 @@ bool enqueue(Queue *q, int64_t x) {
     q->items[q->tail] = x;
     q->tail = (q->tail + 1) % q->capacity;
     q->size++;
+    if (max_queue_size < queue_size(q)) {
+        max_queue_size = queue_size(q);
+    }
     return true;
 }
 

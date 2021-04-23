@@ -1,5 +1,7 @@
 #include "stack.h"
 
+#include "quick.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 // Code from assignment PDF
@@ -66,6 +68,9 @@ bool stack_push(Stack *s, int64_t x) {
     }
     s->items[s->top] = x;
     s->top++;
+    if (max_stack_size < stack_size(s)) {
+        max_stack_size = stack_size(s);
+    }
     return true;
 }
 

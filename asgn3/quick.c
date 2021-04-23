@@ -39,6 +39,7 @@ int64_t partition(uint32_t *arr, int64_t lo, int64_t hi) {
 void quick_sort_stack(uint32_t *arr, uint32_t n) {
     moves = 0;
     compares = 0;
+    max_stack_size = 0;
     int64_t p, lo, hi;
     lo = 0;
     hi = n - 1;
@@ -62,6 +63,9 @@ void quick_sort_stack(uint32_t *arr, uint32_t n) {
 
 // Quicksort with queue
 void quick_sort_queue(uint32_t *arr, uint32_t n) {
+    moves = 0;
+    compares = 0;
+    max_queue_size = 0;
     int64_t p, lo, hi;
     lo = 0;
     hi = n - 1;
