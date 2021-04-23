@@ -12,9 +12,26 @@
 #include <stdio.h>
 #include <stdlib.h> // For srandom and random
 #include <unistd.h> // For getopt().
-#define OPTIONS "absqQr:n:p:"
+#define OPTIONS "habsqQr:n:p:"
 uint32_t moves, compares;
 uint32_t max_stack_size, max_queue_size;
+
+void print_help() {
+    printf("SYNOPSIS\n"
+           "   A collection of comparison-based sorting algorithms.\n"
+           "USAGE\n"
+           "./sorting [-habsqQ] [-n length] [-p elements] [-r seed]\n\n"
+           "OPTIONS\n"
+           "   -h              Display program help and usage.\n"
+           "   -a              Enable all sorts.\n"
+           "   -b              Enable Bubble Sort.\n"
+           "   -s              Enable Shell Sort.\n"
+           "   -q              Enable Quick Sort (Stack).\n"
+           "   -Q              Enable Quick Sort (Queue).\n"
+           "   -n length       Specify number of array elements.\n"
+           "   -p elements     Specify number of elements to print.\n"
+           "   -r seed         Specify random seed.\n");
+}
 
 int main(int argc, char **argv) {
     int opt = 0, print_elements = 100, seed = 13371453;
@@ -31,6 +48,7 @@ int main(int argc, char **argv) {
 
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
+        case 'h': print_help(); return 0;
         case 'a':
             s = set_insert(s, BUBBLE);
             s = set_insert(s, SHELL);
@@ -62,26 +80,8 @@ int main(int argc, char **argv) {
                 printf("Invalid argument for %c - %s", opt, optarg);
             }
             break;
-	default: s = set_insert(s, UNKNOWN); break;
+        default: print_help(); return -1;
         }
-    }
-    if (set_member(s, UNKNOWN)) {
-        printf("SYNOPSIS\n"
-               "   A collection of comparison-based sorting algorithms.\n"
-               "USAGE\n"
-               "./sorting [-habsqQo] [-n length] [-p elements] [-r seed]\n\n"
-               "OPTIONS\n"
-               "   -h              Display program help and usage.\n"
-               "   -a              Enable all sorts.\n"
-               "   -b              Enable Bubble Sort.\n"
-               "   -s              Enable Shell Sort.\n"
-               "   -q              Enable Quick Sort (Stack).\n"
-               "   -Q              Enable Quick Sort (Queue).\n"
-               "   -n length       Specify number of array elements.\n"
-               "   -p elements     Specify number of elements to print.\n"
-               "   -r seed         Specify random seed.\n"
-               "   -o              Use sorted arrays.\n");
-	return -1;
     }
     srandom(seed); // Set the seed
     // Creates random array
@@ -98,18 +98,18 @@ int main(int argc, char **argv) {
             func_ptr[i](sorted_arr, size);
             printf("%s\n", sorts_strings[i]);
             printf("%d elements, %d moves, %d compares\n", size, moves, compares);
-	    if (i == QUICK_STACK) {
-		printf("Max stack size: %d\n",max_stack_size);
-	    } else if (i == QUICK_QUEUE) {
-		printf("Max queue size: %d\n",max_queue_size);
-	    }
-            for (uint32_t i = 0; i < size; i++) {
+            if (i == QUICK_STACK) {
+                printf("Max stack size: %d\n", max_stack_size);
+            } else if (i == QUICK_QUEUE) {
+                printf("Max queue size: %d\n", max_queue_size);
+            }
+            for (int i = 0; i < print_elements; i++) {
                 if (i % 5 == 0 && i != 0) {
                     printf("\n");
                 }
                 printf("%13" PRIu32, sorted_arr[i]);
 
-                if (i == size - 1) {
+                if (i == print_elements - 1) {
                     printf("\n");
                 }
             }
