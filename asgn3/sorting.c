@@ -36,7 +36,6 @@ void print_help() {
 int main(int argc, char **argv) {
     int opt = 0, seed = 13371453;
     uint32_t size = 100, print_elements = 100;
-    uint32_t random_arr[size], sorted_arr[size];
     char *first_invalid;
 
     enum sorts { BUBBLE, SHELL, QUICK_STACK, QUICK_QUEUE, UNKNOWN };
@@ -69,6 +68,7 @@ int main(int argc, char **argv) {
         case 'n':
             // Set optarg to size
             size = strtoul(optarg, &first_invalid, 10);
+	    printf("%d\n",size);
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
             }
@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
         default: print_help(); return -1;
         }
     }
+    uint32_t random_arr[size], sorted_arr[size];
     srandom(seed); // Set the seed
     // Creates random array
     for (uint32_t i = 0; i < size; i++) {
