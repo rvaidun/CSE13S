@@ -33,9 +33,16 @@ void print_help() {
            "   -r seed         Specify random seed.\n");
 }
 
+void create_random_arr(uint32_t *arr, int seed, uint32_t size) {
+    srandom(seed); // Set the seed
+    for (uint32_t i = 0; i < size; i++) {
+        arr[i] = random();
+    }
+}
 int main(int argc, char **argv) {
     int opt = 0, seed = 13371453;
-    uint32_t size = 100, print_elements = 100;
+    int size = 100, print_elements = 100;
+    uint32_t *random_arr;
     char *first_invalid;
 
     enum sorts { BUBBLE, SHELL, QUICK_STACK, QUICK_QUEUE, UNKNOWN };
@@ -60,10 +67,6 @@ int main(int argc, char **argv) {
         case 'Q': s = set_insert(s, QUICK_QUEUE); break;
         case 'r':
             // Set optarg to seed
-            if (strtod(optarg, NULL) < 0) {
-                printf("Negative numbers not accepted");
-                return -1;
-            }
             seed = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
@@ -72,7 +75,6 @@ int main(int argc, char **argv) {
         case 'n':
             // Set optarg to size
             size = strtoul(optarg, &first_invalid, 10);
-            printf("%d\n", size);
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
             }
@@ -87,11 +89,10 @@ int main(int argc, char **argv) {
         default: print_help(); return -1;
         }
     }
-    uint32_t random_arr[size], sorted_arr[size];
-    srandom(seed); // Set the seed
-    // Creates random array
-    for (uint32_t i = 0; i < size; i++) {
-        random_arr[i] = random();
+    random_arr = malloc(size * sizeof(uint32_t));
+    if (random_arr == NULL) {
+        printf("Failed to allocate memory for array\n");
+        return -1;
     }
 
     // Check if print_elements is more than size of array
@@ -102,22 +103,22 @@ int main(int argc, char **argv) {
     for (int i = 0; i < UNKNOWN; i++) {
         if (set_member(s, i)) {
 
-            for (uint32_t i = 0; i < size; i++) {
-                sorted_arr[i] = random_arr[i];
-            }
-            func_ptr[i](sorted_arr, size);
+            create_random_arr(random_arr, seed, size);
+            func_ptr[i](random_arr, size);
             printf("%s\n", sorts_strings[i]);
             printf("%d elements, %d moves, %d compares\n", size, moves, compares);
+
             if (i == QUICK_STACK) {
                 printf("Max stack size: %d\n", max_stack_size);
             } else if (i == QUICK_QUEUE) {
                 printf("Max queue size: %d\n", max_queue_size);
             }
-            for (uint32_t i = 0; i < print_elements; i++) {
+
+            for (int i = 0; i < print_elements; i++) {
                 if (i % 5 == 0 && i != 0) {
                     printf("\n");
                 }
-                printf("%13" PRIu32, sorted_arr[i]);
+                printf("%13" PRIu32, random_arr[i]);
 
                 if (i == print_elements - 1) {
                     printf("\n");
