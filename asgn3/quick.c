@@ -59,6 +59,8 @@ void quick_sort_stack(uint32_t *arr, uint32_t n) {
             assert(stack_push(s, hi));
         }
     }
+    stack_delete(&s);
+    assert(s == NULL);
 }
 
 // Quicksort with queue
@@ -85,6 +87,8 @@ void quick_sort_queue(uint32_t *arr, uint32_t n) {
             assert(enqueue(q, hi));
         }
     }
+    queue_delete(&q);
+    assert(q == NULL);
 }
 // int main(void) {
 //     uint32_t test[5] = { 5, 4, 3, 2, 1 };

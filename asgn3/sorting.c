@@ -34,8 +34,8 @@ void print_help() {
 }
 
 int main(int argc, char **argv) {
-    int opt = 0, print_elements = 100, seed = 13371453;
-    uint32_t size = 100;
+    int opt = 0, seed = 13371453;
+    uint32_t size = 100, print_elements = 100;
     uint32_t random_arr[size], sorted_arr[size];
     char *first_invalid;
 
@@ -89,6 +89,11 @@ int main(int argc, char **argv) {
         random_arr[i] = random();
     }
 
+    // Check if print_elements is more than size of array
+    if (print_elements > size) {
+        print_elements = size;
+    }
+
     for (int i = 0; i < UNKNOWN; i++) {
         if (set_member(s, i)) {
 
@@ -103,7 +108,7 @@ int main(int argc, char **argv) {
             } else if (i == QUICK_QUEUE) {
                 printf("Max queue size: %d\n", max_queue_size);
             }
-            for (int i = 0; i < print_elements; i++) {
+            for (uint32_t i = 0; i < print_elements; i++) {
                 if (i % 5 == 0 && i != 0) {
                     printf("\n");
                 }
