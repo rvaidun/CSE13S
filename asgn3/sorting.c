@@ -60,6 +60,10 @@ int main(int argc, char **argv) {
         case 'Q': s = set_insert(s, QUICK_QUEUE); break;
         case 'r':
             // Set optarg to seed
+            if (strtod(optarg, NULL) < 0) {
+                printf("Negative numbers not accepted");
+                return -1;
+            }
             seed = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
@@ -68,7 +72,7 @@ int main(int argc, char **argv) {
         case 'n':
             // Set optarg to size
             size = strtoul(optarg, &first_invalid, 10);
-	    printf("%d\n",size);
+            printf("%d\n", size);
             if (*first_invalid != '\0') {
                 printf("Invalid argument for %c - %s", opt, optarg);
             }

@@ -2,6 +2,7 @@
 
 #include "quick.h"
 
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 // Code from assignment PDF
@@ -40,7 +41,7 @@ void stack_delete(Stack **s) {
 void stack_print(Stack *s) {
     printf("{");
     for (uint32_t i = 0; i < s->capacity; i++) {
-        printf("%lld", s->items[i]);
+        printf("%" PRId64, s->items[i]);
         printf(i != s->capacity - 1 ? ", " : "");
     }
     printf("}\n");

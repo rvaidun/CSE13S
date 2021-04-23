@@ -2,6 +2,7 @@
 
 #include "quick.h"
 
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 struct Queue {
@@ -83,7 +84,7 @@ bool dequeue(Queue *q, int64_t *x) {
 void queue_print(Queue *q) {
     printf("{");
     for (uint32_t i = q->head; i < q->capacity + q->head; i++) {
-        printf("%lld", q->items[i]);
+        printf("%" PRId64, q->items[i]);
         printf(i != q->capacity + q->head - 1 ? ", " : "");
     }
     printf("}\n");
