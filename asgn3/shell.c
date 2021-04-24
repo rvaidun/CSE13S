@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+// Implementation of Shell sort
+// Uses the Pseudocode for shell sort provided in the assignment PDF
 void shell_sort(uint32_t *arr, uint32_t n) {
     extern uint32_t moves, compares;
     moves = 0;
@@ -21,11 +23,3 @@ void shell_sort(uint32_t *arr, uint32_t n) {
         }
     }
 }
-
-// int main(void) {
-//     uint32_t test[5] = { 5, 4, 3, 2, 1 };
-//     shell_sort(test, 5);
-//     for (int i = 0; i < 5; i++) {
-//         printf("%d, ", test[i]);
-//     }
-// }

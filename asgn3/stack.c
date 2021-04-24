@@ -69,9 +69,12 @@ bool stack_push(Stack *s, int64_t x) {
     }
     s->items[s->top] = x;
     s->top++;
+
+    // On each push check if current stack size greater than current stack size
     if (max_stack_size < stack_size(s)) {
         max_stack_size = stack_size(s);
     }
+
     return true;
 }
 
@@ -86,15 +89,3 @@ bool stack_pop(Stack *s, int64_t *x) {
 
     return true;
 }
-
-// int main(void) {
-//     int64_t hi, lo;
-//     bool x;
-//     Stack *s = stack_create(2);
-//     stack_push(s, 0);
-//     stack_push(s, 4);
-//     printf("%lld, %lld\n", s->items[0], s->items[1]);
-//     stack_pop(s, &hi);
-//     stack_pop(s, &lo);
-//     printf("hi - %lld, lo - %lld", hi, lo);
-// }

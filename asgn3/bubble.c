@@ -3,8 +3,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-extern uint32_t moves, compares;
+extern uint32_t moves, compares; // Defined in sorting.c
 
+// Implementation of Bubble Sort
+// Uses the Pseudocode for bubble_sort provided in the assignment PDF
 void bubble_sort(uint32_t *arr, uint32_t n) {
     bool swapped = true;
     uint32_t temp;
@@ -25,11 +27,3 @@ void bubble_sort(uint32_t *arr, uint32_t n) {
         n -= 1;
     }
 }
-
-// int main(void) {
-//     uint32_t test[5] = { 5, 4, 3, 2, 1 };
-//     bubble_sort(test, 5);
-//     for (int i = 0; i < 5; i++) {
-//         printf("%d, ", test[i]);
-//     }
-// }

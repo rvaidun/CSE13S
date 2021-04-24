@@ -5,6 +5,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
+// Structure definition provided in the assignment PDF
 struct Queue {
     u_int32_t head;
     u_int32_t tail;
@@ -63,9 +64,12 @@ bool enqueue(Queue *q, int64_t x) {
     q->items[q->tail] = x;
     q->tail = (q->tail + 1) % q->capacity;
     q->size++;
+
+    // On each equeue check if current stack size greater than current stack size
     if (max_queue_size < queue_size(q)) {
         max_queue_size = queue_size(q);
     }
+
     return true;
 }
 

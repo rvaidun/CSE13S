@@ -9,6 +9,8 @@
 
 extern uint32_t moves, compares;
 
+// Implementation of a partition function for an array
+// Uses the Pseudocode for shell sort provided in the assignment PDF
 int64_t partition(uint32_t *arr, int64_t lo, int64_t hi) {
     int64_t pivot, i, j, temp;
     pivot = arr[lo + ((hi - lo) / 2)];
@@ -35,7 +37,8 @@ int64_t partition(uint32_t *arr, int64_t lo, int64_t hi) {
     return j;
 }
 
-// Quicksort with stack
+// Implementation of Quicksort with stack
+// Uses the Pseudocode for shell sort provided in the assignment PDF
 void quick_sort_stack(uint32_t *arr, uint32_t n) {
     moves = 0;
     compares = 0;
@@ -63,7 +66,8 @@ void quick_sort_stack(uint32_t *arr, uint32_t n) {
     assert(s == NULL);
 }
 
-// Quicksort with queue
+// Implementation of Quicksort with queue
+// Uses the Pseudocode for shell sort provided in the assignment PDF
 void quick_sort_queue(uint32_t *arr, uint32_t n) {
     moves = 0;
     compares = 0;
@@ -90,11 +94,3 @@ void quick_sort_queue(uint32_t *arr, uint32_t n) {
     queue_delete(&q);
     assert(q == NULL);
 }
-// int main(void) {
-//     uint32_t test[5] = { 5, 4, 3, 2, 1 };
-//     quick_sort_queue(test, 5);
-//     for (int i = 0; i < 5; i++) {
-//         printf("%d, ", test[i]);
-//     }
-//     printf("\n");
-// }

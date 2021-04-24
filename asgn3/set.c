@@ -1,5 +1,6 @@
 // Code posted by Eugene on Piazza.
 // Implemetation of set
+// Used for storing command line arguemnts to prevent duplicates
 #include "set.h"
 
 Set set_empty(void) {
