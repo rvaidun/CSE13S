@@ -41,7 +41,7 @@ void create_random_arr(uint32_t *arr, int seed, uint32_t size) {
 }
 int main(int argc, char **argv) {
     int opt = 0, seed = 13371453;
-    int size = 100, print_elements = 100;
+    uint32_t size = 100, print_elements = 100;
     uint32_t *random_arr;
     char *first_invalid;
 
@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
         print_elements = size;
     }
 
-    for (int i = 0; i < UNKNOWN; i++) {
+    for (uint32_t i = 0; i < UNKNOWN; i++) {
         if (set_member(s, i)) {
 
             create_random_arr(random_arr, seed, size);
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
                 printf("Max queue size: %d\n", max_queue_size);
             }
 
-            for (int i = 0; i < print_elements; i++) {
+            for (uint32_t i = 0; i < print_elements; i++) {
                 if (i % 5 == 0 && i != 0) {
                     printf("\n");
                 }
@@ -126,4 +126,5 @@ int main(int argc, char **argv) {
             }
         }
     }
+    free(random_arr);
 }
