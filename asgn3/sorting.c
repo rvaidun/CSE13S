@@ -89,6 +89,12 @@ int main(int argc, char **argv) {
         default: print_help(); return -1;
         }
     }
+
+    if (s == 0) {
+        printf("Select at least one sort to perform\n");
+        return -1;
+    }
+
     random_arr = malloc(size * sizeof(uint32_t));
     if (random_arr == NULL) {
         printf("Failed to allocate memory for array\n");
