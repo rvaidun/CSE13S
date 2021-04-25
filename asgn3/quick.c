@@ -1,13 +1,12 @@
 #include "quick.h"
 
 #include "queue.h"
+#include "sorting.h"
 #include "stack.h"
 
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
-
-extern uint32_t moves, compares;
 
 // Implementation of a partition function for an array
 // Uses the Pseudocode for shell sort provided in the assignment PDF

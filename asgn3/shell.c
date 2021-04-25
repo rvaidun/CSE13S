@@ -1,11 +1,11 @@
 #include "gaps.h"
+#include "sorting.h"
 
 #include <stdio.h>
 
 // Implementation of Shell sort
 // Uses the Pseudocode for shell sort provided in the assignment PDF
 void shell_sort(uint32_t *arr, uint32_t n) {
-    extern uint32_t moves, compares;
     moves = 0;
     compares = 0;
     for (uint32_t gap = 0; gap < GAPS; gap++) {

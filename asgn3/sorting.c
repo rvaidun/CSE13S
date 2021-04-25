@@ -13,8 +13,9 @@
 #include <stdlib.h> // For srandom and random
 #include <unistd.h> // For getopt().
 #define OPTIONS "habsqQr:n:p:"
-uint32_t moves, compares;
-uint32_t max_stack_size, max_queue_size;
+
+// Define as global varaibles so they can be used in other files
+uint32_t max_stack_size, max_queue_size, compares, moves;
 
 // Prints the help message
 void print_help() {
