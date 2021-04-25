@@ -33,23 +33,23 @@ $ make clean
 
 ## Files
 
-###bubble.{c,h}
+### bubble.{c,h}
 
 Source and header files for bubble sort
 
-###shell.{c,h}
+### shell.{c,h}
 
 Source and header files for shell sort
 
-###quick.{c,h}
+### quick.{c,h}
 
 Source and header files for quick sort
 
-###set.{c,h}
+### set.{c,h}
 
 Source and header files for the set implementation
 
-###gaps.h
+### gaps.h
 
 Contains gap sequence used by shell sort
 
