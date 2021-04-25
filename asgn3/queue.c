@@ -92,4 +92,5 @@ void queue_print(Queue *q) {
         printf(i != q->capacity + q->head - 1 ? ", " : "");
     }
     printf("}\n");
+    return;
 }

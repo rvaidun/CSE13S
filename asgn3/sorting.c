@@ -33,6 +33,7 @@ void print_help() {
            "   -n length       Specify number of array elements.\n"
            "   -p elements     Specify number of elements to print.\n"
            "   -r seed         Specify random seed.\n");
+    return;
 }
 
 // Creates a random array. Takes an array, the seed and size as parameters
@@ -41,6 +42,7 @@ void create_random_arr(uint32_t *arr, int seed, uint32_t size) {
     for (uint32_t i = 0; i < size; i++) {
         arr[i] = random();
     }
+    return;
 }
 
 int main(int argc, char **argv) {
@@ -103,7 +105,10 @@ int main(int argc, char **argv) {
                 return -1;
             }
             break;
-        default: print_help(); return -1;
+        default:
+            // If there are no command line options exit
+            print_help();
+            return -1;
         }
     }
 
@@ -155,4 +160,5 @@ int main(int argc, char **argv) {
         }
     }
     free(random_arr);
+    return 0;
 }

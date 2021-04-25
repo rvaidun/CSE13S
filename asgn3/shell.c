@@ -22,4 +22,5 @@ void shell_sort(uint32_t *arr, uint32_t n) {
             arr[j] = temp;
         }
     }
+    return;
 }
