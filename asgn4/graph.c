@@ -1,8 +1,9 @@
 #include "vertices.h"
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-
+#include <stdbool.h> // For Boolean
+#include <stdint.h> // For uint32_t
+#include <stdio.h> // For print
+#include "graph.h" // To be able to use Graph
+#include <stdlib.h> // For malloc and free
 struct Graph {
     uint32_t vertices;
     bool undirected;
@@ -10,8 +11,9 @@ struct Graph {
     uint32_t matrix[VERTICES][VERTICES];
 
 };
+
 // Constructor for the Graph ADT
-Graph *graph_create(uint32_t vertices; bool undirected) {
+Graph *graph_create(uint32_t vertices, bool undirected) {
     Graph *g = (Graph *) malloc(sizeof(Graph));
     if (g) {
 	g->undirected = undirected;
@@ -106,4 +108,8 @@ void graph_print(Graph *G) {
     }
     printf("\n");
     return;
+}
+
+int main(void) {
+    printf("Compiles");
 }
