@@ -1,6 +1,5 @@
 #include "stack.h"
 
-
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,7 +52,7 @@ uint32_t stack_size(Stack *s) {
 }
 
 // Adds an item to the stack
-bool stack_push(Stack *s, int64_t x) {
+bool stack_push(Stack *s, uint32_t x) {
     if (stack_full(s)) {
         return false;
     }
@@ -64,7 +63,7 @@ bool stack_push(Stack *s, int64_t x) {
 
 // Peek into a stack
 bool stack_peek(Stack *s, uint32_t *x) {
-    if (stack_empty(x)) {
+    if (stack_empty(s)) {
 	return false;
     }
     *x = s->items[s->top];
@@ -72,7 +71,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
 }
 
 // Removes an item from the stack
-bool stack_pop(Stack *s, int64_t *x) {
+bool stack_pop(Stack *s, uint32_t *x) {
     if (stack_empty(s)) {
         return false;
     }
@@ -85,7 +84,7 @@ bool stack_pop(Stack *s, int64_t *x) {
 
 // Creates a copy of a stack
 void stack_copy(Stack *dst, Stack *src) {
-    for (int i = 0; i < capacity; i++) {
+    for (int i = 0; i < src->capacity; i++) {
     	dst->items[i] = src->items[i];
     }
     dst->top = src->top;
@@ -95,7 +94,7 @@ void stack_copy(Stack *dst, Stack *src) {
 
 // Prints a stack
 // Code from Assignment PDF
-void stack_print(Stack *s, FILE, *outfile, char *cities[]) {
+void stack_print(Stack *s, FILE *outfile, char *cities[]) {
     for (uint32_t i = 0; i < s->top; i += 1) {
 	fprintf(outfile, "%s", cities[s->items[i]]);
 	if (i + 1 != s->top) {
