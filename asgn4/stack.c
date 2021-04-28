@@ -35,7 +35,6 @@ void stack_delete(Stack **s) {
     return;
 }
 
-
 // Returns true if stack is empty
 bool stack_empty(Stack *s) {
     return s->top == 0;
@@ -53,53 +52,51 @@ uint32_t stack_size(Stack *s) {
 
 // Adds an item to the stack
 bool stack_push(Stack *s, uint32_t x) {
-    if (stack_full(s)) {
-        return false;
+    if (!stack_full(s)) {
+        s->items[s->top] = x;
+        s->top++;
+        return true;
     }
-    s->items[s->top] = x;
-    s->top++;
-    return true;
+    return false;
 }
 
 // Peek into a stack
 bool stack_peek(Stack *s, uint32_t *x) {
-    if (stack_empty(s)) {
-	return false;
+    if (!stack_empty(s)) {
+        *x = s->items[s->top];
+        return true;
     }
-    *x = s->items[s->top];
-    return true;
+    return false;
 }
 
 // Removes an item from the stack
 bool stack_pop(Stack *s, uint32_t *x) {
-    if (stack_empty(s)) {
-        return false;
+    if (!stack_empty(s)) {
+        s->top--;
+        *x = s->items[s->top];
+        s->items[s->top] = 0;
+        return true;
     }
-    s->top--;
-    *x = s->items[s->top];
-    s->items[s->top] = 0;
-
-    return true;
+    return false;
 }
 
 // Creates a copy of a stack
 void stack_copy(Stack *dst, Stack *src) {
     for (int i = 0; i < src->capacity; i++) {
-    	dst->items[i] = src->items[i];
+        dst->items[i] = src->items[i];
     }
     dst->top = src->top;
     return;
 }
 
-
 // Prints a stack
 // Code from Assignment PDF
 void stack_print(Stack *s, FILE *outfile, char *cities[]) {
     for (uint32_t i = 0; i < s->top; i += 1) {
-	fprintf(outfile, "%s", cities[s->items[i]]);
-	if (i + 1 != s->top) {
-	    fprintf(outfile, " -> ");
-	}
+        fprintf(outfile, "%s", cities[s->items[i]]);
+        if (i + 1 != s->top) {
+            fprintf(outfile, " -> ");
+        }
     }
     fprintf(outfile, "\n");
 }

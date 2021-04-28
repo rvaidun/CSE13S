@@ -1,9 +1,11 @@
+#include "path.h"
+
+#include "graph.h"
+#include "stack.h"
+#include "vertices.h"
+
 #include <stdbool.h>
 #include <stdlib.h>
-#include "vertices.h"
-#include "path.h"
-#include "stack.h"
-#include "graph.h"
 
 struct Path {
     Stack *vertices;
@@ -13,8 +15,8 @@ struct Path {
 Path *path_create(void) {
     Path *p = (Path *) malloc(sizeof(Path));
     if (p) {
-	p->vertices = stack_create(VERTICES);
-	p->length = 0;
+        p->vertices = stack_create(VERTICES);
+        p->length = 0;
     }
     return p;
 }
@@ -31,18 +33,18 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
     uint32_t *t;
     stack_peek(p->vertices, t);
     if (stack_push(p->vertices, v)) {
-	p->length += graph_edge_weight(G,*t,v);
-	return true;
+        p->length += graph_edge_weight(G, *t, v);
+        return true;
     }
     return false;
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     if (stack_pop(p->vertices, v)) {
-	uint32_t *t;
-	stack_peek(p->vertices, t);
-	p->length -= graph_edge_weight(G,*t,*v);
-	return true;
+        uint32_t *t;
+        stack_peek(p->vertices, t);
+        p->length -= graph_edge_weight(G, *t, *v);
+        return true;
     }
     return false;
 }
@@ -56,10 +58,10 @@ uint32_t path_length(Path *p) {
 }
 
 void path_copy(Path *dst, Path *src) {
-    stack_copy(dst->vertices,src->vertices);
+    stack_copy(dst->vertices, src->vertices);
     dst->length = src->length;
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]) {
-    stack_print(p->vertices,outfile,cities);
+    stack_print(p->vertices, outfile, cities);
 }
