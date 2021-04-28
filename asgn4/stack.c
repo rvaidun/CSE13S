@@ -82,7 +82,7 @@ bool stack_pop(Stack *s, uint32_t *x) {
 
 // Creates a copy of a stack
 void stack_copy(Stack *dst, Stack *src) {
-    for (int i = 0; i < src->capacity; i++) {
+    for (uint32_t i = 0; i < src->capacity; i++) {
         dst->items[i] = src->items[i];
     }
     dst->top = src->top;

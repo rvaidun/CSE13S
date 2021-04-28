@@ -89,14 +89,14 @@ void graph_print(Graph *G) {
     printf("Vertices: %d\n", G->vertices);
 
     printf("Visited: \n");
-    for (int i = 0; i < G->vertices; i++) {
+    for (uint32_t i = 0; i < G->vertices; i++) {
         printf("%d, ", G->visited[i]);
     }
     printf("\n");
 
     printf("Matrix: \n");
-    for (int i = 0; i < G->vertices; i++) {
-        for (int j = 0; j < G->vertices; j++) {
+    for (uint32_t i = 0; i < G->vertices; i++) {
+        for (uint32_t j = 0; j < G->vertices; j++) {
             printf("%d, ", G->matrix[i][j]);
         }
         printf("\n");
@@ -105,6 +105,3 @@ void graph_print(Graph *G) {
     return;
 }
 
-int main(void) {
-    printf("Compiles");
-}

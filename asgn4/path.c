@@ -30,10 +30,10 @@ void path_delete(Path **p) {
 }
 
 bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
-    uint32_t *t;
-    stack_peek(p->vertices, t);
+    uint32_t t = 0;
+    stack_peek(p->vertices, &t);
     if (stack_push(p->vertices, v)) {
-        p->length += graph_edge_weight(G, *t, v);
+        p->length += graph_edge_weight(G, t, v);
         return true;
     }
     return false;
@@ -41,9 +41,9 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     if (stack_pop(p->vertices, v)) {
-        uint32_t *t;
-        stack_peek(p->vertices, t);
-        p->length -= graph_edge_weight(G, *t, *v);
+        uint32_t t = 0;
+        stack_peek(p->vertices, &t);
+        p->length -= graph_edge_weight(G, t, *v);
         return true;
     }
     return false;
@@ -63,6 +63,6 @@ void path_copy(Path *dst, Path *src) {
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]) {
-    fprintf(fp, "Path length: %d\n", p->length);
+    fprintf(outfile, "Path length: %d\n", p->length);
     stack_print(p->vertices, outfile, cities);
 }
