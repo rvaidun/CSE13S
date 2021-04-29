@@ -63,7 +63,7 @@ bool stack_push(Stack *s, uint32_t x) {
 // Peek into a stack
 bool stack_peek(Stack *s, uint32_t *x) {
     if (!stack_empty(s)) {
-        *x = s->items[s->top];
+        *x = s->items[s->top - 1];
         return true;
     }
     return false;
@@ -99,4 +99,5 @@ void stack_print(Stack *s, FILE *outfile, char *cities[]) {
         }
     }
     fprintf(outfile, "\n");
+    return;
 }

@@ -41,7 +41,6 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
         if (G->undirected) {
             G->matrix[j][i] = k;
         }
-
         return true;
     }
     return false;
@@ -85,16 +84,6 @@ void graph_mark_unvisited(Graph *G, uint32_t v) {
 }
 
 void graph_print(Graph *G) {
-
-    printf("Vertices: %d\n", G->vertices);
-
-    printf("Visited: \n");
-    for (uint32_t i = 0; i < G->vertices; i++) {
-        printf("%d, ", G->visited[i]);
-    }
-    printf("\n");
-
-    printf("Matrix: \n");
     for (uint32_t i = 0; i < G->vertices; i++) {
         for (uint32_t j = 0; j < G->vertices; j++) {
             printf("%d, ", G->matrix[i][j]);
@@ -104,4 +93,3 @@ void graph_print(Graph *G) {
     printf("\n");
     return;
 }
-
