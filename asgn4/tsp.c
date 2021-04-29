@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
         printf("Error: malformed number of vertices.\n");
         return -1;
     }
-    if (num_cities == 0) {
+    if (num_cities <= 1) {
         printf("There's nowhere to go.\n");
         return 0;
     }
