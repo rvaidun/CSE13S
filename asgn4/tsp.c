@@ -11,18 +11,16 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     bool verbose, uint32_t *rec) {
     uint32_t popped = 0;
     graph_mark_visited(G, v);
+    path_push_vertex(curr, v, G);
     // printf("%s Marked Visited\n", cities[v]);
-    uint32_t w = 2;
-    for (w = (v + 1) % graph_vertices(G); w != v; w = (w + 1) % graph_vertices(G)) {
+    bool nottoolong = (path_length(shortest) == 0) || path_length(curr) < path_length(shortest);
+    for (uint32_t w = 0; w < graph_vertices(G) && nottoolong; w++) {
         if (graph_has_edge(G, v, w)) {
-
             if (!graph_visited(G, w)) {
                 // printf("Not Visited %s yet\n", cities[w]);
-                if (path_push_vertex(curr, w, G)) {
-                    *rec = *rec + 1;
-                    // printf("Current Recursive Calls %d\n", *rec);
-                    dfs(G, w, curr, shortest, cities, outfile, verbose, rec);
-                }
+                *rec = *rec + 1;
+                dfs(G, w, curr, shortest, cities, outfile, verbose, rec);
+
             } else if (w == START_VERTEX) {
                 path_push_vertex(curr, w, G);
                 if (path_vertices(curr) == graph_vertices(G) + 1) {
@@ -82,7 +80,6 @@ int main(void) {
     }
     cur_path = path_create();
     short_path = path_create();
-    path_push_vertex(cur_path, START_VERTEX, graph);
     dfs(graph, START_VERTEX, cur_path, short_path, cities, out_fp, verbose, &recursive_calls);
 
     fprintf(out_fp, "Total recursive calls: %d\n", recursive_calls);
