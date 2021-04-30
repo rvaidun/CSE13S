@@ -32,19 +32,20 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
             if (!graph_visited(G, w)) {
                 dfs(G, w, curr, shortest, cities, outfile, verbose, rec);
 
-                // if vertex has been visited but vertex == the start vertex then check following conditions
-                // 1. and current path length is number of vertices in the grpah (found hamiltonian path)
-                // 2. current path shorter than the shortest current path (path not too long)
-                // If all conditions are met we can push the start vertex to the path and copy
-            } else if ((w == START_VERTEX) && (path_vertices(curr) == graph_vertices(G))
-                       && (path_length(shortest) == 0
-                           || path_length(curr) < path_length(shortest))) {
+                // if vertex has been visited but vertex == the start vertex then check if
+                // current path length is number of vertices in the grpah (found hamiltonian path)
+                // If all conditions are met we can push the start vertex
+            } else if ((w == START_VERTEX) && (path_vertices(curr) == graph_vertices(G))) {
 
                 path_push_vertex(curr, w, G);
-                path_copy(shortest, curr);
-                // Check if verbose so we know if we should print
-                if (verbose) {
-                    path_print(curr, outfile, cities);
+                // Check current path shorter than the shortest current path (path not too long)
+                if (path_length(shortest) == 0 || path_length(curr) < path_length(shortest)) {
+
+                    path_copy(shortest, curr);
+                    // Check if verbose to print
+                    if (verbose) {
+                        path_print(curr, outfile, cities);
+                    }
                 }
 
                 path_pop_vertex(curr, &popped, G);
