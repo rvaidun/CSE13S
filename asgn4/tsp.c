@@ -58,21 +58,21 @@ int main(int argc, char **argv) {
         case 'i':
             in_fp = fopen(optarg, "r");
             if (in_fp == NULL) {
-                fprintf(stderr,"Error: failed to open infile.\n");
+                fprintf(stderr, "Error: failed to open infile.\n");
                 return -1;
             }
             break;
         case 'o':
             out_fp = fopen(optarg, "w");
             if (out_fp == NULL) {
-                fprintf(stderr,"Error opening file to write\n");
+                fprintf(stderr, "Error opening file to write\n");
                 return -1;
             }
             break;
         }
     }
     if (fscanf(in_fp, "%d\n", &num_cities) != 1) {
-        fprintf(stderr,"Error: malformed number of vertices.\n");
+        fprintf(stderr, "Error: malformed number of vertices.\n");
         return -1;
     }
     if (num_cities <= 1) {
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
             graph_add_edge(graph, i, j, k);
 
         } else {
-            fprintf(stderr,"Error: malformed edge.\n");
+            fprintf(stderr, "Error: malformed edge.\n");
             return -1;
         }
     }
