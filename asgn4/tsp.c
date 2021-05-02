@@ -130,7 +130,12 @@ int main(int argc, char **argv) {
     short_path = path_create();
     dfs(graph, START_VERTEX, cur_path, short_path, cities, out_fp, verbose, &recursive_calls);
 
+    if (path_length(short_path) > 0) {
     path_print(short_path, out_fp, cities);
+    } else {
+	    printf("No Hamiltonian path found.\n");
+    }
+
     fprintf(out_fp, "Total recursive calls: %d\n", recursive_calls);
 
     path_delete(&cur_path);
