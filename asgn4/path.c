@@ -15,7 +15,7 @@ struct Path {
 Path *path_create(void) {
     Path *p = (Path *) malloc(sizeof(Path));
     if (p) {
-        p->vertices = stack_create(VERTICES);
+        p->vertices = stack_create(VERTICES + 1);
         p->length = 0;
     }
     return p;

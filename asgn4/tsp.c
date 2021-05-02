@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (fscanf(in_fp, "%d\n", &num_cities) != 1) {
+    if (fscanf(in_fp, "%d\n", &num_cities) != 1 || num_cities > VERTICES) {
         fprintf(stderr, "Error: malformed number of vertices.\n");
         return -1;
     }
@@ -131,9 +131,9 @@ int main(int argc, char **argv) {
     dfs(graph, START_VERTEX, cur_path, short_path, cities, out_fp, verbose, &recursive_calls);
 
     if (path_length(short_path) > 0) {
-    path_print(short_path, out_fp, cities);
+        path_print(short_path, out_fp, cities);
     } else {
-	    printf("No Hamiltonian path found.\n");
+        printf("No Hamiltonian path found.\n");
     }
 
     fprintf(out_fp, "Total recursive calls: %d\n", recursive_calls);
