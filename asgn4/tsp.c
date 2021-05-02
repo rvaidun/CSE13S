@@ -58,7 +58,9 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     return;
 }
 
+// Main function for tsp
 int main(int argc, char **argv) {
+    // Set defaults and initialize all variables
     bool verbose = false;
     bool undirected = false;
     FILE *in_fp = stdin;
@@ -73,6 +75,8 @@ int main(int argc, char **argv) {
     Path *cur_path;
     Path *short_path;
     int opt = 0;
+
+    // Handle command like arguments
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
 
@@ -93,9 +97,11 @@ int main(int argc, char **argv) {
                 return -1;
             }
             break;
+        default: break;
         }
     }
 
+    // Check for valid number of cities
     if (fscanf(in_fp, "%d\n", &num_cities) != 1 || num_cities > VERTICES) {
         fprintf(stderr, "Error: malformed number of vertices.\n");
         return -1;
@@ -106,9 +112,11 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    // Allocate space for graph and make number of cities
     graph = graph_create(num_cities, undirected);
     cities = malloc(num_cities * sizeof(char *));
 
+    // Store cities to a cities array
     for (uint32_t i = 0; i < num_cities; i++) {
         if (fgets(buffer, 1024, in_fp) != NULL) {
             strtok(buffer, "\n");
@@ -116,6 +124,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Read all the edges with the weights and store in the graph
     while ((temp = fscanf(in_fp, "%d %d %d", &i, &j, &k)) != EOF) {
         if (temp == 3) {
             graph_add_edge(graph, i, j, k);
@@ -126,10 +135,13 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Create two paths for current and short path
     cur_path = path_create();
     short_path = path_create();
+
     dfs(graph, START_VERTEX, cur_path, short_path, cities, out_fp, verbose, &recursive_calls);
 
+    // If Hamiltonian path found print the path else print none were found
     if (path_length(short_path) > 0) {
         path_print(short_path, out_fp, cities);
     } else {
@@ -138,6 +150,7 @@ int main(int argc, char **argv) {
 
     fprintf(out_fp, "Total recursive calls: %d\n", recursive_calls);
 
+    // Free memory and handle memory leaks
     path_delete(&cur_path);
     path_delete(&short_path);
     graph_delete(&graph);
@@ -147,4 +160,5 @@ int main(int argc, char **argv) {
     free(cities);
     fclose(in_fp);
     fclose(out_fp);
+    return 0;
 }
