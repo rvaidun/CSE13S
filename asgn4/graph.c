@@ -9,8 +9,8 @@
 struct Graph {
     uint32_t vertices;
     bool undirected;
-    bool visited[VERTICES];
-    uint32_t matrix[VERTICES][VERTICES];
+    bool *visited;
+    uint32_t **matrix;
 };
 
 // Constructor for the Graph ADT
@@ -19,12 +19,22 @@ Graph *graph_create(uint32_t vertices, bool undirected) {
     if (g) {
         g->undirected = undirected;
         g->vertices = vertices;
+        g->visited = (bool *) calloc(VERTICES, sizeof(bool));
+	g->matrix = calloc(VERTICES, sizeof(uint32_t*));
+	for(int i = 0; i < VERTICES; i++) {
+		g->matrix[i] = (uint32_t *) calloc(VERTICES,sizeof(uint32_t));
+	}
     }
     return g;
 }
 
 void graph_delete(Graph **G) {
     if (*G) {
+        free((*G)->visited);
+	for(int i = 0; i < VERTICES; i++) {
+		free((*G)->matrix[i]);
+	}
+	free((*G)->matrix);
         free(*G);
     }
     return;

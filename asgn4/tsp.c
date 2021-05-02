@@ -132,4 +132,14 @@ int main(int argc, char **argv) {
 
     path_print(short_path, out_fp, cities);
     fprintf(out_fp, "Total recursive calls: %d\n", recursive_calls);
+
+    path_delete(&cur_path);
+    path_delete(&short_path);
+    graph_delete(&graph);
+    for (uint32_t i = 0; i < num_cities; i++) {
+        free(cities[i]);
+    }
+    free(cities);
+    fclose(in_fp);
+    fclose(out_fp);
 }
