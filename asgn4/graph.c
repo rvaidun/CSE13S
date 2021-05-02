@@ -29,6 +29,7 @@ Graph *graph_create(uint32_t vertices, bool undirected) {
     return g;
 }
 
+// Delets graph and frees up memory
 void graph_delete(Graph **G) {
     if (*G) {
         free(*G);
@@ -36,15 +37,17 @@ void graph_delete(Graph **G) {
     return;
 }
 
+// Returns total number of vertices in the graph
 uint32_t graph_vertices(Graph *G) {
     return G->vertices;
 }
 
+// Adds an edge to the graph
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
-    if (i < G->vertices && j < G->vertices) {
+    if (i < G->vertices && j < G->vertices) { // Check to make sure no out of bounds
         G->matrix[i][j] = k;
 
-        if (G->undirected) {
+        if (G->undirected) { // Add opposite if undirected
             G->matrix[j][i] = k;
         }
         return true;
@@ -52,6 +55,7 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
     return false;
 }
 
+// Says if there exists an edge from i to j
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
     if (i < G->vertices && j < G->vertices) {
         return G->matrix[i][j] > 0;
@@ -60,6 +64,7 @@ bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
     return false;
 }
 
+// Returns the weight of the edge from i to j
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
     if (i < G->vertices && j < G->vertices) {
         return G->matrix[i][j];
@@ -67,6 +72,7 @@ uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
     return 0;
 }
 
+// Says if a vertex has been visited yet
 bool graph_visited(Graph *G, uint32_t v) {
     if (v < G->vertices) {
         return G->visited[v];
@@ -74,6 +80,7 @@ bool graph_visited(Graph *G, uint32_t v) {
     return false;
 }
 
+// Marks a vertex as visited
 void graph_mark_visited(Graph *G, uint32_t v) {
     if (v < G->vertices) {
         G->visited[v] = true;
@@ -82,6 +89,7 @@ void graph_mark_visited(Graph *G, uint32_t v) {
     return;
 }
 
+// Marks a vertex as not visited
 void graph_mark_unvisited(Graph *G, uint32_t v) {
     if (v < G->vertices) {
         G->visited[v] = false;
@@ -89,6 +97,7 @@ void graph_mark_unvisited(Graph *G, uint32_t v) {
     return;
 }
 
+// Debugger function to print out a graph
 void graph_print(Graph *G) {
     for (uint32_t i = 0; i < G->vertices; i++) {
         for (uint32_t j = 0; j < G->vertices; j++) {

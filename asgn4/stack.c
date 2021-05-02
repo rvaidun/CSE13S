@@ -10,7 +10,7 @@ struct Stack {
     int64_t *items;
 };
 
-// Code from assignment PDF
+// Code from assignment PDF for assignment 3
 Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
@@ -25,7 +25,7 @@ Stack *stack_create(uint32_t capacity) {
     return s;
 }
 
-// Code from assignment PDF
+// Code from assignment PDF for assignment 3
 void stack_delete(Stack **s) {
     if (*s && (*s)->items) {
         free((*s)->items);
@@ -60,7 +60,7 @@ bool stack_push(Stack *s, uint32_t x) {
     return false;
 }
 
-// Peek into a stack
+// Peek into a stack to return whats at the top and return through pointer x
 bool stack_peek(Stack *s, uint32_t *x) {
     if (!stack_empty(s)) {
         *x = s->items[s->top - 1];
@@ -69,7 +69,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
     return false;
 }
 
-// Removes an item from the stack
+// Removes an item from the stack and returns the item through the pointer x
 bool stack_pop(Stack *s, uint32_t *x) {
     if (!stack_empty(s)) {
         s->top--;
@@ -80,8 +80,9 @@ bool stack_pop(Stack *s, uint32_t *x) {
     return false;
 }
 
-// Creates a copy of a stack
+// Creates a copy of a stack src to stack destination
 void stack_copy(Stack *dst, Stack *src) {
+    // Loop through src items and for each item set destination item
     for (uint32_t i = 0; i < src->capacity; i++) {
         dst->items[i] = src->items[i];
     }
