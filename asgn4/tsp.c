@@ -58,6 +58,20 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     return;
 }
 
+// Help message
+void print_help(void) {
+    printf("SYNOPSIS\n"
+           "   Traveling Salesman Problem using DFS.\n"
+           "USAGE\n"
+           "./tsp [-u] [-v] [-h] [-i infile] [-o outfile]\n\n"
+           "OPTIONS\n"
+           "   -h              Display program help and usage.\n"
+           "   -u             Use undirected graph.\n"
+           "   -v             Enable verbose printing.\n"
+           "   -i infile      Input containing graph (default: stdin)\n"
+           "   -o outfile     Output of computed path (default: stdout)\n");
+    return;
+}
 // Main function for tsp
 int main(int argc, char **argv) {
     // Set defaults and initialize all variables
@@ -97,7 +111,7 @@ int main(int argc, char **argv) {
                 return -1;
             }
             break;
-        default: break;
+        default: print_help(); return -1;
         }
     }
 
