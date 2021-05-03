@@ -11,22 +11,121 @@ Path: El Cajon -> San Ysidro -> Tijuana -> Santee -> Jamul -> Campo -> La Jolla 
 Path length: 30
 Path: El Cajon -> San Ysidro -> Tijuana -> Santee -> Jamul -> Campo -> La Jolla -> La Mesa -> Chula Vista -> Lakeside -> El Cajon
 Total recursive calls: 3884
+Path length: 30
+Path: El Cajon -> San Ysidro -> Tijuana -> Santee -> Jamul -> Campo -> La Jolla -> La Mesa -> Chula Vista -> Lakeside -> El Cajon
+Total recursive calls: 3884
+Path length: 30
+Path: El Cajon -> Lakeside -> Chula Vista -> San Ysidro -> Tijuana -> Santee -> Jamul -> La Mesa -> La Jolla -> Campo -> El Cajon
+Total recursive calls: 63799
+Path length: 43
+Path: El Cajon -> Santee -> Lakeside -> Chula Vista -> San Ysidro -> Campo -> Jamul -> La Mesa -> La Jolla -> Tijuana -> El Cajon
+Path length: 41
+Path: El Cajon -> Santee -> Lakeside -> Chula Vista -> San Ysidro -> La Mesa -> Jamul -> Tijuana -> La Jolla -> Campo -> El Cajon
+Path length: 39
+Path: El Cajon -> Santee -> Lakeside -> Chula Vista -> San Ysidro -> La Mesa -> La Jolla -> Tijuana -> Jamul -> Campo -> El Cajon
+Path length: 38
+Path: El Cajon -> Santee -> Lakeside -> Chula Vista -> San Ysidro -> Tijuana -> Jamul -> La Mesa -> La Jolla -> Campo -> El Cajon
+Path length: 35
+Path: El Cajon -> Santee -> Lakeside -> Chula Vista -> San Ysidro -> Tijuana -> La Jolla -> La Mesa -> Jamul -> Campo -> El Cajon
+Path length: 34
+Path: El Cajon -> Santee -> San Ysidro -> Tijuana -> La Jolla -> Campo -> Jamul -> La Mesa -> Chula Vista -> Lakeside -> El Cajon
+Path length: 32
+Path: El Cajon -> Santee -> San Ysidro -> Tijuana -> La Jolla -> La Mesa -> Chula Vista -> Lakeside -> Jamul -> Campo -> El Cajon
+Path length: 31
+Path: El Cajon -> Santee -> Jamul -> Lakeside -> Chula Vista -> La Mesa -> San Ysidro -> Tijuana -> La Jolla -> Campo -> El Cajon
+Path length: 30
+Path: El Cajon -> Lakeside -> Chula Vista -> San Ysidro -> Tijuana -> Santee -> Jamul -> La Mesa -> La Jolla -> Campo -> El Cajon
+Path length: 30
+Path: El Cajon -> Lakeside -> Chula Vista -> San Ysidro -> Tijuana -> Santee -> Jamul -> La Mesa -> La Jolla -> Campo -> El Cajon
+Total recursive calls: 63799
 Path length: 15
 Path: Ground -> Mt. Everest -> Sky -> Ground
 Path length: 15
 Path: Ground -> Mt. Everest -> Sky -> Ground
 Total recursive calls: 5
+Path length: 15
+Path: Ground -> Mt. Everest -> Sky -> Ground
+Total recursive calls: 5
+Path length: 18
+Path: Ground -> Mt. Everest -> Sky -> Ground
+Total recursive calls: 5
+Path length: 18
+Path: Ground -> Mt. Everest -> Sky -> Ground
+Path length: 18
+Path: Ground -> Mt. Everest -> Sky -> Ground
+Total recursive calls: 5
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Total recursive calls: 26
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Total recursive calls: 26
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Total recursive calls: 51
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Path length: 326
+Path: a -> b -> c -> d -> e -> f -> g -> h -> i -> j -> k -> l -> m -> n -> o -> p -> q -> r -> s -> t -> u -> v -> w -> x -> y -> z -> a
+Total recursive calls: 51
 Path length: 21
 Path: Asgard -> Shangri-La -> Olympus -> Elysium -> Asgard
 Path length: 21
 Path: Asgard -> Shangri-La -> Olympus -> Elysium -> Asgard
 Total recursive calls: 4
+Path length: 21
+Path: Asgard -> Shangri-La -> Olympus -> Elysium -> Asgard
+Total recursive calls: 4
+Path length: 21
+Path: Asgard -> Elysium -> Olympus -> Shangri-La -> Asgard
+Total recursive calls: 7
+Path length: 21
+Path: Asgard -> Elysium -> Olympus -> Shangri-La -> Asgard
+Path length: 21
+Path: Asgard -> Elysium -> Olympus -> Shangri-La -> Asgard
+Total recursive calls: 7
+No Hamiltonian path found.
+Total recursive calls: 26
+No Hamiltonian path found.
+Total recursive calls: 26
+No Hamiltonian path found.
+Total recursive calls: 26
+No Hamiltonian path found.
+Total recursive calls: 26
+No Hamiltonian path found.
+Total recursive calls: 1
+No Hamiltonian path found.
+Total recursive calls: 1
+No Hamiltonian path found.
+Total recursive calls: 1
+No Hamiltonian path found.
+Total recursive calls: 1
+There's nowhere to go.
+There's nowhere to go.
+There's nowhere to go.
 There's nowhere to go.
 Path length: 28
 Path: Mercury -> Uranus -> Earth -> Saturn -> Jupiter -> Mars -> Venus -> Neptune -> Mercury
 Path length: 28
 Path: Mercury -> Uranus -> Earth -> Saturn -> Jupiter -> Mars -> Venus -> Neptune -> Mercury
 Total recursive calls: 58
+Path length: 28
+Path: Mercury -> Uranus -> Earth -> Saturn -> Jupiter -> Mars -> Venus -> Neptune -> Mercury
+Total recursive calls: 58
+Path length: 23
+Path: Mercury -> Saturn -> Mars -> Venus -> Jupiter -> Neptune -> Earth -> Uranus -> Mercury
+Total recursive calls: 406
+Path length: 36
+Path: Mercury -> Venus -> Earth -> Neptune -> Jupiter -> Mars -> Saturn -> Uranus -> Mercury
+Path length: 29
+Path: Mercury -> Venus -> Mars -> Saturn -> Jupiter -> Neptune -> Earth -> Uranus -> Mercury
+Path length: 23
+Path: Mercury -> Saturn -> Mars -> Venus -> Jupiter -> Neptune -> Earth -> Uranus -> Mercury
+Path length: 23
+Path: Mercury -> Saturn -> Mars -> Venus -> Jupiter -> Neptune -> Earth -> Uranus -> Mercury
+Total recursive calls: 406
 Path length: 104
 Path: San Antonio -> Austin -> Odessa -> Houston -> Waco -> El Paso -> Abilene -> Dallas -> Corpus Christi -> Del Rio -> Luckenbach -> Lubbock -> Midland -> Galveston -> Pecos -> Amarillo -> Bandera -> San Antonio
 Path length: 101
@@ -56,6 +155,97 @@ Path: San Antonio -> Del Rio -> Lubbock -> Amarillo -> Bandera -> El Paso -> Abi
 Path length: 61
 Path: San Antonio -> Del Rio -> Lubbock -> Amarillo -> Bandera -> El Paso -> Abilene -> Houston -> Waco -> Luckenbach -> Pecos -> Austin -> Midland -> Galveston -> Dallas -> Corpus Christi -> Odessa -> San Antonio
 Total recursive calls: 1274059
+Path length: 61
+Path: San Antonio -> Del Rio -> Lubbock -> Amarillo -> Bandera -> El Paso -> Abilene -> Houston -> Waco -> Luckenbach -> Pecos -> Austin -> Midland -> Galveston -> Dallas -> Corpus Christi -> Odessa -> San Antonio
+Total recursive calls: 1274059
+Path length: 48
+Path: San Antonio -> Del Rio -> Bandera -> Lubbock -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Austin -> Midland -> Amarillo -> Abilene -> San Antonio
+Total recursive calls: 77684145
+Path length: 117
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> Amarillo -> Pecos -> Abilene -> Galveston -> Midland -> El Paso -> Corpus Christi -> Bandera -> San Antonio
+Path length: 108
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> Amarillo -> Pecos -> Bandera -> Corpus Christi -> El Paso -> Midland -> Galveston -> Abilene -> San Antonio
+Path length: 100
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> Amarillo -> Midland -> El Paso -> Corpus Christi -> Bandera -> Pecos -> Galveston -> Abilene -> San Antonio
+Path length: 98
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> Amarillo -> Midland -> Galveston -> Pecos -> Bandera -> Corpus Christi -> El Paso -> Abilene -> San Antonio
+Path length: 95
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> El Paso -> Corpus Christi -> Bandera -> Pecos -> Galveston -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 94
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Del Rio -> Lubbock -> Bandera -> Corpus Christi -> El Paso -> Pecos -> Galveston -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 92
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Lubbock -> Del Rio -> Corpus Christi -> El Paso -> Pecos -> Bandera -> Amarillo -> Midland -> Galveston -> Abilene -> San Antonio
+Path length: 91
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Lubbock -> Del Rio -> Bandera -> Corpus Christi -> El Paso -> Pecos -> Galveston -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 89
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Amarillo -> Midland -> Del Rio -> Lubbock -> El Paso -> Corpus Christi -> Bandera -> Pecos -> Galveston -> Abilene -> San Antonio
+Path length: 88
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Waco -> Luckenbach -> Amarillo -> Midland -> Del Rio -> Lubbock -> Bandera -> Corpus Christi -> El Paso -> Pecos -> Galveston -> Abilene -> San Antonio
+Path length: 86
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Galveston -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Corpus Christi -> El Paso -> Pecos -> Bandera -> Lubbock -> Abilene -> San Antonio
+Path length: 85
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Galveston -> Pecos -> Waco -> Luckenbach -> Amarillo -> Midland -> Del Rio -> Bandera -> Corpus Christi -> El Paso -> Lubbock -> Abilene -> San Antonio
+Path length: 84
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Galveston -> Pecos -> El Paso -> Corpus Christi -> Waco -> Luckenbach -> Amarillo -> Midland -> Del Rio -> Bandera -> Lubbock -> Abilene -> San Antonio
+Path length: 83
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Galveston -> Midland -> Amarillo -> Luckenbach -> Waco -> Corpus Christi -> El Paso -> Pecos -> Bandera -> Del Rio -> Lubbock -> Abilene -> San Antonio
+Path length: 81
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Corpus Christi -> Del Rio -> Lubbock -> El Paso -> Bandera -> Pecos -> Waco -> Luckenbach -> Amarillo -> Midland -> Galveston -> Abilene -> San Antonio
+Path length: 80
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Corpus Christi -> Del Rio -> Lubbock -> Bandera -> El Paso -> Pecos -> Waco -> Luckenbach -> Amarillo -> Midland -> Galveston -> Abilene -> San Antonio
+Path length: 77
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Corpus Christi -> Del Rio -> Bandera -> Lubbock -> El Paso -> Pecos -> Waco -> Luckenbach -> Amarillo -> Midland -> Galveston -> Abilene -> San Antonio
+Path length: 76
+Path: San Antonio -> Austin -> Odessa -> Houston -> Dallas -> Corpus Christi -> Waco -> Luckenbach -> Amarillo -> Midland -> Galveston -> Abilene -> Lubbock -> El Paso -> Pecos -> Bandera -> Del Rio -> San Antonio
+Path length: 75
+Path: San Antonio -> Austin -> Odessa -> Houston -> Waco -> Luckenbach -> Del Rio -> Lubbock -> El Paso -> Pecos -> Bandera -> Corpus Christi -> Dallas -> Galveston -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 73
+Path: San Antonio -> Austin -> Odessa -> Houston -> Waco -> Luckenbach -> Lubbock -> Del Rio -> Midland -> Amarillo -> Bandera -> Pecos -> El Paso -> Corpus Christi -> Dallas -> Galveston -> Abilene -> San Antonio
+Path length: 72
+Path: San Antonio -> Austin -> Odessa -> Houston -> Waco -> Luckenbach -> Lubbock -> Del Rio -> Bandera -> Pecos -> El Paso -> Corpus Christi -> Dallas -> Galveston -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 69
+Path: San Antonio -> Austin -> Odessa -> Houston -> Waco -> Luckenbach -> Amarillo -> Midland -> Del Rio -> Lubbock -> El Paso -> Pecos -> Bandera -> Corpus Christi -> Dallas -> Galveston -> Abilene -> San Antonio
+Path length: 68
+Path: San Antonio -> Austin -> Odessa -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Bandera -> Lubbock -> Abilene -> San Antonio
+Path length: 67
+Path: San Antonio -> Austin -> Odessa -> Lubbock -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> Bandera -> El Paso -> Pecos -> Abilene -> San Antonio
+Path length: 64
+Path: San Antonio -> Austin -> Odessa -> Lubbock -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> Bandera -> Pecos -> El Paso -> Abilene -> San Antonio
+Path length: 63
+Path: San Antonio -> Austin -> Odessa -> Lubbock -> El Paso -> Corpus Christi -> Dallas -> Pecos -> Bandera -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> San Antonio
+Path length: 62
+Path: San Antonio -> Austin -> Odessa -> Lubbock -> El Paso -> Pecos -> Dallas -> Corpus Christi -> Bandera -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> San Antonio
+Path length: 61
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> Houston -> Waco -> Luckenbach -> Amarillo -> Midland -> Galveston -> Abilene -> El Paso -> Lubbock -> Odessa -> Bandera -> Del Rio -> San Antonio
+Path length: 60
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> Del Rio -> Lubbock -> El Paso -> Bandera -> Odessa -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> San Antonio
+Path length: 59
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> Del Rio -> Bandera -> Odessa -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> El Paso -> Lubbock -> San Antonio
+Path length: 58
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> Odessa -> Lubbock -> El Paso -> Bandera -> Del Rio -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> San Antonio
+Path length: 57
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> Odessa -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> El Paso -> Lubbock -> Bandera -> Del Rio -> San Antonio
+Path length: 56
+Path: San Antonio -> Austin -> Pecos -> Dallas -> Corpus Christi -> El Paso -> Lubbock -> Del Rio -> Bandera -> Odessa -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Abilene -> San Antonio
+Path length: 55
+Path: San Antonio -> Austin -> Pecos -> El Paso -> Lubbock -> Del Rio -> Bandera -> Corpus Christi -> Dallas -> Galveston -> Houston -> Waco -> Luckenbach -> Odessa -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 54
+Path: San Antonio -> Austin -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> Del Rio -> Bandera -> Odessa -> Pecos -> El Paso -> Lubbock -> Abilene -> San Antonio
+Path length: 53
+Path: San Antonio -> Austin -> Midland -> Amarillo -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Odessa -> Bandera -> Del Rio -> Lubbock -> Abilene -> San Antonio
+Path length: 52
+Path: San Antonio -> Del Rio -> Lubbock -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Bandera -> Pecos -> Austin -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 51
+Path: San Antonio -> Del Rio -> Lubbock -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> Bandera -> Amarillo -> Midland -> Austin -> Pecos -> El Paso -> Abilene -> San Antonio
+Path length: 50
+Path: San Antonio -> Del Rio -> Lubbock -> Odessa -> Bandera -> Corpus Christi -> Dallas -> Galveston -> Houston -> Waco -> Luckenbach -> Amarillo -> Midland -> Austin -> Pecos -> El Paso -> Abilene -> San Antonio
+Path length: 49
+Path: San Antonio -> Del Rio -> Lubbock -> Bandera -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Austin -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 48
+Path: San Antonio -> Del Rio -> Bandera -> Lubbock -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Austin -> Midland -> Amarillo -> Abilene -> San Antonio
+Path length: 48
+Path: San Antonio -> Del Rio -> Bandera -> Lubbock -> Odessa -> Luckenbach -> Waco -> Houston -> Galveston -> Dallas -> Corpus Christi -> El Paso -> Pecos -> Austin -> Midland -> Amarillo -> Abilene -> San Antonio
+Total recursive calls: 77684145
 Path length: 7
 Path: Cowell -> Stevenson -> Merrill -> Cowell
 Path length: 6
@@ -63,4 +253,18 @@ Path: Cowell -> Merrill -> Stevenson -> Cowell
 Path length: 6
 Path: Cowell -> Merrill -> Stevenson -> Cowell
 Total recursive calls: 5
+Path length: 6
+Path: Cowell -> Merrill -> Stevenson -> Cowell
+Total recursive calls: 5
+Path length: 5
+Path: Cowell -> Stevenson -> Merrill -> Cowell
+Total recursive calls: 5
+Path length: 5
+Path: Cowell -> Stevenson -> Merrill -> Cowell
+Path length: 5
+Path: Cowell -> Stevenson -> Merrill -> Cowell
+Total recursive calls: 5
+There's nowhere to go.
+There's nowhere to go.
+There's nowhere to go.
 There's nowhere to go.
