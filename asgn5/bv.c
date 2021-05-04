@@ -8,8 +8,11 @@ struct BitVector {
 
 BitVector *bv_create(uint32_t length) {
     BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
-    bv->length = length;
-    bv->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
+    if (bv) {
+        bv->length = length;
+        bv->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
+    }
+    return bv;
 }
 
 void bv_delete(BitVector **v) {
@@ -38,7 +41,7 @@ void bv_clr_bit(BitVector *v, uint32_t i) {
     return;
 }
 
-uint8_t bv_get_bit(BitVector *v, uint8_t i) {
+uint8_t bv_get_bit(BitVector *v, uint32_t i) {
     uint32_t bytepos = i / 8;
     uint32_t bitpos = i % 8;
     return (v->vector[bytepos] >> bitpos) & 1;
@@ -49,6 +52,14 @@ void bv_xor_bit(BitVector *v, uint32_t i, uint8_t bit) {
     uint32_t bitpos = i % 8;
     uint8_t b = bv_get_bit(v, i);
     v->vector[bytepos] = (v->vector[bytepos] & (~(1 << bitpos))) | ((b ^ bit) << bitpos);
+}
+
+uint8_t bv_get_byte(BitVector *v, uint32_t i) {
+    return v->vector[i];
+}
+
+void bv_set_byte(BitVector *v, uint8_t byte, uint32_t i) {
+    v->vector[i] = byte;
 }
 
 void bv_print(BitVector *v) {
