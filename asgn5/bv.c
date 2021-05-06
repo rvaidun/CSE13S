@@ -30,7 +30,7 @@ uint32_t bv_length(BitVector *v) {
 
 void bv_set_bit(BitVector *v, uint32_t i) {
     uint32_t bytepos = i / 8;
-    uint32_t bitpos = 8 - (i % 8);
+    uint32_t bitpos = i % 8;
     v->vector[bytepos] |= (1 << bitpos);
     return;
 }
@@ -59,9 +59,11 @@ uint8_t bv_get_byte(BitVector *v, uint32_t i) {
     return v->vector[i];
 }
 
-// void bv_set_byte(BitVector *v, uint8_t byte, uint32_t i) {
-//     v->vector[i] = byte;
-// }
+void bv_set_bytes(BitVector *v, uint8_t *byte, uint32_t nbytes) {
+    for (uint32_t b = 0; b < nbytes; b++) {
+        v->vector[b] = byte[b];
+    }
+}
 
 void bv_print(BitVector *v) {
     for (uint32_t i = 0; i < v->length; i++) {
@@ -70,8 +72,11 @@ void bv_print(BitVector *v) {
     printf("\n");
 }
 
-int main(void) {
-    BitVector *bv = bv_create(4);
-    bv_set_bit(bv, 3);
-    bv_set_bit(bv, 2);
-}
+// int main(void) {
+//     BitVector *bv = bv_create(4);
+//     bv_set_bit(bv, 3);
+//     bv_set_bit(bv, 2);
+//     for (int i = 0; i < 4; i++) {
+//         printf("Value at %d - %d\n", i, bv_get_bit(bv, i));
+//     }
+// }
