@@ -1,5 +1,6 @@
 #include "bv.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 struct BitVector {
     uint32_t length;
@@ -9,8 +10,8 @@ struct BitVector {
 BitVector *bv_create(uint32_t length) {
     BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
     if (bv) {
-        bv->length = length;
-        bv->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
+        bv->length = ((length - 1) / 8) + 1;
+        bv->vector = (uint8_t *) calloc(bv->length, sizeof(uint8_t));
     }
     return bv;
 }
@@ -29,7 +30,7 @@ uint32_t bv_length(BitVector *v) {
 
 void bv_set_bit(BitVector *v, uint32_t i) {
     uint32_t bytepos = i / 8;
-    uint32_t bitpos = i % 8;
+    uint32_t bitpos = 8 - (i % 8);
     v->vector[bytepos] |= (1 << bitpos);
     return;
 }
@@ -58,13 +59,19 @@ uint8_t bv_get_byte(BitVector *v, uint32_t i) {
     return v->vector[i];
 }
 
-void bv_set_byte(BitVector *v, uint8_t byte, uint32_t i) {
-    v->vector[i] = byte;
-}
+// void bv_set_byte(BitVector *v, uint8_t byte, uint32_t i) {
+//     v->vector[i] = byte;
+// }
 
 void bv_print(BitVector *v) {
-    for (int i = 0; i < v->length; i++) {
-        printf("%d ", v->vector[i]);
+    for (uint32_t i = 0; i < v->length; i++) {
+        printf("bv[%d]=%d \n", i, v->vector[i]);
     }
     printf("\n");
+}
+
+int main(void) {
+    BitVector *bv = bv_create(4);
+    bv_set_bit(bv, 3);
+    bv_set_bit(bv, 2);
 }

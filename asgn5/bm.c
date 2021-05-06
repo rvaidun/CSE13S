@@ -4,6 +4,7 @@
 #include "bv.h"
 #include "bvbyte.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 struct BitMatrix {
@@ -48,7 +49,7 @@ void bm_clr_bit(BitMatrix *m, uint32_t r, uint32_t c) {
 }
 
 uint8_t bm_get_bit(BitMatrix *m, uint32_t r, uint32_t c) {
-    bv_get_bit(m->vector, r * m->cols + c);
+    return bv_get_bit(m->vector, r * m->cols + c);
 }
 
 BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
@@ -58,14 +59,14 @@ BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
         bm->rows = 1;
         bm->cols = length;
         bm->vector = bv_create(length);
-        bv_set_byte(bm, byte, 0);
-        // for (uint32_t i = 0; i < length; i++) {
-        //     bit = (byte >> i) & 1;
-        //     if (bit) {
-        //         bv_set_bit(bm->vector, i);
-        //     }
-        // }
+        for (uint32_t i = 0; i < length; i++) {
+            bit = (byte >> i) & 1;
+            if (bit) {
+                bv_set_bit(bm->vector, i);
+            }
+        }
     }
+    return bm;
 }
 
 uint8_t bm_to_data(BitMatrix *m) {
@@ -82,9 +83,8 @@ BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
             for (uint32_t j = 0; j < A->rows; j++) {
                 uint8_t temp = 0;
                 for (uint32_t k = 0; k < B->cols; k++) {
-                    temp += (bm_get_bit(A, i, k) * bm_get_bit(B, k, j));
+                    temp ^= (bm_get_bit(A, i, k) * bm_get_bit(B, k, j));
                 }
-                temp = temp % 2;
                 if (temp) {
                     bm_set_bit(bm, i, j);
                 }
@@ -96,4 +96,11 @@ BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
 
 void bm_print(BitMatrix *m) {
     bv_print(m->vector);
+}
+
+int main(void) {
+    BitMatrix *bm = bm_from_data(0xc, 4);
+    for (int i = 0; i < 4; i++) {
+        printf("Value at %d - %d\n", i, bm_get_bit(bm, 0, i));
+    }
 }
