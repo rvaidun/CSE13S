@@ -28,6 +28,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
     } else {
         bm_set_bit(bm, 0, table[es]);
     }
-    *msg = code & 0xF;
+    uint8_t correct_code = bm_to_data(bm);
+    *msg = correct_code & 0xF;
     return HAM_CORRECT;
 }
