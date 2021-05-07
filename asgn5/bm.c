@@ -52,23 +52,19 @@ uint8_t bm_get_bit(BitMatrix *m, uint32_t r, uint32_t c) {
     return bv_get_bit(m->vector, r * m->cols + c);
 }
 
-void bm_set_vector(BitVector *bv, uint8_t byte, uint32_t l) {
-    uint8_t bit;
-    for (uint32_t i = 0; i < l; i++) {
-        bit = (byte >> i) & 1;
-        if (bit) {
-            bv_set_bit(bv, i);
-        }
-    }
-}
-
 BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
     BitMatrix *bm = (BitMatrix *) malloc(sizeof(BitMatrix));
+    uint8_t bit;
     if (bm) {
         bm->rows = 1;
         bm->cols = length;
         bm->vector = bv_create(1);
-        bm_set_vector(bm->vector, byte, length);
+        for (uint32_t i = 0; i < length; i++) {
+            bit = (byte >> i) & 1;
+            if (bit) {
+                bv_set_bit(bm->vector, i);
+            }
+        }
     }
     return bm;
 }
@@ -86,7 +82,7 @@ BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
         for (uint32_t i = 0; i < A->rows; i++) {
             for (uint32_t j = 0; j < B->cols; j++) {
                 uint8_t temp = 0;
-                for (uint32_t k = 0; k < B->cols; k++) {
+                for (uint32_t k = 0; k < A->cols; k++) {
                     uint8_t bit1 = bm_get_bit(A, i, k);
                     uint8_t bit2 = bm_get_bit(B, k, j);
                     temp = temp ^ (bit1 & bit2);

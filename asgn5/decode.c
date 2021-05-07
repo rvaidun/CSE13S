@@ -43,6 +43,7 @@ void count_stats(HAM_STATUS hs, uint32_t *bp, uint32_t *c, uint32_t *e) {
 }
 
 int main(int argc, char **argv) {
+
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
@@ -97,6 +98,19 @@ int main(int argc, char **argv) {
     bm_set_bit(bm, 5, 1);
     bm_set_bit(bm, 6, 2);
     bm_set_bit(bm, 7, 3);
+
+    // BitMatrix *test = bm_create(1, 8);
+    // bm_set_bit(test, 0, 2);
+    // bm_set_bit(test, 0, 3);
+    // bm_set_bit(test, 0, 6);
+    // bm_set_bit(test, 0, 7);
+    // bm_print(test);
+    // printf("\n");
+    // bm_print(bm);
+    // printf("\n");
+    // BitMatrix *test2 = bm_multiply(test, bm);
+    // bm_print(test2);
+    // return 0;
     while ((lnc = fgetc(in_fp)) != EOF && (unc = fgetc(in_fp)) != EOF) {
         hs = ham_decode(bm, lnc, &lnm);
         count_stats(hs, &bytes_processed, &corrections, &uncorrected_errors);

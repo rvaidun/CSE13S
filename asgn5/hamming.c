@@ -16,7 +16,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
     BitMatrix *bm = bm_from_data(code, 8);
     BitMatrix *error_syndrome = bm_multiply(bm, Ht);
     uint8_t es = bm_to_data(error_syndrome);
-    *msg = code >> 4;
+    *msg = code & 0xF;
     if (es == 0) {
         return HAM_OK;
     } else if (table[es] == HAM_ERR) {
