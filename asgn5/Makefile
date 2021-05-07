@@ -8,6 +8,9 @@ all: $(OBJS)
 
 encode: hamming.o bv.o bm.o encode.o
 	$(CC) -o $@ $^
+
+decode: hamming.o bv.o bm.o decode.o
+	$(CC) -o $@ $^
 # encode.o: encode.c
 # 	$(CC) $(CFLAGS) -c $^
 

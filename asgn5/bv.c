@@ -10,7 +10,7 @@ struct BitVector {
 BitVector *bv_create(uint32_t length) {
     BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
     if (bv) {
-        bv->length = ((length - 1) / 8) + 1;
+        bv->length = length;
         bv->vector = (uint8_t *) calloc(bv->length, sizeof(uint8_t));
     }
     return bv;
@@ -57,12 +57,6 @@ void bv_xor_bit(BitVector *v, uint32_t i, uint8_t bit) {
 
 uint8_t bv_get_byte(BitVector *v, uint32_t i) {
     return v->vector[i];
-}
-
-void bv_set_bytes(BitVector *v, uint8_t *byte, uint32_t nbytes) {
-    for (uint32_t b = 0; b < nbytes; b++) {
-        v->vector[b] = byte[b];
-    }
 }
 
 void bv_print(BitVector *v) {

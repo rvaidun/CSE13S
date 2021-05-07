@@ -1,5 +1,4 @@
 #include "bm.h"
-#include "bmbytes.h"
 #include "hamming.h"
 
 #include <stdio.h>
@@ -12,11 +11,11 @@ void print_help(void) {
     printf("SYNOPSIS\n"
            "   A Hamming(8, 4) systematic code generator.\n"
            "USAGE\n"
-           "./encode [-h] [-i infile] [-o outfile]\n\n"
+           "   ./encode [-h] [-i infile] [-o outfile]\n\n"
            "OPTIONS\n"
            "   -h              Display program help and usage.\n"
-           "   -i infile      Input containing graph (default: stdin)\n"
-           "   -o outfile     Output of computed path (default: stdout)\n");
+           "   -i infile      Input data to encode (default: stdin)\n"
+           "   -o outfile     Output of encoded data (default: stdout)\n");
     return;
 }
 // Code from assignment PDF
@@ -67,11 +66,26 @@ int main(int argc, char **argv) {
     fstat(fileno(in_fp), &statbuf);
     fchmod(fileno(out_fp), statbuf.st_mode);
 
-    uint8_t generator_matrix[] = { 0xe1, 0xd2, 0xb4, 0x78 };
-    BitMatrix *bm = bm_from_data_array(generator_matrix, 4);
+    BitMatrix *bm = bm_create(4, 8);
+    bm_set_bit(bm, 0, 0);
+    bm_set_bit(bm, 0, 5);
+    bm_set_bit(bm, 0, 6);
+    bm_set_bit(bm, 0, 7);
+    bm_set_bit(bm, 1, 1);
+    bm_set_bit(bm, 1, 4);
+    bm_set_bit(bm, 1, 6);
+    bm_set_bit(bm, 1, 7);
+    bm_set_bit(bm, 2, 2);
+    bm_set_bit(bm, 2, 4);
+    bm_set_bit(bm, 2, 5);
+    bm_set_bit(bm, 2, 7);
+    bm_set_bit(bm, 3, 3);
+    bm_set_bit(bm, 3, 4);
+    bm_set_bit(bm, 3, 5);
+    bm_set_bit(bm, 3, 6);
 
     while ((c = fgetc(in_fp)) != EOF) {
-        fputc(encode(bm, lower_nibble(c)), out_fp);
-        fputc(encode(bm, upper_nibble(c)), out_fp);
+        fputc(ham_encode(bm, lower_nibble(c)), out_fp);
+        fputc(ham_encode(bm, upper_nibble(c)), out_fp);
     }
 }

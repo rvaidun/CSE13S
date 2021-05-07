@@ -11,8 +11,8 @@ typedef enum HAM_STATUS {
     HAM_CORRECT = -1, // Detected error and corrected.
 } HAM_STATUS;
 
-uint8_t encode(BitMatrix *G, uint8_t msg);
+uint8_t ham_encode(BitMatrix *G, uint8_t msg);
 
-HAM_STATUS decode(BitMatrix *Ht, uint8_t code, uint8_t *msg);
+HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg);
 
 #endif

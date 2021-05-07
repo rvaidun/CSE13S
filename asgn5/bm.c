@@ -51,6 +51,7 @@ void bm_clr_bit(BitMatrix *m, uint32_t r, uint32_t c) {
 uint8_t bm_get_bit(BitMatrix *m, uint32_t r, uint32_t c) {
     return bv_get_bit(m->vector, r * m->cols + c);
 }
+
 void bm_set_vector(BitVector *bv, uint8_t byte, uint32_t l) {
     uint8_t bit;
     for (uint32_t i = 0; i < l; i++) {
@@ -66,33 +67,10 @@ BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
     if (bm) {
         bm->rows = 1;
         bm->cols = length;
-        bm->vector = bv_create(length);
+        bm->vector = bv_create(1);
         bm_set_vector(bm->vector, byte, length);
-        // for (uint32_t i = 0; i < length; i++) {
-        //     bit = (byte >> i) & 1;
-        //     if (bit) {
-        //         bv_set_bit(bm->vector, i);
-        //     }
-        // }
     }
     return bm;
-}
-
-BitMatrix *bm_from_data_array(uint8_t *bytes, uint32_t nbytes) {
-    BitMatrix *bm = (BitMatrix *) malloc(sizeof(BitMatrix));
-    if (!bm)
-        return NULL;
-    bm->rows = nbytes;
-    bm->cols = 8;
-    bm->vector = bv_create(nbytes * 8);
-    bv_set_bytes(bm->vector, bytes, nbytes);
-    return bm;
-    // for (uint32_t i = 0; i < nbytes; i++) {
-    //     bit = (byte >> i) & 1;
-    //     if (bit) {
-    //         bv_set_bit(bm->vector, i);
-    //     }
-    // }
 }
 
 uint8_t bm_to_data(BitMatrix *m) {
@@ -133,13 +111,13 @@ void bm_print(BitMatrix *m) {
 
 // int main(void) {
 
-//     uint8_t arr[] = { 0xe1, 0xd2, 0xb4, 0x78 };
-//     BitMatrix *bm = bm_from_data_array(arr, 4);
-//     BitMatrix *c = bm_from_data(0xc, 4);
-//     BitMatrix *m;
+//     uint8_t parity_checker_arr[] = { 0xe, 0xd, 0xb, 0x7, 0x1, 0x2, 0x4, 0x8 };
+//     BitMatrix *bm = bm_from_data_array(parity_checker_arr, 8, 4);
+//     // BitMatrix *c = bm_from_data(0xc, 4);
+//     // BitMatrix *m;
 //     bm_print(bm);
-//     bm_print(c);
-//     m = bm_multiply(c, bm);
-//     printf("\n");
-//     bm_print(m);
+//     // bm_print(c);
+//     // m = bm_multiply(c, bm);
+//     // printf("\n");
+//     // bm_print(m);
 // }
