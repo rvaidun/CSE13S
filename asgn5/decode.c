@@ -103,10 +103,21 @@ int main(int argc, char **argv) {
     bm_set_bit(bm, 7, 3);
 
     while ((lnc = fgetc(in_fp)) != EOF && (unc = fgetc(in_fp)) != EOF) {
+        lnm = 0;
+        unm = 0;
         hs = ham_decode(bm, lnc, &lnm);
+        if (bytes_processed == 1288) {
+            fprintf(stderr,
+                "Lower nibble message - %x Lower nibble status - %x Lower nibble code is %x \n",
+                lnm, hs, lnc);
+        }
         count_stats(hs, &bytes_processed, &corrections, &uncorrected_errors);
-
         hs = ham_decode(bm, unc, &unm);
+        if (bytes_processed == 1289) {
+            fprintf(stderr,
+                "Upper nibble message - %x Upper nibble status - %x Upper nibble code is %x\n", unm,
+                hs, unc);
+        }
         count_stats(hs, &bytes_processed, &corrections, &uncorrected_errors);
 
         fputc(pack_byte(unm, lnm), out_fp);

@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -Wpedantic
+CFLAGS=-Wall -Wextra -Werror -Wpedantic -g
 
 all: encode decode entropy error
 
@@ -10,7 +10,7 @@ decode: hamming.o bv.o bm.o decode.o
 	$(CC) -o $@ $^
 
 entropy: entropy.o
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -lm
 
 error: error.o
 	$(CC) -o $@ $^
