@@ -52,8 +52,8 @@ int main(int argc, char **argv) {
 
     int lnc;
     int unc;
-    uint8_t lnm;
-    uint8_t unm;
+    uint8_t lnm = 0;
+    uint8_t unm = 0;
     HAM_STATUS hs;
     uint32_t bytes_processed = 0;
     uint32_t corrections = 0;
@@ -103,8 +103,6 @@ int main(int argc, char **argv) {
     bm_set_bit(bm, 7, 3);
 
     while ((lnc = fgetc(in_fp)) != EOF && (unc = fgetc(in_fp)) != EOF) {
-        lnm = 0;
-        unm = 0;
         hs = ham_decode(bm, lnc, &lnm);
         if (bytes_processed == 1288) {
             fprintf(stderr,
