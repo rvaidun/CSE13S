@@ -1,7 +1,6 @@
 #include "hamming.h"
 
 #include "bm.h"
-#include "table.h"
 
 uint8_t encode(BitMatrix *G, uint8_t msg) {
     BitMatrix *m = bm_from_data(msg, 4);
