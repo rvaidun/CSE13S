@@ -38,8 +38,10 @@ int main(int argc, char **argv) {
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
+
+    uint8_t ln;
+    uint8_t un;
     uint8_t c;
-    uint8_t nib;
 
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
@@ -58,6 +60,7 @@ int main(int argc, char **argv) {
                 fprintf(stderr, "Error opening file to write\n");
                 return -1;
             }
+            break;
         default: print_help(); return -1;
         }
     }
@@ -69,11 +72,9 @@ int main(int argc, char **argv) {
     uint8_t generator_matrix[] = { 0xe1, 0xd2, 0xb4, 0x78 };
     BitMatrix *bm = bm_from_data_array(generator_matrix, 4);
 
-    while (1) {
-        c = fgetc(in_fp);
-        if (c == EOF) {
-            return 0;
-        }
+    while ((c = fgetc(in_fp) != EOF)) {
+        ln = encode(bm, lower_nibble(c));
+        un = encode(bm, upper_nibble(c));
         fputc(encode(bm, lower_nibble(c)), out_fp);
         fputc(encode(bm, upper_nibble(c)), out_fp);
     }

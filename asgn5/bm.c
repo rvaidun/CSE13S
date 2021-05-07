@@ -131,15 +131,15 @@ void bm_print(BitMatrix *m) {
     }
 }
 
-int main(void) {
+// int main(void) {
 
-    uint8_t arr[] = { 0xe1, 0xd2, 0xb4, 0x78 };
-    BitMatrix *bm = bm_from_data_array(arr, 4);
-    BitMatrix *c = bm_from_data(0xc, 4);
-    BitMatrix *m;
-    bm_print(bm);
-    bm_print(c);
-    m = bm_multiply(c, bm);
-    printf("\n");
-    bm_print(m);
-}
+//     uint8_t arr[] = { 0xe1, 0xd2, 0xb4, 0x78 };
+//     BitMatrix *bm = bm_from_data_array(arr, 4);
+//     BitMatrix *c = bm_from_data(0xc, 4);
+//     BitMatrix *m;
+//     bm_print(bm);
+//     bm_print(c);
+//     m = bm_multiply(c, bm);
+//     printf("\n");
+//     bm_print(m);
+// }

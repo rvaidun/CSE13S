@@ -1,18 +1,30 @@
 CC=clang
 CFLAGS=-Wall -Wextra -Werror -Wpedantic
-SRCS=bm.c bv.c
-OBJS=$(SRCS:.c=.o)
 
-all: bm
+all: all
 
-bm: $(OBJS)
+all: $(OBJS)
 	clang -o $@ $^
+
+encode: hamming.o bv.o bm.o encode.o
+	$(CC) -o $@ $^
+# encode.o: encode.c
+# 	$(CC) $(CFLAGS) -c $^
+
+# hamming.o: hamming.c
+# 	$(CC) $(CFLAGS) -c $^
+
+# bm.o: bm.c
+# 	$(CC) $(CFLAGS) -c $^
+
+# bv.o: bv.c
+# 	$(CC) $(CFLAGS) -c $^
 
 %.o: %.c
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f $(OBJS) tsp
+	rm -f *.o encode
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean
