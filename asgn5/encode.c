@@ -39,15 +39,13 @@ int main(int argc, char **argv) {
     FILE *out_fp = stdout;
     struct stat statbuf;
 
-    uint8_t ln;
-    uint8_t un;
-    uint8_t c;
+    int c;
 
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'i':
-            in_fp = fopen(optarg, "rb");
+            in_fp = fopen(optarg, "r");
             if (in_fp == NULL) {
                 fprintf(stderr, "Error: failed to open infile.\n");
                 return -1;
@@ -72,9 +70,8 @@ int main(int argc, char **argv) {
     uint8_t generator_matrix[] = { 0xe1, 0xd2, 0xb4, 0x78 };
     BitMatrix *bm = bm_from_data_array(generator_matrix, 4);
 
-    while ((c = fgetc(in_fp) != EOF)) {
-        ln = encode(bm, lower_nibble(c));
-        un = encode(bm, upper_nibble(c));
+    while ((c = fgetc(in_fp)) != EOF) {
+        printf("%d\n", c);
         fputc(encode(bm, lower_nibble(c)), out_fp);
         fputc(encode(bm, upper_nibble(c)), out_fp);
     }
