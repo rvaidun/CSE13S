@@ -112,9 +112,9 @@ int main(int argc, char **argv) {
         fputc(pack_byte(unm, lnm), out_fp);
     }
     if (verbose) {
-        fprintf(out_fp, "Total bytes processed: %d\n", bytes_processed);
-        fprintf(out_fp, "Uncorrected errors: %d\n", uncorrected_errors);
-        fprintf(out_fp, "Corrected errors: %d\n", corrections);
-        fprintf(out_fp, "Error rate: %f\n", (double) uncorrected_errors / bytes_processed);
+        fprintf(stderr, "Total bytes processed: %d\n", bytes_processed);
+        fprintf(stderr, "Uncorrected errors: %d\n", uncorrected_errors);
+        fprintf(stderr, "Corrected errors: %d\n", corrections);
+        fprintf(stderr, "Error rate: %f\n", (double) uncorrected_errors / bytes_processed);
     }
 }

@@ -1,15 +1,18 @@
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -Wpedantic -g
+CFLAGS=-Wall -Wextra -Werror -Wpedantic
 
-all: all
-
-all: $(OBJS)
-	clang -o $@ $^
+all: encode decode entropy error
 
 encode: hamming.o bv.o bm.o encode.o
 	$(CC) -o $@ $^
 
 decode: hamming.o bv.o bm.o decode.o
+	$(CC) -o $@ $^
+
+entropy: entropy.o
+	$(CC) -o $@ $^
+
+error: error.o
 	$(CC) -o $@ $^
 # encode.o: encode.c
 # 	$(CC) $(CFLAGS) -c $^
@@ -27,7 +30,7 @@ decode: hamming.o bv.o bm.o decode.o
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o encode decode
+	rm -f *.o encode decode entropy error
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean
