@@ -71,7 +71,6 @@ int main(int argc, char **argv) {
     BitMatrix *bm = bm_from_data_array(generator_matrix, 4);
 
     while ((c = fgetc(in_fp)) != EOF) {
-        printf("%d\n", c);
         fputc(encode(bm, lower_nibble(c)), out_fp);
         fputc(encode(bm, upper_nibble(c)), out_fp);
     }
