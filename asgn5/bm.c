@@ -70,7 +70,13 @@ BitMatrix *bm_from_data(uint8_t byte, uint32_t length) {
 }
 
 uint8_t bm_to_data(BitMatrix *m) {
-    return bv_get_byte(m->vector, 0);
+    uint8_t byte = 0;
+    for (uint32_t i = 0; i < m->cols; i++) {
+        if (bm_get_bit(m, 0, i)) {
+            byte |= 1 << i;
+        }
+    }
+    return byte;
 }
 
 BitMatrix *bm_multiply(BitMatrix *A, BitMatrix *B) {
