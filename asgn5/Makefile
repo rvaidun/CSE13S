@@ -27,7 +27,7 @@ decode: hamming.o bv.o bm.o decode.o
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o encode
+	rm -f *.o encode decode
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean

@@ -1,11 +1,12 @@
 #include "bm.h"
 #include "hamming.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h> // For getopt
-#define OPTIONS "hi:o:"
+#define OPTIONS "hvi:o:"
 
 void print_help(void) {
     printf("SYNOPSIS\n"
@@ -14,6 +15,7 @@ void print_help(void) {
            "   ./decode [-h] [-v] [-i infile] [-o outfile]\n\n"
            "OPTIONS\n"
            "   -h              Display program help and usage.\n"
+           "   -v             Print statistics of decoding to stderr.\n"
            "   -i infile      Input data to encode (default: stdin)\n"
            "   -o outfile     Output of decoded data (default: stdout)\n");
     return;
@@ -43,7 +45,7 @@ void count_stats(HAM_STATUS hs, uint32_t *bp, uint32_t *c, uint32_t *e) {
 }
 
 int main(int argc, char **argv) {
-
+    bool verbose = false;
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
@@ -59,6 +61,7 @@ int main(int argc, char **argv) {
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
+        case 'v': verbose = true; break;
         case 'i':
             in_fp = fopen(optarg, "rb");
             if (in_fp == NULL) {
@@ -99,18 +102,6 @@ int main(int argc, char **argv) {
     bm_set_bit(bm, 6, 2);
     bm_set_bit(bm, 7, 3);
 
-    // BitMatrix *test = bm_create(1, 8);
-    // bm_set_bit(test, 0, 2);
-    // bm_set_bit(test, 0, 3);
-    // bm_set_bit(test, 0, 6);
-    // bm_set_bit(test, 0, 7);
-    // bm_print(test);
-    // printf("\n");
-    // bm_print(bm);
-    // printf("\n");
-    // BitMatrix *test2 = bm_multiply(test, bm);
-    // bm_print(test2);
-    // return 0;
     while ((lnc = fgetc(in_fp)) != EOF && (unc = fgetc(in_fp)) != EOF) {
         hs = ham_decode(bm, lnc, &lnm);
         count_stats(hs, &bytes_processed, &corrections, &uncorrected_errors);
@@ -120,8 +111,10 @@ int main(int argc, char **argv) {
 
         fputc(pack_byte(unm, lnm), out_fp);
     }
-    fprintf(out_fp, "Total bytes processed: %d\n", bytes_processed);
-    fprintf(out_fp, "Uncorrected errors: %d\n", uncorrected_errors);
-    fprintf(out_fp, "Corrected errors: %d\n", corrections);
-    fprintf(out_fp, "Error rate: %u\n", uncorrected_errors / bytes_processed);
+    if (verbose) {
+        fprintf(out_fp, "Total bytes processed: %d\n", bytes_processed);
+        fprintf(out_fp, "Uncorrected errors: %d\n", uncorrected_errors);
+        fprintf(out_fp, "Corrected errors: %d\n", corrections);
+        fprintf(out_fp, "Error rate: %f\n", (double) uncorrected_errors / bytes_processed);
+    }
 }
