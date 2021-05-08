@@ -37,10 +37,7 @@ int main(int argc, char **argv) {
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
-    uint8_t table[15];
-    for (int i = 0; i < 15; i++) {
-        table[i] = 0;
-    }
+    uint8_t encode_table[16];
     int c;
 
     int opt = 0;
@@ -69,26 +66,32 @@ int main(int argc, char **argv) {
     fstat(fileno(in_fp), &statbuf);
     fchmod(fileno(out_fp), statbuf.st_mode);
 
-    BitMatrix *bm = bm_create(4, 8);
-    bm_set_bit(bm, 0, 0);
-    bm_set_bit(bm, 0, 5);
-    bm_set_bit(bm, 0, 6);
-    bm_set_bit(bm, 0, 7);
-    bm_set_bit(bm, 1, 1);
-    bm_set_bit(bm, 1, 4);
-    bm_set_bit(bm, 1, 6);
-    bm_set_bit(bm, 1, 7);
-    bm_set_bit(bm, 2, 2);
-    bm_set_bit(bm, 2, 4);
-    bm_set_bit(bm, 2, 5);
-    bm_set_bit(bm, 2, 7);
-    bm_set_bit(bm, 3, 3);
-    bm_set_bit(bm, 3, 4);
-    bm_set_bit(bm, 3, 5);
-    bm_set_bit(bm, 3, 6);
+    BitMatrix *G = bm_create(4, 8);
+    bm_set_bit(G, 0, 0);
+    bm_set_bit(G, 0, 5);
+    bm_set_bit(G, 0, 6);
+    bm_set_bit(G, 0, 7);
+    bm_set_bit(G, 1, 1);
+    bm_set_bit(G, 1, 4);
+    bm_set_bit(G, 1, 6);
+    bm_set_bit(G, 1, 7);
+    bm_set_bit(G, 2, 2);
+    bm_set_bit(G, 2, 4);
+    bm_set_bit(G, 2, 5);
+    bm_set_bit(G, 2, 7);
+    bm_set_bit(G, 3, 3);
+    bm_set_bit(G, 3, 4);
+    bm_set_bit(G, 3, 5);
+    bm_set_bit(G, 3, 6);
+
+    for (int i = 0; i < 16; i++) {
+        encode_table[i] = ham_encode(G, i);
+    }
 
     while ((c = fgetc(in_fp)) != EOF) {
-        fputc(ham_encode(bm, lower_nibble(c)), out_fp);
-        fputc(ham_encode(bm, upper_nibble(c)), out_fp);
+        fputc(encode_table[lower_nibble(c)], out_fp);
+        fputc(encode_table[upper_nibble(c)], out_fp);
+        // fputc(ham_encode(G, lower_nibble(c)), out_fp);
+        // fputc(ham_encode(G, upper_nibble(c)), out_fp);
     }
 }
