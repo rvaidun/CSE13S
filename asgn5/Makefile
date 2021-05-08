@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -Wpedantic -g
+CFLAGS=-Wall -Wextra -Werror -Wpedantic
 
 all: encode decode entropy error
 

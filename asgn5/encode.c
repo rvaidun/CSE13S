@@ -37,7 +37,13 @@ int main(int argc, char **argv) {
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
-
+    uint8_t table[15];
+    for (int i = 0; i < 15; i++) {
+        table[i] = 0;
+    }
+    uint8_t encoded_nibble;
+    uint8_t lowern;
+    uint8_t uppern;
     int c;
 
     int opt = 0;
@@ -85,7 +91,23 @@ int main(int argc, char **argv) {
     bm_set_bit(bm, 3, 6);
 
     while ((c = fgetc(in_fp)) != EOF) {
-        fputc(ham_encode(bm, lower_nibble(c)), out_fp);
-        fputc(ham_encode(bm, upper_nibble(c)), out_fp);
+        lowern = lower_nibble(c);
+        uppern = upper_nibble(c);
+
+        if (table[lowern]) {
+            fputc(table[lowern], out_fp);
+        } else {
+            encoded_nibble = ham_encode(bm, lowern);
+            table[lowern] = encoded_nibble;
+            fputc(encoded_nibble, out_fp);
+        }
+
+        if (table[uppern]) {
+            fputc(table[uppern], out_fp);
+        } else {
+            encoded_nibble = ham_encode(bm, uppern);
+            table[uppern] = encoded_nibble;
+            fputc(encoded_nibble, out_fp);
+        }
     }
 }
