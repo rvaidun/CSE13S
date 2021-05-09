@@ -38,15 +38,6 @@ uint8_t pack_byte(uint8_t upper, uint8_t lower) {
     return (upper << 4) | (lower & 0xF);
 }
 
-void count_stats(HAM_STATUS hs, uint32_t *bp, uint32_t *c, uint32_t *e) {
-    *bp += 1;
-    switch (hs) {
-    case HAM_ERR: *e += 1; break;
-    case HAM_CORRECT: *c += 1; break;
-    default: break;
-    }
-}
-
 int main(int argc, char **argv) {
     bool verbose = false;
     FILE *in_fp = stdin;
@@ -110,10 +101,10 @@ int main(int argc, char **argv) {
         status_table[i] = hs;
         decode_table[i] = lnm;
     }
-
+    lnm = 0;
     while ((lnc = fgetc(in_fp)) != EOF && (unc = fgetc(in_fp)) != EOF) {
 
-        stats[0] += 2; // 0 is for total bytes
+        stats[STATS_TOTAL] += 2; // 0 is for total bytes
         if (status_table[lnc] == HAM_CORRECT || status_table[lnc] == HAM_OK) {
             lnm = decode_table[lnc];
         }
