@@ -18,7 +18,7 @@ This assignment is for encoding and decoding hamming codes. To easily do this th
 
 ### decode
 
-<p> The decode program encodes a file with Hamming (8,4) Decode. You can specify the following command line arguments.</p>
+<p> The decode program decodes a file with Hamming (8,4) Decode. You can specify the following command line arguments.</p>
 
 - `-h`: Shows help
 - `-i infile`: Input containing graph (default: stdin)
