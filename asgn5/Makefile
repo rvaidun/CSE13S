@@ -14,18 +14,6 @@ entropy: entropy.o
 
 error: error.o
 	$(CC) -o $@ $^
-# encode.o: encode.c
-# 	$(CC) $(CFLAGS) -c $^
-
-# hamming.o: hamming.c
-# 	$(CC) $(CFLAGS) -c $^
-
-# bm.o: bm.c
-# 	$(CC) $(CFLAGS) -c $^
-
-# bv.o: bv.c
-# 	$(CC) $(CFLAGS) -c $^
-
 %.o: %.c
 	clang $(CFLAGS) -c $<
 
