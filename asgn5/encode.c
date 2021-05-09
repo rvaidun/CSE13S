@@ -91,7 +91,8 @@ int main(int argc, char **argv) {
     while ((c = fgetc(in_fp)) != EOF) {
         fputc(encode_table[lower_nibble(c)], out_fp);
         fputc(encode_table[upper_nibble(c)], out_fp);
-        // fputc(ham_encode(G, lower_nibble(c)), out_fp);
-        // fputc(ham_encode(G, upper_nibble(c)), out_fp);
     }
+    fclose(in_fp);
+    fclose(out_fp);
+    bm_delete(&G);
 }

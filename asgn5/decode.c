@@ -123,4 +123,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Corrected errors: %d\n", stats[STATS_CORRECTED]);
         fprintf(stderr, "Error rate: %f\n", (double) stats[STATS_ERROR] / stats[STATS_TOTAL]);
     }
+    bm_delete(&Ht);
+    fclose(in_fp);
+    fclose(out_fp);
 }
