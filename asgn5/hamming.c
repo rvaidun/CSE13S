@@ -44,7 +44,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
     // Get the corrected code as an integer and send just the data nibble
     uint8_t correct_code = bm_to_data(cm);
     *msg = correct_code & 0xF;
-    // bm_delete(&cm);
-    // bm_delete(&error_syndrome);
+    bm_delete(&cm);
+    bm_delete(&error_syndrome);
     return HAM_CORRECT;
 }
