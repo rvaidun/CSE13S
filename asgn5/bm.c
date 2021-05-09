@@ -2,7 +2,6 @@
 #include "bm.h"
 
 #include "bv.h"
-#include "bvbyte.h"
 
 #include <stdio.h>
 #include <stdlib.h>
