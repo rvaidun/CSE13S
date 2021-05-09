@@ -7,6 +7,7 @@
 #include <unistd.h> // For getopt
 #define OPTIONS "hi:o:"
 
+// Prints the help message
 void print_help(void) {
     printf("SYNOPSIS\n"
            "   A Hamming(8, 4) systematic code generator.\n"
@@ -28,18 +29,15 @@ uint8_t upper_nibble(uint8_t val) {
     return val >> 4;
 }
 
-// Code from assignment PDF
-uint8_t pack_byte(uint8_t upper, uint8_t lower) {
-    return (upper << 4) | (lower & 0xF);
-}
-
 int main(int argc, char **argv) {
+    // Set defaults
     FILE *in_fp = stdin;
     FILE *out_fp = stdout;
     struct stat statbuf;
     uint8_t encode_table[16];
-    int c;
+    int c; // C is where we will store the Code from fgetc
 
+    // Parse command line arguments
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -66,6 +64,7 @@ int main(int argc, char **argv) {
     fstat(fileno(in_fp), &statbuf);
     fchmod(fileno(out_fp), statbuf.st_mode);
 
+    // Create the Generator matrix based on the matrix in the assignment PDF
     BitMatrix *G = bm_create(4, 8);
     bm_set_bit(G, 0, 0);
     bm_set_bit(G, 0, 5);
@@ -84,14 +83,16 @@ int main(int argc, char **argv) {
     bm_set_bit(G, 3, 5);
     bm_set_bit(G, 3, 6);
 
+    // Populate the lookup table for the generator matrix
     for (int i = 0; i < 16; i++) {
         encode_table[i] = ham_encode(G, i);
     }
 
     while ((c = fgetc(in_fp)) != EOF) {
-        fputc(encode_table[lower_nibble(c)], out_fp);
-        fputc(encode_table[upper_nibble(c)], out_fp);
+        fputc(encode_table[lower_nibble(c)], out_fp); // Put the lower nibble
+        fputc(encode_table[upper_nibble(c)], out_fp); // Put the upper nibble
     }
+    // Free up any data that was allocated
     fclose(in_fp);
     fclose(out_fp);
     bm_delete(&G);
