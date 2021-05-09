@@ -130,4 +130,5 @@ int main(int argc, char **argv) {
     bm_delete(&Ht);
     fclose(in_fp);
     fclose(out_fp);
+    return 0;
 }

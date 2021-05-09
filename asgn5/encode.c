@@ -96,4 +96,5 @@ int main(int argc, char **argv) {
     fclose(in_fp);
     fclose(out_fp);
     bm_delete(&G);
+    return 0;
 }

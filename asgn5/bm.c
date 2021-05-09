@@ -30,6 +30,7 @@ void bm_delete(BitMatrix **m) {
         free(*m);
         *m = NULL;
     }
+    return;
 }
 
 // returns the amount of rows in the bit matrix
@@ -51,6 +52,7 @@ void bm_set_bit(BitMatrix *m, uint32_t r, uint32_t c) {
 // Clears a bit in the bit matrix
 void bm_clr_bit(BitMatrix *m, uint32_t r, uint32_t c) {
     bv_clr_bit(m->vector, r * m->cols + c);
+    return;
 }
 
 // Gets a bit in the bit matrix
@@ -120,4 +122,5 @@ void bm_print(BitMatrix *m) {
         }
         printf("\n");
     }
+    return;
 }

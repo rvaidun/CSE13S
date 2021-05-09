@@ -24,6 +24,7 @@ void bv_delete(BitVector **v) {
         free(*v);
         *v = NULL;
     }
+    return;
 }
 
 // returns length of the bit vector
@@ -61,6 +62,7 @@ void bv_xor_bit(BitVector *v, uint32_t i, uint8_t bit) {
     uint8_t b = bv_get_bit(v, i);
     v->vector[bytepos] = (v->vector[bytepos] & (~(1 << bitpos)))
                          | ((b ^ bit) << bitpos); // Clear the bit and set it to b
+    return;
 }
 
 // Gets a bit from the bit vector
@@ -74,4 +76,5 @@ void bv_print(BitVector *v) {
         printf("bv[%d]=%d \n", i, v->vector[i]);
     }
     printf("\n");
+    return;
 }

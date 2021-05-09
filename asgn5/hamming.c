@@ -16,8 +16,8 @@ uint8_t ham_encode(BitMatrix *G, uint8_t msg) {
 }
 
 HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
-    int8_t bit_table[] = { HAM_CORRECT, 4, 5, HAM_ERR, 6, HAM_ERR, HAM_ERR, 3, 7, HAM_ERR, HAM_ERR,
-        2, HAM_ERR, 1, 0, HAM_ERR };
+    int8_t bit_table[] = { HAM_OK, 4, 5, HAM_ERR, 6, HAM_ERR, HAM_ERR, 3, 7, HAM_ERR, HAM_ERR, 2,
+        HAM_ERR, 1, 0, HAM_ERR };
     BitMatrix *cm = bm_from_data(code, 8); // cm is the code message as a bit matrix.
     BitMatrix *error_syndrome = bm_multiply(cm, Ht);
     uint8_t es = bm_to_data(error_syndrome); // es as an integer
@@ -28,6 +28,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
         bm_delete(&error_syndrome);
         *msg = code & 0xF; // Set a new value for the msg
         return HAM_OK;
+
     } else if (bit_table[es] == HAM_ERR) {
         bm_delete(&cm);
         bm_delete(&error_syndrome);
@@ -43,7 +44,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
     // Get the corrected code as an integer and send just the data nibble
     uint8_t correct_code = bm_to_data(cm);
     *msg = correct_code & 0xF;
-    bm_delete(&cm);
-    bm_delete(&error_syndrome);
+    // bm_delete(&cm);
+    // bm_delete(&error_syndrome);
     return HAM_CORRECT;
 }
