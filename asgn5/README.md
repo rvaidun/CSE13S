@@ -89,3 +89,7 @@ Makefile has all the commands to compile and clean the files
 ### DESIGN.pdf
 
 This file contains information about the design/workflow of how the encoder and decoders work.
+
+### WRITEUP.pdf
+
+This file contains anlaysis of the results from encoder and decoder.
