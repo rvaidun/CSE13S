@@ -18,7 +18,7 @@ BitMatrix *bm_create(uint32_t rows, uint32_t cols) {
     if (bm) {
         bm->rows = rows;
         bm->cols = cols;
-        bm->vector = bv_create(rows * cols);
+        bm->vector = bv_create(rows * cols / 8);
     }
     return bm;
 }
