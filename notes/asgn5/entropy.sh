@@ -14,10 +14,17 @@ do
 	$MYREPO/encode < $f | $MYREPO/entropy >> encode_entropy.txt
 
 done
-$MYREPO/entropy < $FILES/large/bible.txt >> encode_err_entropy.txt
-for x in {1..5}
+for f in $FILES/artificial/*
 do
-	y=`bc <<< "scale=2; $x/100"`
-$MYREPO/encode < $FILES/large/bible.txt | $MYREPO/error -e $y | $MYREPO/entropy >> encode_err_entropy.txt
+	fn=$(echo "$(basename $f)")
+	echo $fn
+	rm $fn.entrop_err.txt
+for x in {1..100}
+do
+	y=$(echo $x | awk '{printf "%f",$1 / 100}')
+	e=$($MYREPO/encode < $f | $MYREPO/error -e $y | $MYREPO/entropy)
+       	echo "$y $e" | awk '{print $1,$2}' >> "$fn.entrop_err.txt"
+done
+#$MYREPO/encode < $FILES/large/bible.txt | $MYREPO/error -e $y | $MYREPO/entropy >> encode_err_entropy.txt
 done
 (cd $MYREPO && make clean)
