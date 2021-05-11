@@ -12,11 +12,11 @@ BitVector *bv_create(uint32_t length) {
     BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
     if (bv) {
         bv->length = length;
-	if (length % 8 == 0) {
-        bv->vector = (uint8_t *) calloc(bv->length / 8, sizeof(uint8_t));
-	} else {
-        bv->vector = (uint8_t *) calloc((bv->length / 8) + 1, sizeof(uint8_t));
-	}
+        if (length % 8 == 0) {
+            bv->vector = (uint8_t *) calloc(bv->length / 8, sizeof(uint8_t));
+        } else {
+            bv->vector = (uint8_t *) calloc((bv->length / 8) + 1, sizeof(uint8_t));
+        }
     }
     return bv;
 }
