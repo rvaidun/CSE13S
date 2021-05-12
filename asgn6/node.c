@@ -1,15 +1,13 @@
 #include "node.h"
 
+#include <stdio.h>
 #include <stdlib.h> // For null
-
 // Creates a new node and sets symbol and frequency. Return the node
 Node *node_create(uint8_t symbol, uint64_t frequency) {
     Node *n = (Node *) malloc(sizeof(Node));
     if (n) {
         n->symbol = symbol;
         n->frequency = frequency;
-        n->left = NULL;
-        n->right = NULL;
     }
     return n;
 }
@@ -38,6 +36,5 @@ Node *node_join(Node *left, Node *right) {
 // Debugger function to print a node
 // NOT IMPLEMENTED YET
 void node_print(Node *n) {
-    printf("Testing\n");
-    return;
+    printf("%c %llu\n", n->symbol, n->frequency);
 }
