@@ -1,6 +1,7 @@
 #include "code.h"
 
 #include <stdlib.h>
+
 Code code_init(void) {
     Code c;
     return c;
