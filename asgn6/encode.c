@@ -20,7 +20,7 @@ void print_help(void) {
 void print_histogram(uint64_t *hist) {
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
-            printf("character: %c, amount: %llu\n", i, hist[i]);
+            //printf("character: %c, amount: "PRIu64 "\n", i, hist[i]);
         }
     }
 }
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
     Code table[ALPHABET] = { 0 };
     struct stat statbuf;
     int infile = open("test.txt", O_RDONLY);
-    int outfile = open("testout.txt", O_WRONLY | O_CREAT);
+    int outfile = 1;
     fstat(infile, &statbuf);
     uint8_t buf[statbuf.st_size];
 
