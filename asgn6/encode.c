@@ -15,7 +15,17 @@
 
 // Prints the help message
 void print_help(void) {
-    printf("Help");
+    printf("SYNOPSIS\n"
+           "   A Huffman encoder\n"
+           "   Compress a file using the Huffman coding algorithm\n"
+           "USAGE\n"
+           "   ./encode [-h] [-v] [-i infile] [-o outfile]\n\n"
+           "OPTIONS\n"
+           "   -h             Display program help and usage.\n"
+           "   -i infile      Input data to compress (default: stdin)\n"
+           "   -o outfile     Output of compressed data (default: stdout)\n"
+           "   -v             Print compression statistics.\n");
+
     return;
 }
 
@@ -45,15 +55,17 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
 int main(int argc, char **argv) {
 
     int bytes_read;
-    uint8_t unique_symbols = 0;
-    uint32_t dump_index = 0;
     Header h;
     struct stat statbuf;
     uint8_t dump[MAX_TREE_SIZE];
     uint8_t buf[BLOCK];
+
+    uint8_t unique_symbols = 0;
+    uint32_t dump_index = 0;
     int infile = 0;
     int outfile = 1;
     bool temp = false;
+    bool verbose = false;
     Code table[ALPHABET] = { 0 };
 
     uint64_t hist[ALPHABET];
@@ -104,7 +116,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    print_histogram(hist);
+    // print_histogram(hist);
     // Count unique symbols
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
@@ -140,6 +152,9 @@ int main(int argc, char **argv) {
     }
 
     // If temp file was created delete the file
+    if (verbose) {
+        printf("Verbose");
+    }
     if (temp) {
         unlink("encode.temporary");
     }

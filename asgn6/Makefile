@@ -12,11 +12,14 @@ io: io.o code.o
 encode: encode.o io.o code.o huffman.o pq.o node.o stack.o
 	$(CC) -o $@ $^
 
+decode: decode.o io.o code.o
+	$(CC) -o $@ $^
+
 %.o: %.c
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o pq io encode
+	rm -f *.o pq io encode decode
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean
