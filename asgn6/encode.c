@@ -69,16 +69,16 @@ int main(int argc, char **argv) {
         case 'h': print_help(); return -1;
         case 'i':
             infile = open(optarg, O_RDONLY);
-            if (infile = -1) {
+            if (infile == -1) {
                 printf("Error opening file\n");
-                return;
+                return -1;
             }
             break;
         case 'o':
             outfile = open(optarg, O_WRONLY | O_CREAT);
-            if (outfile = -1) {
+            if (outfile == -1) {
                 printf("Error opening file\n");
-                return;
+                return -1;
             }
             break;
         default: break;
@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    // print_histogram(hist);
+    print_histogram(hist);
     // Count unique symbols
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
