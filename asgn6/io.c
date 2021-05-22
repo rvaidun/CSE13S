@@ -3,35 +3,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int read_bytes(int infile, uint8_t *buf, int nbytes) {
-    int i = 0;
-    for (i = 0; i < nbytes;) {
-        int t = read(infile, buf + i, nbytes);
-        i += t;
-        if (i == -1) {
-            break;
-        }
-    }
-    return i;
-}
-
-int write_bytes(int outfile, uint8_t *buf, int nbytes) {
-    int i = 0;
-    for (i = 0; i < nbytes;) {
-        int t = write(outfile, buf + i, nbytes);
-        if (i == -1) {
-            break;
-        }
-        i += t;
-    }
-    return i;
-}
-
-uint8_t get_bit(uint8_t *v, uint32_t i) {
-    uint32_t bytepos = i / 8;
-    uint32_t bitpos = i % 8;
-    return (v[bytepos] >> bitpos) & 1;
-}
+static uint8_t buf[BLOCK];
+static uint32_t bits_in_buffer = 0;
+static uint32_t bit_index = 0;
 
 void set_bit(uint8_t *v, uint32_t i) {
     uint32_t bytepos = i / 8;
@@ -40,37 +14,75 @@ void set_bit(uint8_t *v, uint32_t i) {
     return;
 }
 
-bool read_bits(int infile, uint8_t *bits) {
-    static uint8_t buf[BLOCK];
-    int nbytes = *bits / 8;
-    if (*bits % 8 != 0) {
-        nbytes += 1;
+void clr_bit(uint8_t *v, uint32_t i) {
+    uint32_t bytepos = i / 8;
+    uint32_t bitpos = i % 8;
+    v[bytepos] &= ~(1 << bitpos);
+    return;
+}
+
+uint8_t get_bit(uint8_t *v, uint32_t i) {
+    uint32_t bytepos = i / 8;
+    uint32_t bitpos = i % 8;
+    return (v[bytepos] >> bitpos) & 1;
+}
+
+int read_bytes(int infile, uint8_t *buf, int nbytes) {
+    int total; // Number of bytes read so far
+    int bytes; // Number of bytes that were read by read()
+    while (bytes > 0 && total != nbytes) {
+        bytes = read(infile, buf, nbytes - total);
+        total += bytes;
+        bits_in_buffer += bytes * 8;
     }
-    for (int i = 0; i < nbytes;) {
-        int bytes_read = read_bytes(infile, buf, nbytes);
-        for (int j = 0; j < bytes_read; j++) {
-            uint8_t bit = get_bit(buf, i + j);
-            bits[i + j] = bit;
-            i++;
-        }
+    return total;
+}
+
+int write_bytes(int outfile, uint8_t *buf, int nbytes) {
+    int total;
+    int bytes;
+
+    while (bytes > 0 && total != nbytes) {
+        bytes = write(outfile, buf, nbytes - total);
+        total += bytes;
+    }
+    return total;
+}
+
+void flush_codes(int outfile) {
+    uint32_t bytes = bits_in_buffer / 8;
+    if (bits_in_buffer % 8 != 0) {
+        bytes++;
+    }
+    write_bytes(outfile, buf, bytes);
+}
+
+bool read_bit(int infile, uint8_t *bit) {
+    if (bit_index == 0) {
+        bits_in_buffer = 0;
+        int bytes = read_bytes(infile, buf, BLOCK);
+    }
+    *bit = get_bit(buf, bit_index);
+    bit_index = (bit_index + 1) % BLOCK * 8;
+    if (bit_index > bits_in_buffer) {
+        return false;
+    } else {
+        return true;
     }
 }
 
 void write_code(int outfile, Code *c) {
-    static uint8_t buf[BLOCK];
-    for (int i = 0; i < c->top; i++) {
-        set_bit(buf, i);
+    for (int i = 0; i < code_size(c); i++) {
+        if (get_bit(c->bits, i) == 1) {
+            set_bit(buf, i);
+        } else {
+            clr_bit(buf, i);
+        }
+        bit_index++;
+        if (bit_index == 8 * BLOCK) {
+            write_bytes(outfile, buf, BLOCK);
+            bit_index = 0;
+        }
     }
-    int total_bytes = c->top / 8;
-    if (c->top % 8 != 0) {
-        total_bytes += 1;
-    }
-    for (int i = 0; i < total_bytes;) {
-        int bytes_written = write(outfile, buf, total_bytes);
-        i += bytes_written;
-    }
-}
-
-void flush_codes(int outfile) {
-    printf("Not implemented yet");
+    flush_codes(outfile);
 }
