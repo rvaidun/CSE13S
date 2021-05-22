@@ -1,4 +1,3 @@
-
 #include "defines.h"
 #include "header.h"
 #include "huffman.h"
@@ -7,10 +6,10 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h> // For getopt
+
 #define OPTIONS "h"
 
 // Prints the help message
@@ -41,6 +40,8 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
 }
 int main(int argc, char **argv) {
     int opt = 0;
+    uint8_t byte = 0;
+    uint8_t bit;
     uint8_t unique_symbols = 0;
     uint64_t hist[ALPHABET];
     uint8_t dump[MAX_TREE_SIZE];
@@ -50,10 +51,9 @@ int main(int argc, char **argv) {
     struct stat statbuf;
     int infile = open("test.txt", O_RDONLY);
     int outfile = open("testout.txt", O_WRONLY);
-    int bytes_read;
     fstat(infile, &statbuf);
-    uint32_t curr_size = BLOCK;
-    uint8_t *buf = (uint8_t *) malloc(sizeof(uint8_t) * curr_size);
+    uint8_t buf[statbuf.st_size];
+
     for (int i = 0; i < ALPHABET; i++) {
         hist[i] = 0;
     }
@@ -66,19 +66,18 @@ int main(int argc, char **argv) {
         }
     }
 
-    while ((bytes_read = read_bytes(infile, buf, statbuf.st_size)) > 0) {
-        for (int i = 0; i < statbuf.st_size; i++) {
-            hist[buf[i]]++;
-        }
-        curr_size += bytes_read;
-        buf = (uint8_t *) realloc(buf, curr_size * sizeof(uint8_t));
+    read_bytes(infile, buf, statbuf.st_size);
+    for (int i = 0; i < statbuf.st_size; i++) {
+        hist[buf[i]]++;
     }
+    print_histogram(hist);
+
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
             unique_symbols++;
         }
     }
-    // fchmod(outfile, &statbuf.st_mode);
+    fchmod(outfile, &statbuf.st_mode);
 
     Node *root = build_tree(hist);
     build_codes(root, table);
