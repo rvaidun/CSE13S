@@ -1,5 +1,8 @@
 #include "io.h"
 
+#include "code.h"
+#include "stdio.h" // For main can remove later.
+
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -28,21 +31,20 @@ uint8_t get_bit(uint8_t *v, uint32_t i) {
 }
 
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
-    int total; // Number of bytes read so far
-    int bytes; // Number of bytes that were read by read()
-    while (bytes > 0 && total != nbytes) {
+    int total = 0; // Number of bytes read so far
+    int bytes = -2; // Number of bytes that were read by read()
+    while ((bytes > 0 || bytes == -2) && total != nbytes) {
         bytes = read(infile, buf, nbytes - total);
         total += bytes;
-        bits_in_buffer += bytes * 8;
     }
     return total;
 }
 
 int write_bytes(int outfile, uint8_t *buf, int nbytes) {
-    int total;
-    int bytes;
+    int total = 0;
+    int bytes = -2;
 
-    while (bytes > 0 && total != nbytes) {
+    while ((bytes > 0 || bytes == -2) && total != nbytes) {
         bytes = write(outfile, buf, nbytes - total);
         total += bytes;
     }
@@ -50,8 +52,8 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 }
 
 void flush_codes(int outfile) {
-    uint32_t bytes = bits_in_buffer / 8;
-    if (bits_in_buffer % 8 != 0) {
+    uint32_t bytes = bit_index / 8;
+    if (bit_index % 8 != 0) {
         bytes++;
     }
     write_bytes(outfile, buf, bytes);
@@ -60,11 +62,14 @@ void flush_codes(int outfile) {
 bool read_bit(int infile, uint8_t *bit) {
     if (bit_index == 0) {
         bits_in_buffer = 0;
-        int bytes = read_bytes(infile, buf, BLOCK);
+        bits_in_buffer += read_bytes(infile, buf, BLOCK) * 8;
     }
     *bit = get_bit(buf, bit_index);
-    bit_index = (bit_index + 1) % BLOCK * 8;
+    // printf(" BEFORE bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
+    bit_index = (bit_index + 1) % (BLOCK * 8);
+    // printf(" AFTER bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
     if (bit_index > bits_in_buffer) {
+        // printf("SECOND bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
         return false;
     } else {
         return true;
@@ -72,11 +77,11 @@ bool read_bit(int infile, uint8_t *bit) {
 }
 
 void write_code(int outfile, Code *c) {
-    for (int i = 0; i < code_size(c); i++) {
+    for (uint32_t i = 0; i < code_size(c); i++) {
         if (get_bit(c->bits, i) == 1) {
-            set_bit(buf, i);
+            set_bit(buf, bit_index);
         } else {
-            clr_bit(buf, i);
+            clr_bit(buf, bit_index);
         }
         bit_index++;
         if (bit_index == 8 * BLOCK) {
@@ -86,3 +91,12 @@ void write_code(int outfile, Code *c) {
     }
     flush_codes(outfile);
 }
+// int main(void) {
+//     printf("test\n");
+//     int h = open("test.txt", O_RDONLY);
+//     int b = read_bytes(h, buf, BLOCK);
+//     for (int i = 0; i < b; i++) {
+//         printf("%c", buf[i]);
+//     }
+//     printf("\n");
+// }

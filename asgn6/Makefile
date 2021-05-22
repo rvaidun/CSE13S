@@ -1,16 +1,22 @@
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -Wpedantic
+CFLAGS=-Wall -Wextra -Werror -Wpedantic -g
 
 all: pq
 
 pq: node.o pq.o
 	$(CC) -o $@ $^
 
+io: io.o code.o
+	$(CC) -o $@ $^
+
+encode: encode.o io.o code.o
+	$(CC) -o $@ $^
+
 %.o: %.c
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o pq
+	rm -f *.o pq io encode
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean

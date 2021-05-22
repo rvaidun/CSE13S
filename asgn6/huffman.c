@@ -13,7 +13,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     Node *right;
     Node *joined;
 
-    PriorityQueue *pq = pq_create(256);
+    PriorityQueue *pq = pq_create(ALPHABET);
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
             n = node_create(i, hist[i]);
@@ -58,12 +58,11 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     Stack *s = stack_create(nbytes);
     for (int i = 0; i < nbytes; i++) {
         if (tree_dump[i] == 'L') {
-            n = node_create(tree_dump[i], i);
+            n = node_create(tree_dump[++i], i);
             stack_push(s, n);
         } else {
             stack_pop(s, &right);
             stack_pop(s, &left);
-
             stack_push(s, node_join(left, right));
         }
     }
@@ -72,7 +71,7 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     return n;
 }
 
-delete_tree(Node **root) {
+void delete_tree(Node **root) {
     delete_tree((*root)->left);
     delete_tree((*root)->right);
     node_delete(root);
