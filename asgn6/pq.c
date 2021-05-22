@@ -63,12 +63,12 @@ void pq_heap_up(PriorityQueue *q) {
 }
 
 void pq_heap_down(PriorityQueue *q) {
-    uint32_t i = 0;
-
+    int i = 0;
+    // printf("pq_heap_down\n");
     // If the left index is not the last index
     while (left_index(i) < q->size) {
         // Guess that the smallest child is the left index
-        uint32_t smallest_child_index = left_index(i);
+        int smallest_child_index = left_index(i);
 
         // If there is a right child check if right child is less than the left index
         if (right_index(i) < q->size
@@ -86,6 +86,7 @@ void pq_heap_down(PriorityQueue *q) {
         }
         i = smallest_child_index;
     }
+    // printf("pq_heap_down FINISH\n");
 }
 // returns true if the priority queue is empty
 bool pq_empty(PriorityQueue *q) {
@@ -121,7 +122,9 @@ bool dequeue(PriorityQueue *q, Node **n) {
     *n = q->items[0];
     q->items[0] = q->items[q->size - 1];
     q->size--;
+    printf("dequeued successfully\n");
     pq_heap_down(q);
+    printf("WHAT\n");
     return true;
 }
 
@@ -131,21 +134,4 @@ void pq_print(PriorityQueue *q) {
     for (uint32_t i = 0; i < q->size; i++) {
         node_print(q->items[i]);
     }
-}
-
-int main(void) {
-    Node *test = node_create('a', 5);
-    PriorityQueue *qtest = pq_create(10);
-    enqueue(qtest, test);
-    pq_print(qtest);
-    Node *test2 = node_create('a', 3);
-    enqueue(qtest, test2);
-    printf("\n");
-    pq_print(qtest);
-    Node *test3;
-    dequeue(qtest, &test3);
-    printf("Node\n");
-    node_print(test3);
-    printf("queue\n");
-    pq_print(qtest);
 }

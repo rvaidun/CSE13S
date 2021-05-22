@@ -9,7 +9,7 @@ pq: node.o pq.o
 io: io.o code.o
 	$(CC) -o $@ $^
 
-encode: encode.o io.o code.o
+encode: encode.o io.o code.o huffman.o pq.o node.o stack.o
 	$(CC) -o $@ $^
 
 %.o: %.c

@@ -11,8 +11,8 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     Node *n;
     Node *left;
     Node *right;
-    Node *joined;
-
+    Node *joined = NULL;
+    printf("In build tree\n");
     PriorityQueue *pq = pq_create(ALPHABET);
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
@@ -20,15 +20,23 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
             enqueue(pq, n);
         }
     }
+    printf("Enqueue All\n");
     while (pq_size(pq) > 1) {
+        printf("pq size %d\n", pq_size(pq));
+        printf("START ONE dequeue\n");
         dequeue(pq, &left);
+        printf("FINISH ONE dequeue\n");
+        printf("START TWO dequeue\n");
         dequeue(pq, &right);
-        node_join(left, right);
+        printf("FINISH TWO dequeue\n");
+        printf("START node join\n");
+        joined = node_join(left, right);
+        printf("FINISH NODE JOIN");
         enqueue(pq, joined);
     }
 
     dequeue(pq, &joined);
-    pq_delete(pq);
+    pq_delete(&pq);
     return joined;
 }
 
@@ -58,7 +66,8 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     Stack *s = stack_create(nbytes);
     for (int i = 0; i < nbytes; i++) {
         if (tree_dump[i] == 'L') {
-            n = node_create(tree_dump[++i], i);
+            i = i + 1;
+            n = node_create(tree_dump[i], i);
             stack_push(s, n);
         } else {
             stack_pop(s, &right);
@@ -72,7 +81,10 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
 }
 
 void delete_tree(Node **root) {
-    delete_tree((*root)->left);
-    delete_tree((*root)->right);
-    node_delete(root);
+    if (*root) {
+        delete_tree(&(*root)->left);
+        delete_tree(&(*root)->right);
+        node_delete(root);
+    }
+    return;
 }

@@ -16,7 +16,7 @@ Stack *stack_create(uint32_t capacity) {
     if (s) {
         s->top = 0;
         s->capacity = capacity;
-        s->items = (Node *) malloc(capacity * sizeof(Node *));
+        s->items = malloc(capacity * sizeof(Node));
     }
     return s;
 }
@@ -68,5 +68,7 @@ bool stack_pop(Stack *s, Node **n) {
 }
 
 void stack_print(Stack *s) {
-    printf("Stack");
+    for (uint32_t i = 0; i < s->capacity; i++) {
+        node_print(s->items[i]);
+    }
 }

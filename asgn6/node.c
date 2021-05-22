@@ -24,12 +24,16 @@ void node_delete(Node **n) {
 // Joins the left and the right node and returns a new node
 Node *node_join(Node *left, Node *right) {
     Node *n = (Node *) malloc(sizeof(Node));
+    printf("CREATED NODE IN JOIN\n");
     if (n) {
         n->frequency = left->frequency + right->frequency;
         n->symbol = '$';
+        printf("FINISHED SYMBOL IN JOIN\n");
         n->right = right;
         n->left = left;
+        printf("SET RIGHT AND LEFT SYMBOL IN JOIN\n");
     }
+    printf("CAME OUT OF FOR LOOP, RETURNING n\n");
     return n;
 }
 
