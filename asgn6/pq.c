@@ -122,9 +122,7 @@ bool dequeue(PriorityQueue *q, Node **n) {
     *n = q->items[0];
     q->items[0] = q->items[q->size - 1];
     q->size--;
-    printf("dequeued successfully\n");
     pq_heap_down(q);
-    printf("WHAT\n");
     return true;
 }
 

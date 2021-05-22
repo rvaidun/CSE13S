@@ -12,7 +12,6 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     Node *left;
     Node *right;
     Node *joined = NULL;
-    printf("In build tree\n");
     PriorityQueue *pq = pq_create(ALPHABET);
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
@@ -20,18 +19,10 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
             enqueue(pq, n);
         }
     }
-    printf("Enqueue All\n");
     while (pq_size(pq) > 1) {
-        printf("pq size %d\n", pq_size(pq));
-        printf("START ONE dequeue\n");
         dequeue(pq, &left);
-        printf("FINISH ONE dequeue\n");
-        printf("START TWO dequeue\n");
         dequeue(pq, &right);
-        printf("FINISH TWO dequeue\n");
-        printf("START node join\n");
         joined = node_join(left, right);
-        printf("FINISH NODE JOIN");
         enqueue(pq, joined);
     }
 

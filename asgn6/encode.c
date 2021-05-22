@@ -77,20 +77,15 @@ int main(int argc, char **argv) {
         }
     }
     fchmod(outfile, statbuf.st_mode);
-    printf("After fchomod\n");
     Node *root = build_tree(hist);
-    printf("After build tree and build codes\n");
     build_codes(root, table);
-    printf("After build tree and build codes\n");
     h.magic = MAGIC;
     h.permissions = statbuf.st_mode;
     h.tree_size = (3 * unique_symbols) - 1;
     h.file_size = statbuf.st_size;
 
     write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
-    printf("FIRST WRITE BYTES\n");
     postorder_traversal(root, dump, &dump_index);
-    printf("FINISH TRAVERSAL\n");
     write_bytes(outfile, dump, dump_index);
     for (int i = 0; i < statbuf.st_size; i++) {
         write_code(outfile, &table[buf[i]]);
