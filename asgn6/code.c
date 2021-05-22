@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 Code code_init(void) {
-    Code c = { 0 };
+    static Code c = { 0, { 0 } };
     return c;
 }
 

@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 
     // write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
-    printf("%x", h.magic);
+    printf("%x\n", h.magic);
     return -1;
     if (temp) {
         unlink("decode.temporary");
