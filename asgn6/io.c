@@ -7,7 +7,6 @@
 #include <unistd.h>
 
 static uint8_t buf[BLOCK];
-static uint32_t bits_in_buffer = 0;
 static uint32_t bit_index = 0;
 
 void set_bit(uint8_t *v, uint32_t i) {
@@ -60,15 +59,13 @@ void flush_codes(int outfile) {
 }
 
 bool read_bit(int infile, uint8_t *bit) {
-    if (bit_index == 0) {
-        bits_in_buffer = 0;
-        bits_in_buffer += read_bytes(infile, buf, BLOCK) * 8;
-    }
+    uint32_t end_buffer = read_bytes(infile, buf, BLOCK) * 8;
+
     *bit = get_bit(buf, bit_index);
     // printf(" BEFORE bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
     bit_index = (bit_index + 1) % (BLOCK * 8);
     // printf(" AFTER bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
-    if (bit_index > bits_in_buffer) {
+    if (bit_index > end_buffer) {
         // printf("SECOND bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
         return false;
     } else {
