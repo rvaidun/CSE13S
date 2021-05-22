@@ -4,12 +4,14 @@
 #include "io.h"
 
 #include <fcntl.h>
+#include <inttypes.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h> // For getopt
-#define OPTIONS "h"
+#define OPTIONS "hvi:o:"
 
 // Prints the help message
 void print_help(void) {
@@ -20,7 +22,7 @@ void print_help(void) {
 void print_histogram(uint64_t *hist) {
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
-            //printf("character: %c, amount: "PRIu64 "\n", i, hist[i]);
+            printf("character: %c, amount: %" PRIu64 "\n", i, hist[i]);
         }
     }
 }
@@ -41,53 +43,104 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
     }
 }
 int main(int argc, char **argv) {
-    int opt = 0;
+
+    int bytes_read;
     uint8_t unique_symbols = 0;
-    uint64_t hist[ALPHABET];
-    uint8_t dump[MAX_TREE_SIZE];
     uint32_t dump_index = 0;
     Header h;
-    Code table[ALPHABET] = { 0 };
     struct stat statbuf;
-    int infile = open("test.txt", O_RDONLY);
+    uint8_t dump[MAX_TREE_SIZE];
+    uint8_t buf[BLOCK];
+    int infile = 0;
     int outfile = 1;
-    fstat(infile, &statbuf);
-    uint8_t buf[statbuf.st_size];
+    bool temp = false;
+    Code table[ALPHABET] = { 0 };
 
+    uint64_t hist[ALPHABET];
     for (int i = 0; i < ALPHABET; i++) {
         hist[i] = 0;
     }
     hist[0]++;
     hist[255]++;
 
+    int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': print_help(); return -1;
+        case 'i':
+            infile = open(optarg, O_RDONLY);
+            if (infile = -1) {
+                printf("Error opening file\n");
+                return;
+            }
+            break;
+        case 'o':
+            outfile = open(optarg, O_WRONLY | O_CREAT);
+            if (outfile = -1) {
+                printf("Error opening file\n");
+                return;
+            }
+            break;
+        default: break;
         }
     }
 
-    read_bytes(infile, buf, statbuf.st_size);
-    for (int i = 0; i < statbuf.st_size; i++) {
-        hist[buf[i]]++;
+    // If the infile is stdio write to a temporary file and then so we can seek
+    if (infile == 0) {
+        int tempfile = open("encode.temporary", O_CREAT | O_RDWR);
+
+        while ((bytes_read = read_bytes(0, buf, BLOCK)) > 0) {
+            write_bytes(tempfile, buf, bytes_read);
+        }
+
+        infile = tempfile;
+        temp = true;
     }
 
+    lseek(infile, 0, SEEK_SET);
+    while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
+        for (int i = 0; i < bytes_read; i++) {
+            hist[buf[i]]++;
+        }
+    }
+
+    // print_histogram(hist);
+    // Count unique symbols
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
             unique_symbols++;
         }
     }
+
+    // Get the stats for the infile and change mode
+    fstat(infile, &statbuf);
     fchmod(outfile, statbuf.st_mode);
+
+    // Build root and codes
     Node *root = build_tree(hist);
     build_codes(root, table);
+
+    // Build header and write it
     h.magic = MAGIC;
     h.permissions = statbuf.st_mode;
     h.tree_size = (3 * unique_symbols) - 1;
     h.file_size = statbuf.st_size;
-
     write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
+
+    // Post order traversal through the tree to make a tree dump buffer
     postorder_traversal(root, dump, &dump_index);
     write_bytes(outfile, dump, dump_index);
-    for (int i = 0; i < statbuf.st_size; i++) {
-        write_code(outfile, &table[buf[i]]);
+
+    // Seek back to 0, loop through each byte and write the corresponding code
+    lseek(infile, 0, SEEK_SET);
+    while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
+        for (int i = 0; i < bytes_read; i++) {
+            write_code(outfile, &table[buf[i]]);
+        }
+    }
+
+    // If temp file was created delete the file
+    if (temp) {
+        unlink("encode.temporary");
     }
 }
