@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-Wall -Wextra -Werror -Wpedantic -g
 
-all: pq
+all: encode decode
 
 pq: node.o pq.o
 	$(CC) -o $@ $^
