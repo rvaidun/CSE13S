@@ -33,8 +33,9 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 
 void flush_codes(int outfile) {
     uint32_t bytes = bit_index / 8;
-    if (bit_index % 8 != 0) {
-        bytes++;
+    uint8_t mask = (1 << (bit_index % 8)) - 1;
+    if (mask) {
+        buf[bytes++] &= mask;
     }
     write_bytes(outfile, buf, bytes);
 }
