@@ -156,8 +156,8 @@ int main(int argc, char **argv) {
     flush_codes(outfile);
 
     if (verbose) {
-        fprintf(stderr, "Uncompressed file size: %d bytes\n", bytes_read);
-        fprintf(stderr, "Compressed file size: %d bytes\n", bytes_written);
+        fprintf(stderr, "Uncompressed file size: %" PRIu64 " bytes\n", bytes_read);
+        fprintf(stderr, "Compressed file size: %" PRIu64 " bytes\n", bytes_written);
         fprintf(
             stderr, "Space Savings: %.2f%%\n", 100 * (1 - ((double) bytes_written / bytes_read)));
     }
