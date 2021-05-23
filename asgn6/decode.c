@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
 
     if (verbose) {
         fprintf(stderr, "Compressed file size: %" PRIu64 " bytes\n", instatbuf.st_size);
-        fprintf(stderr, "Decompressed file size: %" PRIu64 " bytes\n", bytes_read);
+        fprintf(stderr, "Decompressed file size: %" PRIu64 " bytes\n", bytes_written);
         fprintf(stderr, "Space saving: %.2f%%\n",
             100 * (1 - ((double) instatbuf.st_size / bytes_read)));
     }
