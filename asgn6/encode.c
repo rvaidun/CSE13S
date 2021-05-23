@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     }
 
     // If the infile is stdio write to a temporary file and then so we can seek
-    if (lseek(infile,0,SEEK_SET) == -1) {
+    if (lseek(infile, 0, SEEK_SET) == -1) {
         int tempfile = open("encode.temporary", O_CREAT | O_RDWR);
 
         while ((bytes_read = read_bytes(0, buf, BLOCK)) > 0) {

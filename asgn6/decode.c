@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
     uint8_t buf[BLOCK];
     uint8_t bit;
     int bytes_read;
+    uint64_t bytes_written = 0;
     uint32_t buf_index = 0;
     int infile = 0;
     int outfile = 1;
@@ -61,7 +62,7 @@ int main(int argc, char **argv) {
 
     fstat(infile, &statbuf);
     // If the infile is stdio write to a temporary file and then so we can seek
-    if (lseek(infile,0,SEEK_SET) == -1) {
+    if (lseek(infile, 0, SEEK_SET) == -1) {
         // int tempfile = mkstemp("decode.temp");
         int tempfile = open("decode.temporary", O_CREAT | O_RDWR);
 
@@ -85,11 +86,12 @@ int main(int argc, char **argv) {
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
     node = root_node;
-    while (read_bit(infile, &bit)) {
+    while (bytes_written < h.file_size && read_bit(infile, &bit)) {
         node = bit ? node->right : node->left;
 
         if (node->left == NULL && node->right == NULL) {
             buf[buf_index++] = node->symbol;
+            bytes_written++;
             node = root_node;
 
             if (buf_index == BLOCK) {
@@ -99,6 +101,7 @@ int main(int argc, char **argv) {
             continue;
         }
     }
+    fprintf(stderr, "buf index %d, ", buf_index);
     write_bytes(outfile, buf, buf_index);
 
     if (temp) {
