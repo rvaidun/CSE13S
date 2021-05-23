@@ -56,7 +56,8 @@ int main(int argc, char **argv) {
 
     int bytes_read;
     Header h;
-    struct stat statbuf;
+    struct stat instatbuf;
+    struct stat outstatbuf;
     uint8_t dump[MAX_TREE_SIZE];
     uint8_t buf[BLOCK];
     uint16_t unique_symbols = 0;
@@ -93,7 +94,8 @@ int main(int argc, char **argv) {
                 return -1;
             }
             break;
-        default: break;
+        case 'v': verbose = true; break;
+        default: print_help(); return -1;
         }
     }
 
@@ -109,23 +111,23 @@ int main(int argc, char **argv) {
         infile = tempfiled;
     }
 
+    // Get the stats for the infile and change mode
+    fstat(infile, &instatbuf);
+    fchmod(outfile, instatbuf.st_mode);
+
+    // Create the histogram
     while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
         for (int i = 0; i < bytes_read; i++) {
             hist[buf[i]]++;
         }
     }
 
-    // print_histogram(hist);
-    // Count unique symbols
+    // Count the unique symbols
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
             unique_symbols++;
         }
     }
-
-    // Get the stats for the infile and change mode
-    fstat(infile, &statbuf);
-    fchmod(outfile, statbuf.st_mode);
 
     // Build root and codes
     Node *root = build_tree(hist);
@@ -136,9 +138,9 @@ int main(int argc, char **argv) {
     // return -1;
     // Build header and write it
     h.magic = MAGIC;
-    h.permissions = statbuf.st_mode;
+    h.permissions = instatbuf.st_mode;
     h.tree_size = (3 * unique_symbols) - 1;
-    h.file_size = statbuf.st_size;
+    h.file_size = instatbuf.st_size;
     write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
 
     // Post order traversal through the tree to make a tree dump buffer
@@ -154,11 +156,14 @@ int main(int argc, char **argv) {
     }
     flush_codes(outfile);
 
-    // If temp file was created delete the file
+    fstat(outfile, &outstatbuf);
     if (verbose) {
-        printf("Verbose");
+        fprintf(stderr, "Uncompressed file size: %d bytes\n", (int) instatbuf.st_size);
+        fprintf(stderr, "Compressed file size: %d bytes\n", (int) outstatbuf.st_size);
+        fprintf(stderr, "Space Savings: %.2f%%\n",
+            100 * (1 - ((double) outstatbuf.st_size / instatbuf.st_size)));
     }
-    if (tempfiled != 0) {
+    if (tempfiled) {
         unlink("/tmp/encode.temporary");
     }
 }

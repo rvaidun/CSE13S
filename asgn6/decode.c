@@ -29,17 +29,16 @@ int main(int argc, char **argv) {
     Header h;
     Node *root_node;
     Node *node;
-    struct stat statbuf;
+    struct stat instatbuf;
+    struct stat outstatbuf;
     uint8_t buf[BLOCK];
     uint8_t bit;
-    // int bytes_read;
     uint64_t bytes_written = 0;
     uint32_t buf_index = 0;
     int infile = 0;
     int outfile = 1;
     int opt = 0;
-    // char tempfilename[] = "decodeTemp-XXXXXX";
-    // int tempfiled = 0;
+    bool verbose = false;
 
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -58,22 +57,14 @@ int main(int argc, char **argv) {
                 return -1;
             }
             break;
-        default: break;
+        case 'v': verbose = true; break;
+        default: print_help(); return -1;
         }
     }
 
-    fstat(infile, &statbuf);
-    // If the infile is stdio write to a temporary file and then so we can seek
-    // if (lseek(infile, 0, SEEK_SET) == -1) {
-    //     FILE *tempfilestruct = tmpfile();
-    //     tempfiled = fileno(tempfilestruct);
+    fstat(infile, &instatbuf);
+    fchmod(outfile, h.permissions);
 
-    //     while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
-    //         write_bytes(tempfiled, buf, bytes_read);
-    //     }
-
-    //     infile = tempfiled;
-    // }
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
 
     if (h.magic != MAGIC) {
@@ -81,7 +72,6 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    fchmod(outfile, h.permissions);
     uint8_t dump[h.tree_size];
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
@@ -102,5 +92,13 @@ int main(int argc, char **argv) {
         }
     }
     write_bytes(outfile, buf, buf_index);
-    return 0;
+
+    fstat(outfile, &outstatbuf);
+
+    if (verbose) {
+        fprintf(stderr, "Uncompressed file size: %d bytes\n", (int) instatbuf.st_size);
+        fprintf(stderr, "Compressed file size: %d bytes\n", (int) outstatbuf.st_size);
+        fprintf(stderr, "Space Savings: %.2f%%\n",
+            100 * (1 - ((double) outstatbuf.st_size / instatbuf.st_size)));
+    }
 }
