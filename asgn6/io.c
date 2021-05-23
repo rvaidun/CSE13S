@@ -11,6 +11,7 @@ static uint32_t bit_index = 0;
 static uint32_t end_buffer = 0;
 uint64_t bytes_written = 0;
 uint64_t bytes_read = 0;
+
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
     int total = 0; // Number of bytes read so far
     int bytes = -2; // Number of bytes that were read by read()

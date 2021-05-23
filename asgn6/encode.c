@@ -42,19 +42,17 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
         postorder_traversal(root->left, arr, i);
         postorder_traversal(root->right, arr, i);
         if (root->left == NULL && root->right == NULL) {
-            arr[*i] = 'L';
-            *i = *i + 1;
-            arr[*i] = root->symbol;
-            *i = *i + 1;
+            arr[*i++] = 'L';
+            arr[*i++] = root->symbol;
         } else {
-            arr[*i] = 'I';
-            *i = *i + 1;
+            arr[*i++] = 'I';
         }
     }
 }
 int main(int argc, char **argv) {
     int br;
     Header h;
+    Node *root;
     struct stat instatbuf;
     uint8_t dump[MAX_TREE_SIZE];
     uint8_t buf[BLOCK];
@@ -128,7 +126,7 @@ int main(int argc, char **argv) {
     }
 
     // Build root and codes
-    Node *root = build_tree(hist);
+    root = build_tree(hist);
     // node_print(root);
     // return -1;
     build_codes(root, table);

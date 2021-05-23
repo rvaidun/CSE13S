@@ -1,6 +1,7 @@
 #include "huffman.h"
 
 #include "code.h"
+#include "defines.h"
 #include "node.h"
 #include "pq.h"
 #include "stack.h"
@@ -56,7 +57,7 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     Node *n;
     Node *right;
     Node *left;
-    Stack *s = stack_create(nbytes);
+    Stack *s = stack_create(ALPHABET);
     for (int i = 0; i < nbytes; i++) {
         if (tree_dump[i] == 'L') {
             i = i + 1;

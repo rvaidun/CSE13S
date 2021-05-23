@@ -87,7 +87,6 @@ int main(int argc, char **argv) {
                 write_bytes(outfile, buf, BLOCK);
                 buf_index = 0;
             }
-            continue;
         }
     }
     write_bytes(outfile, buf, buf_index);
