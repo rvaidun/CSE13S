@@ -42,10 +42,13 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
         postorder_traversal(root->left, arr, i);
         postorder_traversal(root->right, arr, i);
         if (root->left == NULL && root->right == NULL) {
-            arr[*i++] = 'L';
-            arr[*i++] = root->symbol;
+            arr[*i] = 'L';
+            *i = *i + 1;
+            arr[*i] = root->symbol;
+            *i = *i + 1;
         } else {
-            arr[*i++] = 'I';
+            arr[*i] = 'I';
+            *i = *i + 1;
         }
     }
 }
