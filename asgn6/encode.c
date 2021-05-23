@@ -163,5 +163,10 @@ int main(int argc, char **argv) {
     }
     if (tempfiled) {
         unlink("/tmp/encode.temporary");
+        close(infile);
+    } else {
+        close(infile);
     }
+    close(outfile);
+    node_delete(root);
 }

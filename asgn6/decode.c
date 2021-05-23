@@ -97,4 +97,7 @@ int main(int argc, char **argv) {
         fprintf(
             stderr, "Space saving: %.2f%%\n", 100 * (1 - ((double) bytes_read / bytes_written)));
     }
+    node_delete(root_node);
+    close(infile);
+    close(outfile);
 }
