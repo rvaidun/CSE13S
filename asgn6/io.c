@@ -43,13 +43,10 @@ bool read_bit(int infile, uint8_t *bit) {
     if (bit_index == 0) {
         end_buffer = read_bytes(infile, buf, BLOCK) * 8;
     }
-
+    // printf("%x", buf[0]);
     *bit = get_bit(buf, bit_index);
-    // printf(" BEFORE bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
     bit_index = (bit_index + 1) % (BLOCK * 8);
-    // printf(" AFTER bit_index %d\n bits_in_buffer %d\n", bit_index, bits_in_buffer);
     if (bit_index > end_buffer) {
-        printf("Returned false from read_bit\n");
         return false;
     } else {
         return true;
@@ -69,7 +66,6 @@ void write_code(int outfile, Code *c) {
             bit_index = 0;
         }
     }
-    flush_codes(outfile);
 }
 // int main(void) {
 //     printf("test\n");

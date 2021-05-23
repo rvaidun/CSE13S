@@ -153,6 +153,7 @@ int main(int argc, char **argv) {
             write_code(outfile, &table[buf[i]]);
         }
     }
+    flush_codes(outfile);
 
     // If temp file was created delete the file
     if (verbose) {

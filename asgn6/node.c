@@ -9,6 +9,8 @@ Node *node_create(uint8_t symbol, uint64_t frequency) {
     if (n) {
         n->symbol = symbol;
         n->frequency = frequency;
+        n->left = NULL;
+        n->right = NULL;
     }
     return n;
 }
@@ -38,9 +40,10 @@ Node *node_join(Node *left, Node *right) {
 // NOT IMPLEMENTED YET
 void node_print(Node *n) {
     if (n) {
+        printf("%d", n->symbol);
         node_print(n->left);
         node_print(n->right);
-        printf("%d %" PRIu64 "\n", n->symbol, n->frequency);
+        // printf("%d %" PRIu64 "\n", n->symbol, n->frequency);
     }
     return;
 }

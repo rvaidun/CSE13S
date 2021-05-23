@@ -74,7 +74,6 @@ int main(int argc, char **argv) {
     }
     lseek(infile, 0, SEEK_SET);
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
-    printf("%x\n", h.magic);
 
     if (h.magic != MAGIC) {
         fprintf(stderr, "Error: unable to read header.\n");
@@ -85,13 +84,11 @@ int main(int argc, char **argv) {
     uint8_t dump[h.tree_size];
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
-    // node_print(root_node);
     node = root_node;
     while (read_bit(infile, &bit)) {
-        printf("%d", bit);
+        node = bit ? node->right : node->left;
 
         if (node->left == NULL && node->right == NULL) {
-            printf("\n");
             buf[buf_index++] = node->symbol;
             node = root_node;
 
@@ -100,11 +97,6 @@ int main(int argc, char **argv) {
                 buf_index = 0;
             }
             continue;
-        }
-        if (bit == 1) {
-            node = node->right;
-        } else {
-            node = node->left;
         }
     }
     write_bytes(outfile, buf, buf_index);
