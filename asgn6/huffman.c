@@ -58,7 +58,7 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     for (int i = 0; i < nbytes; i++) {
         if (tree_dump[i] == 'L') {
             i = i + 1;
-            n = node_create(tree_dump[i], i);
+            n = node_create(tree_dump[i], 0);
             stack_push(s, n);
         } else {
             stack_pop(s, &right);

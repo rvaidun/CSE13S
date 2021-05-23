@@ -62,6 +62,7 @@ int main(int argc, char **argv) {
     fstat(infile, &statbuf);
     // If the infile is stdio write to a temporary file and then so we can seek
     if (infile == 0) {
+        // int tempfile = mkstemp("decode.temp");
         int tempfile = open("decode.temporary", O_CREAT | O_RDWR);
 
         while ((bytes_read = read_bytes(0, buf, BLOCK)) > 0) {
@@ -84,10 +85,12 @@ int main(int argc, char **argv) {
     uint8_t dump[h.tree_size];
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
-
+    // node_print(root_node);
     node = root_node;
     while (read_bit(infile, &bit)) {
+        printf("%d", bit);
         if (node->left == NULL && node->right == NULL) {
+            printf("\n");
             buf[buf_index] = node->symbol;
             node = root_node;
 
@@ -96,7 +99,7 @@ int main(int argc, char **argv) {
                 write_bytes(outfile, buf, buf_index);
             }
         }
-        if (bit) {
+        if (bit == 1) {
             node = node->right;
         } else {
             node = node->left;
