@@ -22,7 +22,7 @@ entropy: entropy.o
 	clang $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o pq io encode decode
+	rm -f *.o pq io encode decode entropy
 format:
 	clang-format -i -style=file *.[ch]
 scan-build: clean
