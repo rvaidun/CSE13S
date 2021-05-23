@@ -10,7 +10,7 @@ do
         #($MYREPO/encode -v -i $f 2> /tmp/rahulencodeverbose > /dev/null)
         #($EXAMPLE/encode -v -i $f 2> /tmp/profencodeverbose > /dev/null)
         #diff /tmp/rahulencodeverbose /tmp/profencodeverbose
-        diff <($MYREPO/encode -v < $f 2>&1) <($MYREPO/encode -v < $f 2>&1)
+        diff <($MYREPO/encode -v < $f 2>&1) <($EXAMPLE/encode -v < $f 2>&1)
         diff <($MYREPO/encode < $f | $MYREPO/decode -v 2>&1) <($EXAMPLE/encode < $f | $EXAMPLE/decode -v 2>&1)
         diff <($MYREPO/encode < $f | hd) <($EXAMPLE/encode < $f | hd)
         diff <($MYREPO/encode < $f | $MYREPO/decode) $f
