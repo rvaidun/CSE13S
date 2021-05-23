@@ -30,7 +30,6 @@ int main(int argc, char **argv) {
     Node *root_node;
     Node *node;
     struct stat instatbuf;
-    struct stat outstatbuf;
     uint8_t buf[BLOCK];
     uint8_t bit;
     uint64_t bytes_written = 0;
@@ -92,12 +91,10 @@ int main(int argc, char **argv) {
     }
     write_bytes(outfile, buf, buf_index);
 
-    fstat(outfile, &outstatbuf);
-
     if (verbose) {
-        fprintf(stderr, "Uncompressed file size: %d bytes\n", (int) instatbuf.st_size);
-        fprintf(stderr, "Compressed file size: %d bytes\n", (int) outstatbuf.st_size);
-        fprintf(stderr, "Space Savings: %.2f%%\n",
-            100 * (1 - ((double) outstatbuf.st_size / instatbuf.st_size)));
+        fprintf(stderr, "Uncompressed file size: %d bytes\n", (int) bytes_read);
+        fprintf(stderr, "Compressed file size: %d bytes\n", (int) bytes_written);
+        fprintf(
+            stderr, "Space Savings: %.2f%%\n", 100 * (1 - ((double) bytes_read / bytes_written)));
     }
 }

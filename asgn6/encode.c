@@ -57,7 +57,6 @@ int main(int argc, char **argv) {
     int bytes_read;
     Header h;
     struct stat instatbuf;
-    struct stat outstatbuf;
     uint8_t dump[MAX_TREE_SIZE];
     uint8_t buf[BLOCK];
     uint16_t unique_symbols = 0;
@@ -105,7 +104,7 @@ int main(int argc, char **argv) {
         tempfiled = open("/tmp/encode.temporary", O_CREAT | O_RDWR | O_TRUNC, 0600);
 
         while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
-            write_bytes(tempfiled, buf, bytes_read);
+            bytes_written += write_bytes(tempfiled, buf, bytes_read);
         }
 
         infile = tempfiled;
@@ -141,11 +140,11 @@ int main(int argc, char **argv) {
     h.permissions = instatbuf.st_mode;
     h.tree_size = (3 * unique_symbols) - 1;
     h.file_size = instatbuf.st_size;
-    write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
+    bytes_written += write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
 
     // Post order traversal through the tree to make a tree dump buffer
     postorder_traversal(root, dump, &dump_index);
-    write_bytes(outfile, dump, dump_index);
+    bytes_written += write_bytes(outfile, dump, dump_index);
 
     // Seek back to 0, loop through each byte and write the corresponding code
     lseek(infile, 0, SEEK_SET);
@@ -156,12 +155,11 @@ int main(int argc, char **argv) {
     }
     flush_codes(outfile);
 
-    fstat(outfile, &outstatbuf);
     if (verbose) {
-        fprintf(stderr, "Uncompressed file size: %d bytes\n", (int) instatbuf.st_size);
-        fprintf(stderr, "Compressed file size: %d bytes\n", (int) outstatbuf.st_size);
-        fprintf(stderr, "Space Savings: %.2f%%\n",
-            100 * (1 - ((double) outstatbuf.st_size / instatbuf.st_size)));
+        fprintf(stderr, "Uncompressed file size: %d bytes\n", bytes_read);
+        fprintf(stderr, "Compressed file size: %d bytes\n", bytes_written);
+        fprintf(
+            stderr, "Space Savings: %.2f%%\n", 100 * (1 - ((double) bytes_written / bytes_read)));
     }
     if (tempfiled) {
         unlink("/tmp/encode.temporary");
