@@ -15,6 +15,9 @@ encode: encode.o io.o code.o huffman.o pq.o node.o stack.o bitlib.o
 decode: decode.o io.o code.o huffman.o pq.o stack.o node.o bitlib.o
 	$(CC) -o $@ $^
 
+entropy: entropy.o
+	$(CC) -o $@ $^
+
 %.o: %.c
 	clang $(CFLAGS) -c $<
 
