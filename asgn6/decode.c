@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
 
     fstat(infile, &statbuf);
     // If the infile is stdio write to a temporary file and then so we can seek
-    if (infile == 0) {
+    if (lseek(infile,0,SEEK_SET) == -1) {
         // int tempfile = mkstemp("decode.temp");
         int tempfile = open("decode.temporary", O_CREAT | O_RDWR);
 
