@@ -8,7 +8,6 @@ EXAMPLE=../../../resources/asgn6
 for f in $(find $FILES -type f)
 do
 	echo "Checking difference for $(basename $f)"
-	read
 	diff <($MYREPO/encode < $f | $MYREPO/decode) $f
 done
 (cd $MYREPO && make clean)
