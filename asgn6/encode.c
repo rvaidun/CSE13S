@@ -155,10 +155,10 @@ int main(int argc, char **argv) {
     flush_codes(outfile);
 
     if (verbose) {
-        fprintf(stderr, "Uncompressed file size: %" PRIu64 " bytes\n", bytes_read);
+        fprintf(stderr, "Uncompressed file size: %" PRIu64 " bytes\n", instatbuf.st_size);
         fprintf(stderr, "Compressed file size: %" PRIu64 " bytes\n", bytes_written);
-        fprintf(
-            stderr, "Space Savings: %.2f%%\n", 100 * (1 - ((double) bytes_written / bytes_read)));
+        fprintf(stderr, "Space Savings: %.2f%%\n",
+            100 * (1 - ((double) bytes_written / instatbuf.st_size)));
     }
     if (tempfiled) {
         unlink("/tmp/encode.temporary");
