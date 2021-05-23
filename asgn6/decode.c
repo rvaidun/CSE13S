@@ -27,7 +27,7 @@ void print_help(void) {
 }
 
 int main(int argc, char **argv) {
-    int bw;
+    uint64_t bw = 0;
     Header h;
     Node *root_node;
     Node *node;
@@ -93,8 +93,8 @@ int main(int argc, char **argv) {
     write_bytes(outfile, buf, buf_index);
 
     if (verbose) {
-        fprintf(stderr, "Uncompressed file size: %" PRIu64 " bytes\n", (int) bytes_read);
-        fprintf(stderr, "Compressed file size: %" PRIu64 " bytes\n", (int) bytes_written);
+        fprintf(stderr, "Uncompressed file size: %" PRIu64 " bytes\n", bytes_read);
+        fprintf(stderr, "Compressed file size: %" PRIu64 " bytes\n", bytes_written);
         fprintf(
             stderr, "Space Savings: %.2f%%\n", 100 * (1 - ((double) bytes_read / bytes_written)));
     }
