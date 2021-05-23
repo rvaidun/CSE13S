@@ -27,9 +27,13 @@ void print_help(void) {
 
 int main(int argc, char **argv) {
     Header h;
-    // struct stat statbuf;
+    Node *root_node;
+    Node *node;
+    struct stat statbuf;
     uint8_t buf[BLOCK];
+    uint8_t bit;
     int bytes_read;
+    uint32_t buf_index = 0;
     int infile = 0;
     int outfile = 1;
     bool temp = false;
@@ -55,6 +59,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    fstat(infile, &statbuf);
     // If the infile is stdio write to a temporary file and then so we can seek
     if (infile == 0) {
         int tempfile = open("decode.temporary", O_CREAT | O_RDWR);
@@ -66,12 +71,40 @@ int main(int argc, char **argv) {
         infile = tempfile;
         temp = true;
     }
-
-    // write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
+    lseek(infile, 0, SEEK_SET);
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
     printf("%x\n", h.magic);
-    return -1;
+
+    if (h.magic != MAGIC) {
+        fprintf(stderr, "Error: unable to read header.\n");
+        return -1;
+    }
+
+    fchmod(outfile, h.permissions);
+    uint8_t dump[h.tree_size];
+    read_bytes(infile, dump, h.tree_size);
+    root_node = rebuild_tree(h.tree_size, dump);
+
+    node = root_node;
+    while (read_bit(infile, &bit)) {
+        if (node->left == NULL && node->right == NULL) {
+            buf[buf_index] = node->symbol;
+
+            buf_index = (buf_index + 1) % (BLOCK);
+            if (buf_index == 0) {
+                write_bytes(outfile, buf, 1);
+            }
+        }
+        if (bit) {
+            node = node->right;
+        } else {
+            node = node->left;
+        }
+    }
+    write_bytes(outfile, buf, buf_index);
+
     if (temp) {
         unlink("decode.temporary");
     }
+    return 0;
 }

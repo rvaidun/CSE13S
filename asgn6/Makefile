@@ -12,7 +12,7 @@ io: io.o code.o
 encode: encode.o io.o code.o huffman.o pq.o node.o stack.o
 	$(CC) -o $@ $^
 
-decode: decode.o io.o code.o
+decode: decode.o io.o code.o huffman.o pq.o stack.o node.o
 	$(CC) -o $@ $^
 
 %.o: %.c
