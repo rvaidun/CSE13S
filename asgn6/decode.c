@@ -27,13 +27,13 @@ void print_help(void) {
 }
 
 int main(int argc, char **argv) {
+    int bw;
     Header h;
     Node *root_node;
     Node *node;
     struct stat instatbuf;
     uint8_t buf[BLOCK];
     uint8_t bit;
-    uint64_t bytes_written = 0;
     uint32_t buf_index = 0;
     int infile = 0;
     int outfile = 1;
@@ -75,12 +75,12 @@ int main(int argc, char **argv) {
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
     node = root_node;
-    while (bytes_written < h.file_size && read_bit(infile, &bit)) {
+    while (bw < h.file_size && read_bit(infile, &bit)) {
         node = bit ? node->right : node->left;
 
         if (node->left == NULL && node->right == NULL) {
             buf[buf_index++] = node->symbol;
-            bytes_written++;
+            bw++;
             node = root_node;
 
             if (buf_index == BLOCK) {

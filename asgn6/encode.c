@@ -53,8 +53,7 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
     }
 }
 int main(int argc, char **argv) {
-
-    int bytes_read;
+    int br;
     Header h;
     struct stat instatbuf;
     uint8_t dump[MAX_TREE_SIZE];
@@ -103,8 +102,8 @@ int main(int argc, char **argv) {
         fprintf(stderr, "FILE NOT SEEKABLE");
         tempfiled = open("/tmp/encode.temporary", O_CREAT | O_RDWR | O_TRUNC, 0600);
 
-        while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
-            bytes_written += write_bytes(tempfiled, buf, bytes_read);
+        while ((br = read_bytes(infile, buf, BLOCK)) > 0) {
+            write_bytes(tempfiled, buf, br);
         }
 
         infile = tempfiled;
@@ -115,8 +114,8 @@ int main(int argc, char **argv) {
     fchmod(outfile, instatbuf.st_mode);
 
     // Create the histogram
-    while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
-        for (int i = 0; i < bytes_read; i++) {
+    while ((br = read_bytes(infile, buf, BLOCK)) > 0) {
+        for (int i = 0; i < br; i++) {
             hist[buf[i]]++;
         }
     }
@@ -140,16 +139,16 @@ int main(int argc, char **argv) {
     h.permissions = instatbuf.st_mode;
     h.tree_size = (3 * unique_symbols) - 1;
     h.file_size = instatbuf.st_size;
-    bytes_written += write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
+    write_bytes(outfile, (uint8_t *) &h, sizeof(Header));
 
     // Post order traversal through the tree to make a tree dump buffer
     postorder_traversal(root, dump, &dump_index);
-    bytes_written += write_bytes(outfile, dump, dump_index);
+    write_bytes(outfile, dump, dump_index);
 
     // Seek back to 0, loop through each byte and write the corresponding code
     lseek(infile, 0, SEEK_SET);
-    while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
-        for (int i = 0; i < bytes_read; i++) {
+    while ((br = read_bytes(infile, buf, BLOCK)) > 0) {
+        for (int i = 0; i < br; i++) {
             write_code(outfile, &table[buf[i]]);
         }
     }
