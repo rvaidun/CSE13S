@@ -59,14 +59,14 @@ int main(int argc, char **argv) {
     struct stat statbuf;
     uint8_t dump[MAX_TREE_SIZE];
     uint8_t buf[BLOCK];
-
     uint8_t unique_symbols = 0;
     uint32_t dump_index = 0;
     int infile = 0;
     int outfile = 1;
-    bool temp = false;
     bool verbose = false;
     Code table[ALPHABET] = { 0 };
+    // char tempfilename[] = "encodeTemp-XXXXXX";
+    int tempfiled = 0;
 
     uint64_t hist[ALPHABET];
     for (int i = 0; i < ALPHABET; i++) {
@@ -99,17 +99,18 @@ int main(int argc, char **argv) {
 
     // If the infile is stdio write to a temporary file and then so we can seek
     if (lseek(infile, 0, SEEK_SET) == -1) {
-        int tempfile = open("encode.temporary", O_CREAT | O_RDWR);
+        FILE *tempfilestruct = tmpfile();
+        tempfiled = fileno(tempfilestruct);
 
-        while ((bytes_read = read_bytes(0, buf, BLOCK)) > 0) {
-            write_bytes(tempfile, buf, bytes_read);
+        // tempfiled = open("/tmp/encode_rahulvaidun_c.temporary", O_CREAT | O_RDWR | O_TRUNC, 0600);
+
+        while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
+            write_bytes(tempfiled, buf, bytes_read);
         }
 
-        infile = tempfile;
-        temp = true;
+        infile = tempfiled;
     }
 
-    lseek(infile, 0, SEEK_SET);
     while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
         for (int i = 0; i < bytes_read; i++) {
             hist[buf[i]]++;
@@ -158,8 +159,5 @@ int main(int argc, char **argv) {
     // If temp file was created delete the file
     if (verbose) {
         printf("Verbose");
-    }
-    if (temp) {
-        unlink("encode.temporary");
     }
 }

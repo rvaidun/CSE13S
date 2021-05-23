@@ -32,13 +32,15 @@ int main(int argc, char **argv) {
     struct stat statbuf;
     uint8_t buf[BLOCK];
     uint8_t bit;
-    int bytes_read;
+    // int bytes_read;
     uint64_t bytes_written = 0;
     uint32_t buf_index = 0;
     int infile = 0;
     int outfile = 1;
-    bool temp = false;
     int opt = 0;
+    // char tempfilename[] = "decodeTemp-XXXXXX";
+    // int tempfiled = 0;
+
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': print_help(); return -1;
@@ -62,18 +64,16 @@ int main(int argc, char **argv) {
 
     fstat(infile, &statbuf);
     // If the infile is stdio write to a temporary file and then so we can seek
-    if (lseek(infile, 0, SEEK_SET) == -1) {
-        // int tempfile = mkstemp("decode.temp");
-        int tempfile = open("decode.temporary", O_CREAT | O_RDWR);
+    // if (lseek(infile, 0, SEEK_SET) == -1) {
+    //     FILE *tempfilestruct = tmpfile();
+    //     tempfiled = fileno(tempfilestruct);
 
-        while ((bytes_read = read_bytes(0, buf, BLOCK)) > 0) {
-            write_bytes(tempfile, buf, bytes_read);
-        }
+    //     while ((bytes_read = read_bytes(infile, buf, BLOCK)) > 0) {
+    //         write_bytes(tempfiled, buf, bytes_read);
+    //     }
 
-        infile = tempfile;
-        temp = true;
-    }
-    lseek(infile, 0, SEEK_SET);
+    //     infile = tempfiled;
+    // }
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
 
     if (h.magic != MAGIC) {
@@ -101,11 +101,6 @@ int main(int argc, char **argv) {
             continue;
         }
     }
-    fprintf(stderr, "buf index %d, ", buf_index);
     write_bytes(outfile, buf, buf_index);
-
-    if (temp) {
-        unlink("decode.temporary");
-    }
     return 0;
 }
