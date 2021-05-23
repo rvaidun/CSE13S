@@ -168,5 +168,5 @@ int main(int argc, char **argv) {
         close(infile);
     }
     close(outfile);
-    node_delete(root);
+    delete_tree(&root);
 }
