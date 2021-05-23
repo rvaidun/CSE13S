@@ -61,16 +61,15 @@ int main(int argc, char **argv) {
         default: print_help(); return -1;
         }
     }
-
-    fstat(infile, &instatbuf);
-    fchmod(outfile, h.permissions);
-
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
 
     if (h.magic != MAGIC) {
         fprintf(stderr, "Error: unable to read header.\n");
         return -1;
     }
+
+    fstat(infile, &instatbuf);
+    fchmod(outfile, h.permissions);
 
     uint8_t dump[h.tree_size];
     read_bytes(infile, dump, h.tree_size);
