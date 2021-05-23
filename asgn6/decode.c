@@ -89,10 +89,11 @@ int main(int argc, char **argv) {
     while (read_bit(infile, &bit)) {
         if (node->left == NULL && node->right == NULL) {
             buf[buf_index] = node->symbol;
+            node = root_node;
 
             buf_index = (buf_index + 1) % (BLOCK);
             if (buf_index == 0) {
-                write_bytes(outfile, buf, 1);
+                write_bytes(outfile, buf, buf_index);
             }
         }
         if (bit) {

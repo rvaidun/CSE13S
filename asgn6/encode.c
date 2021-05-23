@@ -130,6 +130,8 @@ int main(int argc, char **argv) {
 
     // Build root and codes
     Node *root = build_tree(hist);
+    // node_print(root);
+    // return -1;
     build_codes(root, table);
 
     // Build header and write it

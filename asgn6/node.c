@@ -37,5 +37,10 @@ Node *node_join(Node *left, Node *right) {
 // Debugger function to print a node
 // NOT IMPLEMENTED YET
 void node_print(Node *n) {
-    printf("%c %" PRIu64 "\n", n->symbol, n->frequency);
+    if (n) {
+        node_print(n->left);
+        node_print(n->right);
+        printf("%d %" PRIu64 "\n", n->symbol, n->frequency);
+    }
+    return;
 }
