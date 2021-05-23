@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     // return -1;
     build_codes(root, table);
     // code_print(c);
-    return -1;
+    // return -1;
     // Build header and write it
     h.magic = MAGIC;
     h.permissions = statbuf.st_mode;

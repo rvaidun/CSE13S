@@ -1,5 +1,7 @@
 #include "code.h"
 
+#include "bitlib.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 Code code_init(void) {
@@ -26,8 +28,11 @@ bool code_push_bit(Code *c, uint8_t bit) {
     if (c->top == MAX_CODE_SIZE) {
         return false;
     }
-    c->bits[c->top] = bit;
-    c->top++;
+    if (bit) {
+        set_bit(c->bits, c->top++);
+    } else {
+        clr_bit(c->bits, c->top++);
+    }
     return true;
 }
 
@@ -35,9 +40,7 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     if (c->top == 0) {
         return false;
     }
-    c->top--;
-    *bit = c->bits[c->top];
-    c->bits[c->top] = 0;
+    *bit = get_bit(c->bits, --c->top);
     return true;
 }
 

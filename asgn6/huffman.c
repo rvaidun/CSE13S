@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 
+static Code c = { 0, { 0 } };
+
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     Node *n;
     Node *left;
@@ -32,11 +34,11 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 }
 
 void build_codes(Node *root, Code table[static ALPHABET]) {
-    static Code c = { 0, { 0 } };
     uint8_t bit;
     if (root) {
         if (root->left == NULL && root->right == NULL) {
             table[root->symbol] = c;
+            // code_print(&c);
         } else {
             code_push_bit(&c, 0);
             build_codes(root->left, table);

@@ -1,34 +1,14 @@
 #include "io.h"
 
+#include "bitlib.h"
 #include "code.h"
 #include "stdio.h" // For main can remove later.
 
 #include <fcntl.h>
 #include <unistd.h>
-
 static uint8_t buf[BLOCK];
 static uint32_t bit_index = 0;
 static uint32_t end_buffer = 0;
-
-void set_bit(uint8_t *v, uint32_t i) {
-    uint32_t bytepos = i / 8;
-    uint32_t bitpos = i % 8;
-    v[bytepos] |= (1 << bitpos);
-    return;
-}
-
-void clr_bit(uint8_t *v, uint32_t i) {
-    uint32_t bytepos = i / 8;
-    uint32_t bitpos = i % 8;
-    v[bytepos] &= ~(1 << bitpos);
-    return;
-}
-
-uint8_t get_bit(uint8_t *v, uint32_t i) {
-    uint32_t bytepos = i / 8;
-    uint32_t bitpos = i % 8;
-    return (v[bytepos] >> bitpos) & 1;
-}
 
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
     int total = 0; // Number of bytes read so far
@@ -77,7 +57,7 @@ bool read_bit(int infile, uint8_t *bit) {
 }
 
 void write_code(int outfile, Code *c) {
-    for (uint32_t i = 0; i < code_size(c); i++) {
+    for (uint32_t i = 0; i < c->top; i++) {
         if (get_bit(c->bits, i) == 1) {
             set_bit(buf, bit_index);
         } else {
