@@ -89,15 +89,17 @@ int main(int argc, char **argv) {
     node = root_node;
     while (read_bit(infile, &bit)) {
         printf("%d", bit);
+
         if (node->left == NULL && node->right == NULL) {
             printf("\n");
-            buf[buf_index] = node->symbol;
+            buf[buf_index++] = node->symbol;
             node = root_node;
 
-            buf_index = (buf_index + 1) % (BLOCK);
-            if (buf_index == 0) {
-                write_bytes(outfile, buf, buf_index);
+            if (buf_index == BLOCK) {
+                write_bytes(outfile, buf, BLOCK);
+                buf_index = 0;
             }
+            continue;
         }
         if (bit == 1) {
             node = node->right;
