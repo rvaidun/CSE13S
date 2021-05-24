@@ -29,6 +29,7 @@ void print_help(void) {
     return;
 }
 
+// Debug function to print the histogram
 void print_histogram(uint64_t *hist) {
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] != 0) {
@@ -37,6 +38,7 @@ void print_histogram(uint64_t *hist) {
     }
 }
 
+// Postorder traversal function
 void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
     if (root) {
         postorder_traversal(root->left, arr, i);
@@ -52,6 +54,7 @@ void postorder_traversal(Node *root, uint8_t *arr, uint32_t *i) {
         }
     }
 }
+
 int main(int argc, char **argv) {
     int br;
     Header h;
@@ -65,9 +68,9 @@ int main(int argc, char **argv) {
     int outfile = 1;
     bool verbose = false;
     Code table[ALPHABET] = { 0 };
-    // char tempfilename[] = "encodeTemp-XXXXXX";
     int tempfiled = 0;
 
+    // Initialize all values of histogram to 0 and increment index 0 and 255
     uint64_t hist[ALPHABET];
     for (int i = 0; i < ALPHABET; i++) {
         hist[i] = 0;
@@ -75,6 +78,7 @@ int main(int argc, char **argv) {
     hist[0]++;
     hist[255]++;
 
+    // Parse command line options
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -130,11 +134,8 @@ int main(int argc, char **argv) {
 
     // Build root and codes
     root = build_tree(hist);
-    // node_print(root);
-    // return -1;
     build_codes(root, table);
-    // code_print(c);
-    // return -1;
+
     // Build header and write it
     h.magic = MAGIC;
     h.permissions = instatbuf.st_mode;
@@ -161,12 +162,11 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Space saving: %.2f%%\n",
             100 * (1 - ((double) bytes_written / instatbuf.st_size)));
     }
+
     if (tempfiled) {
         unlink("/tmp/encode.temporary");
-        close(infile);
-    } else {
-        close(infile);
     }
+    close(infile);
     close(outfile);
     delete_tree(&root);
 }

@@ -12,18 +12,22 @@ struct PriorityQueue {
     Node **items;
 };
 
+// Returns the parent index
 static inline int parent_index(uint32_t i) {
     return (int) (i - 1) / 2;
 }
 
+// Returns the left index
 static inline uint32_t left_index(uint32_t i) {
     return 2 * i + 1;
 }
 
+// Returns the right index
 static inline uint32_t right_index(uint32_t i) {
     return 2 * i + 2;
 }
 
+// Creates a priority queue
 PriorityQueue *pq_create(uint32_t capacity) {
     PriorityQueue *pq = (PriorityQueue *) malloc(sizeof(PriorityQueue));
     if (pq) {
@@ -87,7 +91,6 @@ void pq_heap_down(PriorityQueue *q) {
         }
         i = smallest_child_index;
     }
-    // printf("pq_heap_down FINISH\n");
 }
 // returns true if the priority queue is empty
 bool pq_empty(PriorityQueue *q) {

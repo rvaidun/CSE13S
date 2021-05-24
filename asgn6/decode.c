@@ -11,6 +11,7 @@
 #include <unistd.h> // For getopt
 #define OPTIONS "hvi:o:"
 
+// Prints th help message
 void print_help(void) {
     printf("SYNOPSIS\n"
            "   A Huffman encoder\n"
@@ -27,7 +28,7 @@ void print_help(void) {
 }
 
 int main(int argc, char **argv) {
-    uint64_t bw = 0;
+    uint64_t bw = 0; // Bytes written
     Header h;
     Node *root_node;
     Node *node;
@@ -35,8 +36,8 @@ int main(int argc, char **argv) {
     uint8_t buf[BLOCK];
     uint8_t bit;
     uint32_t buf_index = 0;
-    int infile = 0;
-    int outfile = 1;
+    int infile = 0; // stdin
+    int outfile = 1; // stdout
     int opt = 0;
     bool verbose = false;
 
@@ -51,7 +52,7 @@ int main(int argc, char **argv) {
             }
             break;
         case 'o':
-            outfile = open(optarg, O_WRONLY | O_CREAT);
+            outfile = open(optarg, O_WRONLY | O_CREAT | O_TRUNC);
             if (outfile == -1) {
                 printf("Error opening file\n");
                 return -1;
@@ -61,34 +62,44 @@ int main(int argc, char **argv) {
         default: print_help(); return -1;
         }
     }
+
+    // Read the header file
     read_bytes(infile, (uint8_t *) &h, sizeof(Header));
 
+    // Check magic
     if (h.magic != MAGIC) {
         fprintf(stderr, "Error: unable to read header.\n");
         return -1;
     }
 
+    // Read the stats from the file and set outfile to match the permissions
     fstat(infile, &instatbuf);
     fchmod(outfile, h.permissions);
 
+    // rebuild tree from the tree dump and then
     uint8_t dump[h.tree_size];
     read_bytes(infile, dump, h.tree_size);
     root_node = rebuild_tree(h.tree_size, dump);
     node = root_node;
+
+    // Read each bit from the file
     while (bw < h.file_size && read_bit(infile, &bit)) {
         node = bit ? node->right : node->left;
 
-        if (node->left == NULL && node->right == NULL) {
-            buf[buf_index++] = node->symbol;
+        if (node->left == NULL && node->right == NULL) { // Found a lead node
+            buf[buf_index++] = node->symbol; // Add the symbol to the buffer
             bw++;
-            node = root_node;
+            node = root_node; // reset the node
 
+            // If the buffer is full write buffer
             if (buf_index == BLOCK) {
                 write_bytes(outfile, buf, BLOCK);
                 buf_index = 0;
             }
         }
     }
+
+    // Write left over bytes to the buffer
     write_bytes(outfile, buf, buf_index);
 
     if (verbose) {
