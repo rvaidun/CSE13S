@@ -1,4 +1,4 @@
-# Assignment 5
+# Assignment 6
 
 This assignment is for compressing files. To easily do this the encoders and decoders are using Stacks, Priority Queues,
 
