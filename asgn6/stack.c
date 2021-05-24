@@ -26,6 +26,7 @@ void stack_delete(Stack **s) {
     if (*s && (*s)->items) {
         free((*s)->items);
         free(*s);
+        (*s)->items = NULL;
         *s = NULL;
     }
     return;
