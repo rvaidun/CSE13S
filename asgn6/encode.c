@@ -100,7 +100,6 @@ int main(int argc, char **argv) {
 
     // If the infile is stdio write to a temporary file and then so we can seek
     if (lseek(infile, 0, SEEK_SET) == -1) {
-        fprintf(stderr, "FILE NOT SEEKABLE");
         tempfiled = open("/tmp/encode.temporary", O_CREAT | O_RDWR | O_TRUNC, 0600);
 
         while ((br = read_bytes(infile, buf, BLOCK)) > 0) {
@@ -109,6 +108,7 @@ int main(int argc, char **argv) {
 
         infile = tempfiled;
     }
+    lseek(infile, 0, SEEK_SET);
 
     // Get the stats for the infile and change mode
     fstat(infile, &instatbuf);
