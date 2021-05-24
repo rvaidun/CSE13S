@@ -21,16 +21,16 @@ do
     echo "Checking difference for $(basename $f)"
 
     ENCODEVERBOSE=$(diff <($MYREPO/encode -v < $f 2>&1) <($EXAMPLE/encode -v < $f 2>&1))
-    checkdif $ENCODEVERBOSE "encoded verbose file"
+    checkdif "$ENCODEVERBOSE" "encoded verbose file"
 
     DECODEVERBOSE=$(diff <($MYREPO/encode < $f | $MYREPO/decode -v 2>&1) <($EXAMPLE/encode < $f | $EXAMPLE/decode -v 2>&1))
-    checkdif $DECODEVERBOSE "decoded verbose file"
+    checkdif "$DECODEVERBOSE" "decoded verbose file"
 
     ENCODEDECODE=$(diff <($MYREPO/encode < $f | $MYREPO/decode) $f)
-    checkdif $ENCODEDECODE "encode to decode"
+    checkdif "$ENCODEDECODE" "encode to decode"
 
     ENCODEDECODEPIPE=$(cat $f | $MYREPO/encode | $MYREPO/decode | diff - $f)
-    checkdif $ENCODEDECODE "encode to decode with pipe"
+    checkdif "$ENCODEDECODE" "encode to decode with pipe"
 done
 echo "-----------------------------------------------"
 echo "If there is no diffs, then you are fine"
