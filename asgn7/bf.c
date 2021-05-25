@@ -41,6 +41,7 @@ void bf_delete(BloomFilter **bf) {
         free(*bf);
         *bf = NULL;
     }
+    return;
 }
 
 // Returns the size of the bloom filter
@@ -54,6 +55,7 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
     bv_set_bit(bf->filter, hash(bf->primary, oldspeak));
     bv_set_bit(bf->filter, hash(bf->secondary, oldspeak));
     bv_set_bit(bf->filter, hash(bf->tertiary, oldspeak));
+    return;
 }
 
 // Similar to insert but say if all three hashed indices are set
@@ -81,4 +83,5 @@ uint32_t bf_count(BloomFilter *bf) {
 // Print a bloom filter
 void bf_print(BloomFilter *bf) {
     bv_print(bf->filter);
+    return;
 }
