@@ -1,9 +1,12 @@
 ---
-title: Design Document
+title: \vspace{-1.5cm} Design Document
 subtitle: The Great Firewall of Santa Cruz
 author: Rahul Vaidun
 geometry: "left=1in,right=1in,top=1in,bottom=1in"
+date: \today
 ---
+
+<!-- \renewcommand{\CommentTok}[1]{#1} -->
 
 <!-- # <div align="center"> Assignment 7 Design Document</div>
 
@@ -24,7 +27,6 @@ uint64_t secondary[2]; // Secondary hash function salt.
 uint64_t tertiary[2]; // Tertiary hash function salt.
 BitVector *filter;
 };
-``
 ```
 
 ### `bf_create`
