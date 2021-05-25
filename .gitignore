@@ -10,3 +10,6 @@
 **/*.aux
 .DS_Store
 asgn4/graphs
+
+asgn7/badspeak.txt
+asgn7/newspeak.txt
