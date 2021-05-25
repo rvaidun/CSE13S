@@ -1,6 +1,8 @@
 // [A-Za-z0-9\_]?[A-Za-z0-9\_\-\']*[A-Za-z0-9\_]{1}
 #include "bf.h"
 #include "ht.h"
+#include "llnode.h"
+#include "messages.h"
 #include "node.h"
 
 #include <math.h>
@@ -32,7 +34,10 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to compile regex. \n");
         return 1;
     }
-
+    LinkedList *badspeakwords = ll_create(false);
+    LinkedList *translations = ll_create(false);
+    uint32_t badspeaklength;
+    uint32_t translationslength;
     BloomFilter *bf;
     HashTable *ht;
     char *badspeak;
@@ -73,6 +78,29 @@ int main(int argc, char **argv) {
     while ((word = next_word(stdin, &re)) != NULL) {
         if (bf_probe(bf, oldspeak)) {
             n = ht_lookup(ht, oldspeak);
+            if (n != NULL) {
+
+                if (n->newspeak && n->oldspeak) {
+                    ll_insert_from_node(translations, n);
+                } else if (n->oldspeak) {
+                    ll_insert_from_node(badspeakwords, n);
+                }
+            }
         }
+    }
+
+    badspeaklength = ll_length(badspeakwords);
+    translationslength = ll_length(translations);
+
+    if (badspeaklength > 0 && translations > 0) {
+        fprintf(stdout, "%s", mixspeak_message);
+        ll_print(badspeakwords);
+        ll_print(translations);
+    } else if (badspeaklength > 0) {
+        fprintf(stdout, "%s", badspeak_message);
+        ll_print(badspeakwords);
+    } else if (translations > 0) {
+        fprintf(stdout, "%s", goodspeak_message);
+        ll_print(translations);
     }
 }

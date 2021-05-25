@@ -65,7 +65,12 @@ void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
     n = node_create(oldspeak, newspeak);
     n->next = ll->head;
     ll->head = n;
-    return ll->head;
+}
+
+void ll_insert_from_node(LinkedList *ll, Node *n) {
+    Node *nl = NULL;
+    nl->next = ll->head;
+    ll->head = n;
 }
 
 void ll_print(LinkedList *ll) {
