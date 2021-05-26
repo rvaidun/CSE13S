@@ -1,6 +1,4 @@
-// [A-Za-z0-9\_]?[A-Za-z0-9\_\-\']*[A-Za-z0-9\_]{1}
-//[A-Za-z0-9_]?[A-Za-z0-9_'-]*[A-Za-z0-9_]{1}
-//[A-Za-z0-9]{1}[A-Za-z0-9_'-]*[A-Za-z0-9_]{1}
+// 'look .nr x0 n(.l -kill'
 #include "bf.h"
 #include "ht.h"
 #include "llnode.h"
@@ -16,7 +14,7 @@
 #include <string.h>
 #include <unistd.h> // For getopt
 #define OPTIONS "hmst:f:"
-#define WORD    "[A-Za-z0-9_]{1}[A-Za-z0-9_'-]*[A-Za-z0-9_]?"
+#define WORD    "[A-Za-z0-9_]{1}(?:[A-Za-z0-9_'-]*[A-Za-z0-9_])?"
 
 void print_help(void) {
     printf("SYNOPSIS\n"
