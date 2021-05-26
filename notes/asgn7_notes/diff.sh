@@ -4,16 +4,7 @@ FILES=../../../resources/corpora
 MYREPO=../../asgn7
 EXAMPLE=../../../resources/asgn7
 
-checkdif () {
-    if [ "$1" ];
-    then
-        echo "Difference in the $2 test. press enter to continue printing diff"
-        read
-        echo $1
-        echo "Press any enter to continue"
-        read
-    fi
-}
+
 (cd $MYREPO && make clean && make)
 for f in $(find $FILES -type f)
 do
