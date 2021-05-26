@@ -6,6 +6,7 @@
 #include "node.h"
 #include "parser.h"
 
+#include <ctype.h>
 #include <math.h>
 #include <regex.h>
 #include <stdio.h>
@@ -74,6 +75,8 @@ int main(int argc, char **argv) {
         default: print_help(); break;
         }
     }
+
+    // Initialize bloom filter and hash table
     bf = bf_create(bf_size);
     ht = ht_create(ht_size, mtf);
     while ((temp = fscanf(bspkf, "%s", buffer)) != EOF) {
@@ -86,6 +89,9 @@ int main(int argc, char **argv) {
     }
 
     while ((word = next_word(stdin, &re)) != NULL) {
+        for (int i = 0; word[i]; i++) {
+            word[i] = tolower(word[i]);
+        }
         if (bf_probe(bf, word)) {
             n = ht_lookup(ht, word);
             if (n != NULL) {
