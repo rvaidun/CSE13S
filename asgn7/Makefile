@@ -4,7 +4,7 @@ CFLAGS=-Wall -Wextra -Werror -Wpedantic
 all: banhammer
 
 banhammer: banhammer.o ll.o bf.o bv.o ht.o node.o speck.o parser.o
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -lm
 
 %.o: %.c
 	clang $(CFLAGS) -c $<
