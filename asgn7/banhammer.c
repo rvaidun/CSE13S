@@ -31,7 +31,6 @@ void print_help(void) {
 }
 int main(int argc, char **argv) {
     regex_t re;
-    fprintf(stderr, WORD "\n");
     if (regcomp(&re, WORD, REG_EXTENDED)) {
         fprintf(stderr, "regex broken\n");
         return 1;
