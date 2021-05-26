@@ -11,9 +11,10 @@
 #include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h> // For getopt
 #define OPTIONS "hmst:f:"
-#define WORD    "[A-Za-z0-9_]?[A-Za-z0-9_'-]*[A-Za-z0-9_]{1}"
+#define WORD    "[A-Za-z0-9]{1}[A-Za-z0-9'-]*[A-Za-z0-9_]{1}"
 
 void print_help(void) {
     printf("SYNOPSIS\n"
@@ -92,6 +93,9 @@ int main(int argc, char **argv) {
     while ((word = next_word(stdin, &re)) != NULL) {
         for (int i = 0; word[i]; i++) {
             word[i] = tolower(word[i]);
+        }
+        if (strcmp(word, "fo") == 0) {
+            fprintf(stderr, "found fo\n");
         }
         if (bf_probe(bf, word)) {
             n = ht_lookup(ht, word);
