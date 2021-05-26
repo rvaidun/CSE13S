@@ -94,9 +94,6 @@ int main(int argc, char **argv) {
         for (int i = 0; word[i]; i++) {
             word[i] = tolower(word[i]);
         }
-        if (strcmp(word, "fo") == 0) {
-            fprintf(stderr, "found fo\n");
-        }
         if (bf_probe(bf, word)) {
             n = ht_lookup(ht, word);
             if (n != NULL) {
