@@ -124,4 +124,7 @@ int main(int argc, char **argv) {
     ll_delete(&translations);
     bf_delete(&bf);
     ht_delete(&ht);
+    clear_words();
+    regfree(&re);
+    return 0;
 }
