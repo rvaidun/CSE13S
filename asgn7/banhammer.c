@@ -99,8 +99,6 @@ int main(int argc, char **argv) {
     }
     badspeaklength = ll_length(badspeakwords);
     translationslength = ll_length(translations);
-    fprintf(
-        stderr, "badspeak length %d\n translation length %d", badspeaklength, translationslength);
     if (badspeaklength > 0 && translationslength > 0) {
         fprintf(stdout, "%s", mixspeak_message);
         ll_print(badspeakwords);
