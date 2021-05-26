@@ -118,4 +118,10 @@ int main(int argc, char **argv) {
         fprintf(stdout, "%s", goodspeak_message);
         ll_print(translations);
     }
+    fclose(bspkf);
+    fclose(nspkf);
+    ll_delete(&badspeakwords);
+    ll_delete(&translations);
+    bf_delete(&bf);
+    ht_delete(&ht);
 }
