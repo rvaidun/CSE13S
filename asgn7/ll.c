@@ -52,10 +52,6 @@ uint32_t ll_length(LinkedList *ll) {
 // Code taken from the Lecture on Linked Lists and modified slightly
 // to work with structures in this assignment
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
-    if (strcmp(oldspeak, "adon") == 0) {
-        fprintf(stderr, "adon in lookup\n");
-        fprintf(stderr, "head %p\ntail %p\n", (void *) ll->head, (void *) ll->tail);
-    }
     for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
         if (strcmp(curr->oldspeak, oldspeak) == 0) {
             return curr;

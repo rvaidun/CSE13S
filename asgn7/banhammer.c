@@ -86,32 +86,28 @@ int main(int argc, char **argv) {
     }
 
     while ((word = next_word(stdin, &re)) != NULL) {
-
         if (bf_probe(bf, word)) {
             n = ht_lookup(ht, word);
             if (n != NULL) {
-
                 if (n->newspeak && n->oldspeak) {
-                    ll_insert_from_node(translations, n);
+                    ll_insert(translations, n->oldspeak, n->newspeak);
                 } else if (n->oldspeak) {
-                    ll_insert_from_node(badspeakwords, n);
+                    ll_insert(badspeakwords, n->oldspeak, NULL);
                 }
             }
         }
     }
-
     badspeaklength = ll_length(badspeakwords);
     translationslength = ll_length(translations);
-
+    fprintf(
+        stderr, "badspeak length %d\n translation length %d", badspeaklength, translationslength);
     if (badspeaklength > 0 && translationslength > 0) {
         fprintf(stdout, "%s", mixspeak_message);
         ll_print(badspeakwords);
         ll_print(translations);
-
     } else if (badspeaklength > 0) {
         fprintf(stdout, "%s", badspeak_message);
         ll_print(badspeakwords);
-
     } else if (translationslength > 0) {
         fprintf(stdout, "%s", goodspeak_message);
         ll_print(translations);

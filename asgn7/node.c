@@ -31,7 +31,7 @@ Node *node_create(char *oldspeak, char *newspeak) {
         if (newspeak) {
             n->newspeak = malloc(strlen(newspeak) + 1);
             if (n->newspeak) {
-                strcpy(n->oldspeak, newspeak);
+                strcpy(n->newspeak, newspeak);
             } else {
                 free(n->newspeak);
                 n->newspeak = NULL;
