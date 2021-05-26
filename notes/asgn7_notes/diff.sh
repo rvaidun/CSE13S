@@ -3,7 +3,6 @@
 FILES=../../../resources/corpora
 MYREPO=../../asgn7
 EXAMPLE=../../../resources/asgn7
-BIBLE=../../../resources/corpora/large/bible.txt
 
 checkdif () {
     if [ "$1" ];
@@ -25,19 +24,26 @@ do
         echo "Difference in the ban hammer with no verbose test. press enter to continue printing diff"
         read
     	diff <($MYREPO/banhammer < $f) <($EXAMPLE/banhammer < $f)
-        echo "Press any enter to continue"
+        echo "Press enter to continue"
         read
     fi
-
+    BANHAMMERV=$(diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f))
+    if [ "$BANHAMMERV" ];
+    then
+        echo "Difference in the ban hammer with statistics test. press enter to continue printing diff"
+        read
+    	diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f)
+        echo "Press enter to continue"
+        read
+    fi
 done
 echo "-------------------------------------------------"
 echo "If there is no diffs, then you are fine for diffs"
-echo "Press enter to start valgrind check for encode"
+echo "Press enter to start valgrind teset"
 echo "-------------------------------------------------"
 read
-valgrind ./$MYREPO/banhammer < $BIBLE
+valgrind $MYREPO/banhammer < $FILES/calgary/news
 echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
 echo "-----------------------------------------------"
-rm bible.decode bible.encode
 (cd $MYREPO && make clean)
