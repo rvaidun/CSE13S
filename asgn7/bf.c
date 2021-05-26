@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 struct BloomFilter {
     uint64_t primary[2];
     uint64_t secondary[2];
@@ -52,18 +54,18 @@ uint32_t bf_size(BloomFilter *bf) {
 // Insers a new word into the filter.
 // Hash each of the salts and set the hashed index in the filter
 void bf_insert(BloomFilter *bf, char *oldspeak) {
-    bv_set_bit(bf->filter, hash(bf->primary, oldspeak));
-    bv_set_bit(bf->filter, hash(bf->secondary, oldspeak));
-    bv_set_bit(bf->filter, hash(bf->tertiary, oldspeak));
+    bv_set_bit(bf->filter, hash(bf->primary, oldspeak) % bv_length(bf->filter));
+    bv_set_bit(bf->filter, hash(bf->secondary, oldspeak) % bv_length(bf->filter));
+    bv_set_bit(bf->filter, hash(bf->tertiary, oldspeak) % bv_length(bf->filter));
     return;
 }
 
 // Similar to insert but say if all three hashed indices are set
 // If they are all set the word was most likely added to the filter
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
-    if (bv_get_bit(bf->filter, hash(bf->primary, oldspeak))
-        && bv_get_bit(bf->filter, hash(bf->secondary, oldspeak))
-        && bv_get_bit(bf->filter, hash(bf->tertiary, oldspeak))) {
+    if (bv_get_bit(bf->filter, hash(bf->primary, oldspeak) % bv_length(bf->filter))
+        && bv_get_bit(bf->filter, hash(bf->secondary, oldspeak) % bv_length(bf->filter))
+        && bv_get_bit(bf->filter, hash(bf->tertiary, oldspeak) % bv_length(bf->filter))) {
         return true;
     }
     return false;

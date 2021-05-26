@@ -4,15 +4,15 @@
 #include "llnode.h"
 #include "messages.h"
 #include "node.h"
+#include "parser.h"
 
 #include <math.h>
-#include <parser.h>
 #include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h> // For getopt
 #define OPTIONS "hmst:f:"
-#define WORD    "[A-Za-z0-9\_]?[A-Za-z0-9\_\-\']*[A-Za-z0-9\_]{1}"
+#define WORD    "[A-Za-z0-9\\_]?[A-Za-z0-9\\_\\-\\']*[A-Za-z0-9\\_]{1}"
 
 void print_help(void) {
     printf("SYNOPSIS\n"
@@ -31,7 +31,6 @@ void print_help(void) {
 int main(int argc, char **argv) {
     regex_t re;
     if (regcomp(&re, WORD, REG_EXTENDED)) {
-        fprintf(stderr, "Failed to compile regex. \n");
         return 1;
     }
     LinkedList *badspeakwords = ll_create(false);
@@ -40,10 +39,10 @@ int main(int argc, char **argv) {
     uint32_t translationslength;
     BloomFilter *bf;
     HashTable *ht;
-    char *badspeak;
-    char *newspeak;
-    char *oldspeak;
+    char buffer[1024];
+    char buffer2[1024];
     char *word;
+    char *first_invalid;
     Node *n;
     FILE *bspkf = fopen("badspeak.txt", "r");
     FILE *nspkf = fopen("newspeak.txt", "r");
@@ -58,26 +57,38 @@ int main(int argc, char **argv) {
         case 'h': print_help(); return -1;
         case 's': stats = true; break;
         case 'm': mtf = true; break;
-        case 't': ht_size = optarg; break;
-        case 'f': bf_size = optarg; break;
+
+        case 't':
+            ht_size = strtoul(optarg, &first_invalid, 10);
+            if (*first_invalid != '\0') {
+                return -1;
+            }
+            break;
+
+        case 'f':
+            bf_size = strtoul(optarg, &first_invalid, 10);
+            if (*first_invalid != '\0') {
+                return -1;
+            }
+            break;
         default: print_help(); break;
         }
     }
-
     bf = bf_create(bf_size);
     ht = ht_create(ht_size, mtf);
+    while ((temp = fscanf(bspkf, "%s", buffer)) != EOF) {
+        bf_insert(bf, buffer);
+        ht_insert(ht, buffer, NULL);
+    }
+    while ((temp = fscanf(nspkf, "%s %s", buffer, buffer2)) != EOF) {
+        bf_insert(bf, buffer);
+        ht_insert(ht, buffer, buffer2);
+    }
 
-    while ((temp = fscanf(bspkf, "%s", &badspeak)) != EOF) {
-        bf_insert(bf, badspeak);
-        ht_insert(bf, badspeak, NULL);
-    }
-    while ((temp = fscanf(nspkf, "%s %s", &oldspeak, &newspeak)) != EOF) {
-        bf_insert(bf, oldspeak);
-        ht_insert(bf, oldspeak, newspeak);
-    }
     while ((word = next_word(stdin, &re)) != NULL) {
-        if (bf_probe(bf, oldspeak)) {
-            n = ht_lookup(ht, oldspeak);
+
+        if (bf_probe(bf, word)) {
+            n = ht_lookup(ht, word);
             if (n != NULL) {
 
                 if (n->newspeak && n->oldspeak) {
@@ -92,14 +103,16 @@ int main(int argc, char **argv) {
     badspeaklength = ll_length(badspeakwords);
     translationslength = ll_length(translations);
 
-    if (badspeaklength > 0 && translations > 0) {
+    if (badspeaklength > 0 && translationslength > 0) {
         fprintf(stdout, "%s", mixspeak_message);
         ll_print(badspeakwords);
         ll_print(translations);
+
     } else if (badspeaklength > 0) {
         fprintf(stdout, "%s", badspeak_message);
         ll_print(badspeakwords);
-    } else if (translations > 0) {
+
+    } else if (translationslength > 0) {
         fprintf(stdout, "%s", goodspeak_message);
         ll_print(translations);
     }

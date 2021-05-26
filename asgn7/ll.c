@@ -2,7 +2,9 @@
 
 #include "node.h"
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 struct LinkedList {
     uint32_t length;
     Node *head;
@@ -13,12 +15,13 @@ struct LinkedList {
 LinkedList *ll_create(bool mtf) {
     LinkedList *ll = (LinkedList *) malloc(sizeof(LinkedList));
     if (ll) {
-        ll->head = (Node *) malloc(sizeof(Node));
-        ll->tail = (Node *) malloc(sizeof(Node));
+        ll->head = node_create(NULL, NULL);
+        ll->tail = node_create(NULL, NULL);
         ll->head->prev = NULL;
         ll->head->next = ll->tail;
         ll->tail->prev = ll->head;
-        ll->tail->next = ll->head;
+        ll->tail->next = NULL;
+        ll->mtf = mtf;
     }
     return ll;
 }
@@ -40,7 +43,7 @@ void ll_delete(LinkedList **ll) {
 
 uint32_t ll_length(LinkedList *ll) {
     uint32_t count = 0;
-    for (Node *curr = ll->head; curr != NULL; curr = curr->next) {
+    for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
         count++;
     }
     return count;
@@ -49,32 +52,43 @@ uint32_t ll_length(LinkedList *ll) {
 // Code taken from the Lecture on Linked Lists and modified slightly
 // to work with structures in this assignment
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
-    for (Node *curr = ll->head; curr != NULL; curr = curr->next) {
+    if (strcmp(oldspeak, "adon") == 0) {
+        fprintf(stderr, "adon in lookup\n");
+        fprintf(stderr, "head %p\ntail %p\n", (void *) ll->head, (void *) ll->tail);
+    }
+    for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
         if (strcmp(curr->oldspeak, oldspeak) == 0) {
             return curr;
         }
-        return NULL;
     }
+    return NULL;
 }
 
 void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
     Node *n = ll_lookup(ll, oldspeak);
     if (n != NULL) {
-        return n;
+        return;
     }
+
     n = node_create(oldspeak, newspeak);
-    n->next = ll->head;
-    ll->head = n;
+
+    n->next = ll->head->next;
+    n->prev = ll->head;
+    ll->head->next->prev = n;
+    ll->head->next = n;
 }
 
 void ll_insert_from_node(LinkedList *ll, Node *n) {
-    Node *nl = NULL;
-    nl->next = ll->head;
-    ll->head = n;
+    n->next = ll->head->next;
+    n->prev = ll->head;
+    ll->head->next->prev = n;
+    ll->head->next = n;
+    return;
 }
 
 void ll_print(LinkedList *ll) {
-    for (Node *curr = ll->head->next; curr != NULL; curr = curr->next) {
+    for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
         node_print(curr);
     }
+    return;
 }

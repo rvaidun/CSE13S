@@ -2,7 +2,9 @@
 
 #include "speck.h"
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 struct HashTable {
     uint64_t salt[2];
     uint32_t size;
@@ -41,17 +43,21 @@ uint32_t ht_size(HashTable *ht) {
 }
 
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
-    return ll_lookup(ht->lists[hash(ht->salt, oldspeak)], oldspeak);
+    return ll_lookup(ht->lists[hash(ht->salt, oldspeak) % ht->size], oldspeak);
 }
 
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
-    ll_insert(ht->lists[hash(ht->salt, oldspeak)], oldspeak, newspeak);
+    uint32_t ind = hash(ht->salt, oldspeak) % ht->size;
+    if (ht->lists[ind] == NULL) {
+        ht->lists[ind] = ll_create(ht->mtf);
+    }
+    ll_insert(ht->lists[ind], oldspeak, newspeak);
     return;
 }
 
 uint32_t ht_count(HashTable *ht) {
     uint32_t count = 0;
-    for (int i = 0; i < ht->size; i++) {
+    for (uint32_t i = 0; i < ht->size; i++) {
         if (ht->lists[i]) {
             count++;
         }
@@ -60,7 +66,7 @@ uint32_t ht_count(HashTable *ht) {
 }
 
 void ht_print(HashTable *ht) {
-    for (int i = 0; i < ht->size; i++) {
+    for (uint32_t i = 0; i < ht->size; i++) {
         if (ht->lists[i]) {
             ll_print(ht->lists[i]);
         }
