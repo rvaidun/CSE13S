@@ -52,11 +52,16 @@ uint32_t ll_length(LinkedList *ll) {
 // Code taken from the Lecture on Linked Lists and modified slightly
 // to work with structures in this assignment
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
-    for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
+    seeks++;
+    for (Node *curr = ll->head; curr != NULL; curr = curr->next, links++) {
+        if (curr->oldspeak == NULL) {
+            continue;
+        }
         if (strcmp(curr->oldspeak, oldspeak) == 0) {
             return curr;
         }
     }
+    links -= 1;
     return NULL;
 }
 
@@ -67,7 +72,6 @@ void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
     }
 
     n = node_create(oldspeak, newspeak);
-
     n->next = ll->head->next;
     n->prev = ll->head;
     ll->head->next->prev = n;

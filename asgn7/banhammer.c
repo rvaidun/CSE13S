@@ -1,20 +1,25 @@
 // 'look .nr x0 n(.l
 #include "bf.h"
 #include "ht.h"
+#include "ll.h"
 #include "llnode.h"
 #include "messages.h"
 #include "node.h"
 #include "parser.h"
 
 #include <ctype.h>
+#include <inttypes.h>
 #include <math.h>
 #include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h> // For getopt
+
 #define OPTIONS "hmst:f:"
 #define WORD    "[a-zA-Z0-9_]+(('|-)[a-zA-Z0-9_]+)*"
+uint64_t seeks = 0;
+uint64_t links = 0;
 
 void print_help(void) {
     printf("SYNOPSIS\n"
@@ -36,8 +41,18 @@ int main(int argc, char **argv) {
         fprintf(stderr, "regex broken\n");
         return 1;
     }
-    LinkedList *badspeakwords = ll_create(false);
-    LinkedList *translations = ll_create(false);
+    FILE *bspkf = fopen("badspeak.txt", "r");
+    if (!bspkf) {
+        fprintf(
+            stderr, "Failed to open badspeak.txt. File needs to be in current working directory\n");
+    }
+
+    FILE *nspkf = fopen("newspeak.txt", "r");
+    if (!nspkf) {
+        fprintf(
+            stderr, "Failed to open newspeak.txt. File needs to be in current working directory");
+    }
+
     uint32_t badspeaklength;
     uint32_t translationslength;
     BloomFilter *bf;
@@ -47,13 +62,14 @@ int main(int argc, char **argv) {
     char *word;
     char *first_invalid;
     Node *n;
-    FILE *bspkf = fopen("badspeak.txt", "r");
-    FILE *nspkf = fopen("newspeak.txt", "r");
+    int temp;
+
     bool stats = false;
     bool mtf = false;
-    uint32_t bf_size = (uint32_t) pow(2, 20);
-    uint32_t ht_size = 10000;
-    int temp;
+    uint32_t size_bf = (uint32_t) pow(2, 20);
+    uint32_t size_ht = 10000;
+    LinkedList *badspeakwords = ll_create(false);
+    LinkedList *translations = ll_create(false);
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -62,14 +78,14 @@ int main(int argc, char **argv) {
         case 'm': mtf = true; break;
 
         case 't':
-            ht_size = strtoul(optarg, &first_invalid, 10);
+            size_ht = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
                 return -1;
             }
             break;
 
         case 'f':
-            bf_size = strtoul(optarg, &first_invalid, 10);
+            size_bf = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
                 return -1;
             }
@@ -79,8 +95,8 @@ int main(int argc, char **argv) {
     }
 
     // Initialize bloom filter and hash table
-    bf = bf_create(bf_size);
-    ht = ht_create(ht_size, mtf);
+    bf = bf_create(size_bf);
+    ht = ht_create(size_ht, mtf);
     while ((temp = fscanf(bspkf, "%s", buffer)) != EOF) {
         bf_insert(bf, buffer);
         ht_insert(ht, buffer, NULL);
@@ -105,19 +121,29 @@ int main(int argc, char **argv) {
             }
         }
     }
-    badspeaklength = ll_length(badspeakwords);
-    translationslength = ll_length(translations);
-    if (badspeaklength > 0 && translationslength > 0) {
-        fprintf(stdout, "%s", mixspeak_message);
-        ll_print(badspeakwords);
-        ll_print(translations);
-    } else if (badspeaklength > 0) {
-        fprintf(stdout, "%s", badspeak_message);
-        ll_print(badspeakwords);
-    } else if (translationslength > 0) {
-        fprintf(stdout, "%s", goodspeak_message);
-        ll_print(translations);
+    if (!stats) {
+
+        badspeaklength = ll_length(badspeakwords);
+        translationslength = ll_length(translations);
+        if (badspeaklength > 0 && translationslength > 0) {
+            fprintf(stdout, "%s", mixspeak_message);
+            ll_print(badspeakwords);
+            ll_print(translations);
+        } else if (badspeaklength > 0) {
+            fprintf(stdout, "%s", badspeak_message);
+            ll_print(badspeakwords);
+        } else if (translationslength > 0) {
+            fprintf(stdout, "%s", goodspeak_message);
+            ll_print(translations);
+        }
+
+    } else {
+        fprintf(stdout, "Seeks: %" PRIu64 "\n", seeks);
+        fprintf(stdout, "Average seek length: %f\n", ((double) links / seeks) - 1);
+        fprintf(stdout, "Hash table load: %f%%\n", 100 * ((double) ht_count(ht) / ht_size(ht)));
+        fprintf(stdout, "Bloom filter load: %f%%\n", 100 * ((double) bf_count(bf) / bf_size(bf)));
     }
+
     fclose(bspkf);
     fclose(nspkf);
     ll_delete(&badspeakwords);
