@@ -21,7 +21,7 @@ do
     BANHAMMERNV=$(diff <($MYREPO/banhammer < $f) <($EXAMPLE/banhammer < $f))
     if [ "$BANHAMMERNV" ];
     then
-        echo "Difference in the ban hammer with no verbose test. press enter to continue printing diff"
+        echo "Difference in the normal test. Press enter to continue printing diff"
         read
     	diff <($MYREPO/banhammer < $f) <($EXAMPLE/banhammer < $f)
         echo "Press enter to continue"
@@ -30,7 +30,7 @@ do
     BANHAMMERV=$(diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f))
     if [ "$BANHAMMERV" ];
     then
-        echo "Difference in the ban hammer with statistics test. press enter to continue printing diff"
+        echo "Difference in the statistics test. Press enter to continue printing diff"
         read
     	diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f)
         echo "Press enter to continue"
@@ -39,7 +39,7 @@ do
 done
 echo "-------------------------------------------------"
 echo "If there is no diffs, then you are fine for diffs"
-echo "Press enter to start valgrind teset"
+echo "Press enter to start valgrind test"
 echo "-------------------------------------------------"
 read
 valgrind $MYREPO/banhammer < $FILES/calgary/news
