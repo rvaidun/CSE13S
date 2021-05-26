@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h> // For getopt
 #define OPTIONS "hmst:f:"
-#define WORD    "[A-Za-z0-9\\_]?[A-Za-z0-9\\_\\-\\']*[A-Za-z0-9\\_]{1}"
+#define WORD    "[A-Za-z0-9_]?[A-Za-z0-9_'-]*[A-Za-z0-9_]{1}"
 
 void print_help(void) {
     printf("SYNOPSIS\n"
@@ -31,7 +31,9 @@ void print_help(void) {
 }
 int main(int argc, char **argv) {
     regex_t re;
+    fprintf(stderr, WORD "\n");
     if (regcomp(&re, WORD, REG_EXTENDED)) {
+        fprintf(stderr, "regex broken\n");
         return 1;
     }
     LinkedList *badspeakwords = ll_create(false);
