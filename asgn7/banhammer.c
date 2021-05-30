@@ -45,14 +45,12 @@ int main(int argc, char **argv) {
     if (!bspkf) {
         fprintf(
             stderr, "Failed to open badspeak.txt. File needs to be in current working directory\n");
-        return -1;
     }
 
     FILE *nspkf = fopen("newspeak.txt", "r");
     if (!nspkf) {
         fprintf(
             stderr, "Failed to open newspeak.txt. File needs to be in current working directory");
-        return -1;
     }
 
     uint32_t badspeaklength;
