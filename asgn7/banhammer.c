@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
 
     } else {
         fprintf(stdout, "Seeks: %" PRIu64 "\n", seeks);
-        fprintf(stdout, "Average seek length: %f\n", ((double) links / seeks) - 1);
+        fprintf(stdout, "Average seek length: %f\n", ((double) links / seeks));
         fprintf(stdout, "Hash table load: %f%%\n", 100 * ((double) ht_count(ht) / ht_size(ht)));
         fprintf(stdout, "Bloom filter load: %f%%\n", 100 * ((double) bf_count(bf) / bf_size(bf)));
     }
