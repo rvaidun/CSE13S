@@ -61,6 +61,7 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             return curr;
         }
     }
+    links--;
     return NULL;
 }
 
