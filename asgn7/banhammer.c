@@ -68,8 +68,6 @@ int main(int argc, char **argv) {
     bool mtf = false;
     uint32_t size_bf = (uint32_t) pow(2, 20);
     uint32_t size_ht = 10000;
-    LinkedList *badspeakwords = ll_create(false);
-    LinkedList *translations = ll_create(false);
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -93,7 +91,8 @@ int main(int argc, char **argv) {
         default: print_help(); break;
         }
     }
-
+    LinkedList *badspeakwords = ll_create(mtf);
+    LinkedList *translations = ll_create(mtf);
     // Initialize bloom filter and hash table
     bf = bf_create(size_bf);
     ht = ht_create(size_ht, mtf);

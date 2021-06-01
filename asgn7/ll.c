@@ -58,6 +58,23 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             continue;
         }
         if (strcmp(curr->oldspeak, oldspeak) == 0) {
+            if (ll->mtf == false) {
+                fprintf(stderr, "is false\n");
+            } else {
+                fprintf(stderr, "is true\n");
+            }
+            if (ll->mtf == true) {
+                if (curr->prev != ll->head) {
+                    // Move to front
+                    curr->prev->next = curr->next; // Node before points to node after
+                    curr->next->prev = curr->prev; // Node after should point to node before
+                    curr->next = ll->head->next; // Node after curr should be heads next
+                    curr->prev = ll->head; // currs previous should be head
+                    ll->head->next->prev = curr; // Node after head should point back to curr
+                    ll->head->next = curr; // Heads next should be n
+                }
+            }
+
             return curr;
         }
     }
