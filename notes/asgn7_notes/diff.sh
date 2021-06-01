@@ -4,33 +4,29 @@ FILES=../../../resources/corpora
 MYREPO=../../asgn7
 EXAMPLE=../../../resources/asgn7
 
-
+checkdif () {
+    DIFFF=$(diff <($2 < $1) <($3 < $1))
+    if [ "$DIFFF" ];
+    then
+        echo "Difference in the $4 test. press enter to continue printing diff"
+        read
+        diff <($2 < $1) <($2 < $1)
+        echo "Press any enter to continue"
+        read
+    fi
+}
 (cd $MYREPO && make clean && make)
 for f in $(find $FILES -type f)
 do
     echo "Checking difference for $(basename $f)"
-    BANHAMMERNV=$(diff <($MYREPO/banhammer < $f) <($EXAMPLE/banhammer < $f))
-    if [ "$BANHAMMERNV" ];
-    then
-        echo "Difference in the normal test. Press enter to continue printing diff"
-        read
-    	diff <($MYREPO/banhammer < $f) <($EXAMPLE/banhammer < $f)
-        echo "Press enter to continue"
-        read
-    fi
-    BANHAMMERV=$(diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f))
-    if [ "$BANHAMMERV" ];
-    then
-        echo "Difference in the statistics test. Press enter to continue printing diff"
-        read
-    	diff <($MYREPO/banhammer -s < $f) <($EXAMPLE/banhammer -s < $f)
-        echo "Press enter to continue"
-        read
-    fi
+    checkdif $f "$MYREPO/banhammer" "$EXAMPLE/banhammer" "normal"
+    checkdif $f "$MYREPO/banhammer -m" "$EXAMPLE/banhammer -m" "move to front"
+    checkdif $f "$MYREPO/banhammer -s" "$EXAMPLE/banhammer -s" "statistics"
+    checkdif $f "$MYREPO/banhammer -s -m" "$EXAMPLE/banhammer -s -m" "statistics move to front"
 done
 echo "-------------------------------------------------"
 echo "If there is no diffs, then you are fine for diffs"
-echo "Press enter to start valgrind test"
+echo "Press enter to start valgrind teset"
 echo "-------------------------------------------------"
 read
 valgrind $MYREPO/banhammer < $FILES/calgary/news
