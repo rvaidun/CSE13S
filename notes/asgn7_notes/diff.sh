@@ -10,7 +10,7 @@ checkdif () {
     then
         echo "Difference in the $4 test. press enter to continue printing diff"
         read
-        diff <($2 < $1) <($3 < $1)
+        echo "$DIFFF"
         echo "Press any enter to continue"
         read
     fi
