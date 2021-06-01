@@ -53,7 +53,7 @@ uint32_t ll_length(LinkedList *ll) {
 // to work with structures in this assignment
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     seeks++;
-    for (Node *curr = ll->head; curr != NULL; curr = curr->next, links++) {
+    for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next, links++) {
         if (curr->oldspeak == NULL) {
             continue;
         }
@@ -61,7 +61,6 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             return curr;
         }
     }
-    links--;
     return NULL;
 }
 
