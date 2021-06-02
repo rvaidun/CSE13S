@@ -39,7 +39,7 @@ echo "-------------------------------------------------"
 read
 VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news
 VALGRINDSTATUS=$?
-if [ $status != 0 ]; then
+if [ $VALGRINDSTATUS != 0 ]; then
     echo $VALGRINDSTATUS
 fi
 echo "-----------------------------------------------"
