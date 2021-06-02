@@ -41,6 +41,8 @@ VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news > /dev/null
 VALGRINDSTATUS=$?
 if [ $VALGRINDSTATUS != 0 ]; then
     echo $VALGRINDSTATUS
+else
+    echo "No memory leaks"
 fi
 echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
@@ -48,9 +50,11 @@ echo "Press enter to start scan build test"
 echo "-----------------------------------------------"
 read
 
-SCANBUILD=(cd $MYREPO && scan-build make)
+SCANBUILD=$(cd $MYREPO && scan-build make)
 SCANBUILDSTATUS=$?
 if [ $SCANBUILDSTATUS != 0 ]; then
     echo $SCANBUILD
+else
+    echo "Scan build successful"
 fi
 (cd $MYREPO && make clean)
