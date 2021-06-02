@@ -24,6 +24,13 @@ do
     checkdif $f "$MYREPO/banhammer -s" "$EXAMPLE/banhammer -s" "statistics"
     checkdif $f "$MYREPO/banhammer -s -m" "$EXAMPLE/banhammer -s -m" "statistics move to front"
 done
+for i in {1..5}
+do
+    NUM1=$RANDOM
+    NUM2=$RANDOM
+    echo "Checking difference with hash table size of $NUM1 and bloom filter size of $NUM2"
+    checkdif "$FILES/calgary/news" "$MYREPO/banhammer -s -t $NUM1 -f $NUM2" "$EXAMPLE/banhammer -s -t $NUM1 -f $NUM2" "statistics"
+    checkdif "$FILES/calgary/news" "$MYREPO/banhammer -s -m -t $NUM1 -f $NUM2" "$EXAMPLE/banhammer -s -m -t $NUM1 -f $NUM2" "statistics move to front"
 echo "-------------------------------------------------"
 echo "If there is no diffs, then you are fine for diffs"
 echo "Press enter to start valgrind teset"
