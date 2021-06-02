@@ -78,6 +78,7 @@ int main(int argc, char **argv) {
         case 't':
             size_ht = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
+                fprintf(stderr, "Invalid hash table size\n");
                 return -1;
             }
             break;
@@ -85,6 +86,7 @@ int main(int argc, char **argv) {
         case 'f':
             size_bf = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
+                fprintf(stderr, "Invalid bloom filter size\n");
                 return -1;
             }
             break;
