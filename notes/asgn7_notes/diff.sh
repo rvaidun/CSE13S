@@ -37,10 +37,9 @@ echo "If there is no diffs, then you are fine for diffs"
 echo "Press enter to start valgrind tests"
 echo "-------------------------------------------------"
 read
-VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news > /dev/null
-VALGRINDSTATUS=$?
-if [ $VALGRINDSTATUS != 0 ]; then
-    echo $VALGRINDSTATUS
+VALGRIND=valgrind --log-fd=9 $MYREPO/banhammer < $FILES/calgary/news > /dev/null
+if [ $? != 0 ]; then
+    echo $VALGRIND
 else
     echo "No memory leaks"
 fi
