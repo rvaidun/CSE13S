@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
         case 'f':
             size_bf = strtoul(optarg, &first_invalid, 10);
             if (*first_invalid != '\0') {
-                fprintf(stderr, "Invalid bloom filter size\n");
+                fprintf(stderr, "Invalid Bloom filter size\n");
                 return -1;
             }
             break;
