@@ -37,7 +37,7 @@ echo "If there is no diffs, then you are fine for diffs"
 echo "Press enter to start valgrind tests"
 echo "-------------------------------------------------"
 read
-VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news
+VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news > /dev/null
 VALGRINDSTATUS=$?
 if [ $VALGRINDSTATUS != 0 ]; then
     echo $VALGRINDSTATUS
@@ -48,7 +48,7 @@ echo "Press enter to start scan build test"
 echo "-----------------------------------------------"
 read
 
-SCANBUILD=scan-build make
+SCANBUILD=(cd $MYREPO && scan-build make)
 SCANBUILDSTATUS=$?
 if [ $SCANBUILDSTATUS != 0 ]; then
     echo $SCANBUILD
