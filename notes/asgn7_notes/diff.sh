@@ -34,11 +34,23 @@ do
 done
 echo "-------------------------------------------------"
 echo "If there is no diffs, then you are fine for diffs"
-echo "Press enter to start valgrind teset"
+echo "Press enter to start valgrind tests"
 echo "-------------------------------------------------"
 read
-valgrind $MYREPO/banhammer < $FILES/calgary/news
+VALGRIND=valgrind $MYREPO/banhammer < $FILES/calgary/news
+VALGRINDSTATUS=$?
+if [ $status != 0 ]; then
+    echo $VALGRINDSTATUS
+fi
 echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
+echo "Press enter to start scan build test"
 echo "-----------------------------------------------"
+read
+
+SCANBUILD=scan-build make
+SCANBUILDSTATUS=$?
+if [ $SCANBUILDSTATUS != 0 ]; then
+    echo $SCANBUILD
+fi
 (cd $MYREPO && make clean)
