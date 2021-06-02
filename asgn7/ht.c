@@ -46,7 +46,12 @@ uint32_t ht_size(HashTable *ht) {
 }
 
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
-    return ll_lookup(ht->lists[hash(ht->salt, oldspeak) % ht->size], oldspeak);
+    uint32_t ind = hash(ht->salt, oldspeak) % ht->size;
+    if (ht->lists[ind] == NULL) {
+        return NULL;
+    } else {
+        return ll_lookup(ht->lists[ind], oldspeak);
+    }
 }
 
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {

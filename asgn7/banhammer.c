@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
     uint32_t size_bf = (uint32_t) pow(2, 20);
     uint32_t size_ht = 10000;
     int opt = 0;
+    printf("Before out of switch case\n");
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': print_help(); return -1;
@@ -91,26 +92,33 @@ int main(int argc, char **argv) {
         default: print_help(); break;
         }
     }
+    printf("Came out of switch case\n");
     LinkedList *badspeakwords = ll_create(mtf);
     LinkedList *translations = ll_create(mtf);
     // Initialize bloom filter and hash table
     bf = bf_create(size_bf);
     ht = ht_create(size_ht, mtf);
+    printf("Created bf and ht\n");
     while ((temp = fscanf(bspkf, "%s", buffer)) != EOF) {
         bf_insert(bf, buffer);
         ht_insert(ht, buffer, NULL);
     }
+    printf("Inserted everything bf and ht\n");
     while ((temp = fscanf(nspkf, "%s %s", buffer, buffer2)) != EOF) {
         bf_insert(bf, buffer);
         ht_insert(ht, buffer, buffer2);
     }
+    printf("Inserted everything two\n");
 
     while ((word = next_word(stdin, &re)) != NULL) {
+        printf("In while\n");
         for (int i = 0; word[i]; i++) {
             word[i] = tolower(word[i]);
         }
         if (bf_probe(bf, word)) {
+            printf("Probe is true\n");
             n = ht_lookup(ht, word);
+            printf("Returned ht lookup\n");
             if (n != NULL) {
                 if (n->newspeak && n->oldspeak) {
                     ll_insert(translations, n->oldspeak, n->newspeak);
@@ -120,6 +128,7 @@ int main(int argc, char **argv) {
             }
         }
     }
+    printf("Finished while\n");
     if (!stats) {
 
         badspeaklength = ll_length(badspeakwords);
