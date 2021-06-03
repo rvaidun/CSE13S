@@ -50,7 +50,7 @@ echo "Press enter to start scan build"
 echo "-----------------------------------------------"
 SCANBUILDMESSAGE=$(cd $MYREPO && scan-build make 2>&1)
 SCANBUILDSTATUS=$?
-if [ SCANBUILDSTATUS != 0 ];then
+if [ $SCANBUILDSTATUS -ne 0 ];then
         echo "$SCANBUILDMESSAGE"
 else
     echo "No problems with scan build"    
