@@ -48,6 +48,7 @@ echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
 echo "Press enter to start scan build"
 echo "-----------------------------------------------"
+read
 SCANBUILDMESSAGE=$(cd $MYREPO && scan-build make 2>&1)
 SCANBUILDSTATUS=$?
 if [ $SCANBUILDSTATUS -ne 0 ];then
