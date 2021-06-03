@@ -37,12 +37,12 @@ echo "If there is no diffs, then you are fine for diffs"
 echo "Press enter to start valgrind tests"
 echo "-------------------------------------------------"
 read
-VALGRINDMESSAGE=$(valgrind --error-exitcode=1 --leak-check=full $MYREPO/banhammer < $FILES/calgary/news > /dev/null > 2>&1)
+VALGRINDMESSAGE=$(valgrind --error-exitcode=1 --leak-check=full --log-fd=9 $MYREPO/banhammer < $FILES/calgary/news 9>&1 1>/dev/null 2>/dev/null)
 VALGRINDSTATUS=$?
-if [ VALGRINDSTATUS != 0 ];then
-        echo "$VALGRINDMESSAGE"
+if [ $VALGRINDSTATUS -ne 0 ];then
+        echo "$VALGRINDMESSAGE"    
 else
-    echo "No memory leaks found."    
+        echo "No memory leaks found"
 fi
 echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
