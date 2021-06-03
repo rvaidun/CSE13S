@@ -37,10 +37,22 @@ echo "If there is no diffs, then you are fine for diffs"
 echo "Press enter to start valgrind tests"
 echo "-------------------------------------------------"
 read
-valgrind $MYREPO/banhammer < $FILES/calgary/news
+VALGRINDMESSAGE=$(valgrind --error-exitcode=1 --leak-check=full $MYREPO/banhammer < $FILES/calgary/news > /dev/null)
+VALGRINDSTATUS=$?
+if [ VALGRINDSTATUS != 0 ];then
+        echo "$VALGRINDMESSAGE"
+else
+    echo "No memory leaks found."    
+fi
 echo "-----------------------------------------------"
 echo "If there are no memory leaks, then you are fine"
 echo "Press enter to start scan build"
 echo "-----------------------------------------------"
-(cd $MYREPO && scan-build make)
+SCANBUILDMESSAGE=$(cd $MYREPO && scan-build make)
+SCANBUILDSTATUS=$?
+if [ SCANBUILDSTATUS != 0 ];then
+        echo "$SCANBUILDMESSAGE"
+else
+    echo "No problems with scan build"    
+fi
 (cd $MYREPO && make clean)
