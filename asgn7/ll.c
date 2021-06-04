@@ -38,9 +38,11 @@ void ll_delete(LinkedList **ll) {
         }
     }
     free(*ll);
+    *ll = NULL;
     return;
 }
 
+// Returns the number of nodes in the linked list
 uint32_t ll_length(LinkedList *ll) {
     uint32_t count = 0;
     for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next) {
@@ -51,6 +53,9 @@ uint32_t ll_length(LinkedList *ll) {
 
 // Code taken from the Lecture on Linked Lists and modified slightly
 // to work with structures in this assignment
+// Checks if a node exists in a linked list
+// If node exists return the node
+// Else return null
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     seeks++;
     for (Node *curr = ll->head->next; curr != ll->tail; curr = curr->next, links++) {
@@ -74,13 +79,15 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
     return NULL;
 }
 
+// Inserts a new node into the linked list if it isnt there
+
 void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
-    Node *n = ll_lookup(ll, oldspeak);
-    if (n != NULL) {
+    // Check if node exists
+    if (ll_lookup(ll, oldspeak) != NULL) {
         return;
     }
 
-    n = node_create(oldspeak, newspeak);
+    Node *n = node_create(oldspeak, newspeak);
     n->next = ll->head->next;
     n->prev = ll->head;
     ll->head->next->prev = n;

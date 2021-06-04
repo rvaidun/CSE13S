@@ -12,6 +12,8 @@ struct HashTable {
     LinkedList **lists;
 };
 
+// Creates a new hash table
+// Code from assignment PDF
 HashTable *ht_create(uint32_t size, bool mtf) {
     HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
     if (ht) {
@@ -28,6 +30,7 @@ HashTable *ht_create(uint32_t size, bool mtf) {
     return ht;
 }
 
+// Deletes the hash table
 void ht_delete(HashTable **ht) {
     if (*ht) {
         for (uint32_t i = 0; i < ht_size((*ht)); i++) {
@@ -41,10 +44,12 @@ void ht_delete(HashTable **ht) {
     return;
 }
 
+// Returns the size of the hash table
 uint32_t ht_size(HashTable *ht) {
     return ht->size;
 }
 
+// Checks if a oldspeak word is in the hash table
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
     uint32_t ind = hash(ht->salt, oldspeak) % ht->size;
     if (ht->lists[ind] == NULL) {
@@ -54,15 +59,18 @@ Node *ht_lookup(HashTable *ht, char *oldspeak) {
     }
 }
 
+// Inserts a oldspeak, newspeak pair into the hash table
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     uint32_t ind = hash(ht->salt, oldspeak) % ht->size;
     if (ht->lists[ind] == NULL) {
+        // If the linked list is not initialized then initialize it
         ht->lists[ind] = ll_create(ht->mtf);
     }
     ll_insert(ht->lists[ind], oldspeak, newspeak);
     return;
 }
 
+// Counts the number of initialized linked lists
 uint32_t ht_count(HashTable *ht) {
     uint32_t count = 0;
     for (uint32_t i = 0; i < ht->size; i++) {
@@ -73,6 +81,7 @@ uint32_t ht_count(HashTable *ht) {
     return count;
 }
 
+// Prints the hash table
 void ht_print(HashTable *ht) {
     for (uint32_t i = 0; i < ht->size; i++) {
         if (ht->lists[i]) {
