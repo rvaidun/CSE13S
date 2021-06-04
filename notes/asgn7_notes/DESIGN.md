@@ -472,3 +472,82 @@ void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
 ### `void ll_print(LinkedList *ll)`
 
 print out each node. Loop throgugh the nodes in the linked list and `node_print` each node
+
+## Banhammer program
+
+This will be the main logic for the banhammer program
+
+```c
+uint64_t seeks = 0
+uint64_t links = 0
+print_help() {
+    function to print help
+}
+int main() {
+    regex_t re;
+    parse regex
+    if regex failed to parse print error and return
+    open badspeak and newspeak from cwd.
+    uint32_t badspeaklength;
+    uint32_t translationlength;
+    BloomFilter *bf;
+    HashTable *ht;
+    char buffer[1024];
+    char buffer2[1024];
+    char *word;
+    char *first_invalid;
+    Node *n;
+    int temp;
+    bool stats = false;
+    bool mtf = false;
+    uint32_t size_bf = (uint32_t) pow(2, 20);
+    uint32_t size_ht = 10000;
+
+    parse command line options with getopt switch case
+    // create linked lists for badspeak and newspeak
+    LinkedList *badspeakwords = ll_create(mtf)
+    LinkedList *translations = ll_create(mtf)
+    // Initialize bloom filter and hash table
+    bf = bf_create(size of bloom filter);
+    ht = ht_create(size of hash table, mtf);
+
+    for word in badspeak {
+        insert word into the bf
+        insert word in the hashtable with newspeak as NULL
+    }
+
+    for 2 words in newspeak {
+        insert badspeak in the hash table
+        insert oldspeak with newspeak translation in hashtable
+    }
+
+    while (next_word(stdin, re) != NULL) {
+        if bf_probe(next word == true) {
+            if ht_lookup of word != NULL {
+                if there is newspeak and oldspeak {
+                    insert into translations
+                }
+                else if there is only oldspeak {
+                    insert into badspeakwords
+                }
+            }
+        }
+    }
+    if (stats == false) {
+        if (badspeakwords and translations both have words) {
+            print mixspeak_message
+            print linked lists
+        } else if only badspeakwords has words {
+            print badspeakmessage
+            print badspeak linkedlist
+        } else if only translations has words {
+            print good speak message
+            print translations linked list
+        }
+    }
+    else {
+        print stats
+    }
+
+}
+```
