@@ -1,3 +1,5 @@
 # CSE13S Repo
-
+# DO NOT CHEAT!
+# YOU WILL GET CAUGHT
+# PROCEED WITH CAUTION
 Repo to hold CSE13S work.
